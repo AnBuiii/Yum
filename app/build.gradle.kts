@@ -1,20 +1,21 @@
-import org.jetbrains.kotlin.kapt3.base.Kapt.kapt
-
 plugins {
     kotlin("android")
     kotlin("kapt")
-    id ("com.android.application")
+    id("com.android.application")
     id("com.google.dagger.hilt.android")
     id("com.google.gms.google-services")
+    id("com.google.firebase.crashlytics")
+    id("com.google.firebase.firebase-perf")
+
 
 }
 
 android {
     namespace = "com.example.yum"
-    compileSdk  = 33
+    compileSdk = 33
 
     defaultConfig {
-        applicationId  = "com.example.yum"
+        applicationId = "com.example.yum"
         minSdk = 30
         targetSdk = 33
         versionCode = 1
@@ -29,7 +30,10 @@ android {
     buildTypes {
         getByName("release") {
             isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro",
+            )
         }
     }
     compileOptions {
@@ -80,8 +84,13 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
     // firebase
-    implementation("com.google.firebase:firebase-firestore-ktx:24.1.1")
-
+    implementation(project.dependencies.platform("com.google.firebase:firebase-bom:30.4.1"))
+    implementation("com.google.firebase:firebase-crashlytics-ktx")
+    implementation("com.google.firebase:firebase-analytics-ktx")
+    implementation("com.google.firebase:firebase-auth-ktx")
+    implementation("com.google.firebase:firebase-firestore-ktx")
+    implementation("com.google.firebase:firebase-perf-ktx")
+    implementation("com.google.firebase:firebase-config-ktx")
 
     //test
     testImplementation("junit:junit:4.13.2")
