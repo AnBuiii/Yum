@@ -1,4 +1,4 @@
-package com.example.yum.model
+package com.example.yum.model.service
 
 import com.google.firebase.perf.ktx.trace
 import com.google.firebase.perf.metrics.Trace

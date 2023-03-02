@@ -10,7 +10,7 @@ interface RecipeService {
 
     suspend fun save(recipe: Recipe): String
     suspend fun update(recipe: Recipe)
-    suspend fun delete(recipe: Recipe)
+    suspend fun delete(recipeId: String)
     suspend fun deleteAllForUser(userId : String)
 
 }
