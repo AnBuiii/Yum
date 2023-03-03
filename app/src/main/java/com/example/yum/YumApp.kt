@@ -12,6 +12,12 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import androidx.navigation.navigation
+import com.example.yum.component.YumBottomBar
+import com.example.yum.screens.splash.SplashScreen
+import com.example.yum.screens.feed.FeedScreen
+import com.example.yum.ui.search.SearchScreen
 import com.example.yum.ui.theme.YumTheme
 import kotlinx.coroutines.CoroutineScope
 
@@ -26,8 +32,16 @@ fun YumApp() {
             color = MaterialTheme.colorScheme.background,
         ) {
             Scaffold(
-                topBar = { TODO() },
-                bottomBar = { TODO() },
+                topBar = { }, //TODO
+                bottomBar = {
+                    if (appState.shouldShowBottomBar) {
+                        YumBottomBar(
+                            tabs = appState.bottomBarTabs,
+                            currentRoute = appState.currentRoute!!,
+                            navigateToRoute = appState::navigate,
+                        )
+                    }
+                },
                 snackbarHost = { SnackbarHost(snackbarHostState) },
             ) { paddingValues ->
                 NavHost(
@@ -53,14 +67,50 @@ fun rememberYumAppState(
     YumAppState(navController, coroutineScope)
 }
 
-//resource
-
 // app graph
-
 fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     composable(SPLASH_SCREEN) {
+        SplashScreen(
+            openAndPopUp = { route, popup -> appState.navigateAndPopUp(route, popup) },
+        )
+    }
+
+    navigation(
+        route = HOME_SCREEN,
+        startDestination = HomeScreenSection.FEED.route,
+    ) {
+        composable(HomeScreenSection.FEED.route) {
+            FeedScreen(onRecipeTap = { })
+        }
+        composable(HomeScreenSection.SEARCH.route){
+            SearchScreen(onRecipeClick = {})
+        }
+        composable(HomeScreenSection.CART.route){
+            
+        }
+        composable(HomeScreenSection.USER.route){
+            
+        }
 
     }
+
+
+    composable(
+        route = "$RECIPE_SCREEN$RECIPE_ID_ARG",
+        arguments = listOf(
+            navArgument(RECIPE_ID) {
+                defaultValue = RECIPE_DEFAULT_ID
+            },
+        ),
+    ) {
+        // recipe screen
+    }
+}
+
+// home graph
+
+fun NavGraphBuilder.homeGraph(appState: YumAppState) {
+
 }
 
 //fun NavGraphBuilder.

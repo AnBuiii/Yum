@@ -24,27 +24,27 @@ fun SplashScreen(
     modifier: Modifier = Modifier,
     viewModel: SplashViewModel = hiltViewModel(),
 ) {
-//    Column(
-//        modifier =
-//        modifier
-//            .fillMaxWidth()
-//            .fillMaxHeight()
-//            .background(color = MaterialTheme.colorScheme.background)
-//            .verticalScroll(rememberScrollState()),
-//        verticalArrangement = Arrangement.Center,
-//        horizontalAlignment = Alignment.CenterHorizontally,
-//    ) {
-//        if (viewModel.showError.value) {
-//            Text(text = stringResource(AppText.generic_error))
-//
-//            // BasicButton(AppText.try_again, Modifier.basicButton()) { viewModel.onAppStart(openAndPopUp) }
-//        } else {
-//            CircularProgressIndicator(color = MaterialTheme.colorScheme.onBackground)
-//        }
-//    }
-//
-//    LaunchedEffect(true) {
-//        delay(SPLASH_TIMEOUT)
-//        viewModel.onAppStart(openAndPopUp)
-//    }
+    Column(
+        modifier =
+        modifier
+            .fillMaxWidth()
+            .fillMaxHeight()
+            .background(color = MaterialTheme.colorScheme.background)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
+        if (viewModel.showError.value) {
+            Text(text = stringResource(AppText.generic_error))
+
+            // BasicButton(AppText.try_again, Modifier.basicButton()) { viewModel.onAppStart(openAndPopUp) }
+        } else {
+            CircularProgressIndicator(color = MaterialTheme.colorScheme.onBackground)
+        }
+    }
+
+    LaunchedEffect(true) {
+        delay(SPLASH_TIMEOUT)
+        viewModel.onAppStart(openAndPopUp)
+    }
 }

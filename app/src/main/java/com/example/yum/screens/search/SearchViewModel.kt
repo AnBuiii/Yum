@@ -1,4 +1,4 @@
-package com.example.yum.ui.search
+package com.example.yum.screens.search
 
 
 

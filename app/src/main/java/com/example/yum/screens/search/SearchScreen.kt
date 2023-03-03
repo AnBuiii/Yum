@@ -17,7 +17,7 @@ fun SearchRoute(
 @Composable
 fun SearchScreen(
     onRecipeClick: (Long) -> Unit,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
 ) {
     Box(
         modifier = Modifier.fillMaxSize(),

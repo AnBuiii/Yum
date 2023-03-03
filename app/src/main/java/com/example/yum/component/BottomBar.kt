@@ -1,19 +1,14 @@
 package com.example.yum.component
 
-import androidx.compose.animation.animateColorAsState
 import androidx.compose.foundation.layout.RowScope
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.core.os.ConfigurationCompat
+import com.example.yum.HomeScreenSection
 import java.util.*
 
 @Composable
@@ -47,33 +42,33 @@ fun RowScope.YumNavigationBarItem(
 
 @Composable
 fun YumBottomBar(
-
+    tabs: Array<HomeScreenSection>,
     currentRoute: String,
     navigateToRoute: (String) -> Unit,
 ) {
     NavigationBar(
         contentColor = YumNavigationDefaults.navigationContentColor(),
-        tonalElevation = 0.dp
+        tonalElevation = 0.dp,
     ) {
-//        val currentSection = tabs.first { it.route == currentRoute }
+        val currentSection = tabs.first { it.route == currentRoute }
         val configuration = LocalConfiguration.current
         val currentLocale: Locale =
             ConfigurationCompat.getLocales(configuration).get(0) ?: Locale.getDefault()
 
-//        tabs.forEach { section ->
-//            YumNavigationBarItem(
-//                selected = section == currentSection,
-//                onClick = { navigateToRoute(section.route) },
-//                icon = {
-//                    Icon(
-//                        imageVector = section.icon,
-//                        contentDescription = null,
-//                    )
-//                },
-//                label = { Text(stringResource(section.title).uppercase(currentLocale)) },
-//            )
-//
-//        }
+        tabs.forEach { section ->
+            YumNavigationBarItem(
+                selected = section == currentSection,
+                onClick = { navigateToRoute(section.route) },
+                icon = {
+                    Icon(
+                        imageVector = section.icon,
+                        contentDescription = null,
+                    )
+                },
+                label = { Text(stringResource(section.title).uppercase(currentLocale)) },
+            )
+
+        }
     }
 }
 
