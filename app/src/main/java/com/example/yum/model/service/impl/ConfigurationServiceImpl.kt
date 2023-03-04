@@ -1,4 +1,4 @@
-package com.example.yum.model.impl
+package com.example.yum.model.service.impl
 
 import com.example.yum.BuildConfig
 import com.example.yum.model.service.ConfigurationService

@@ -1,4 +1,4 @@
-package com.example.yum.ui.feed
+package com.example.yum.screens.feed
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

@@ -1,6 +1,8 @@
 package com.example.yum.component
 
+import android.util.Log
 import androidx.compose.foundation.layout.RowScope
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -47,6 +49,7 @@ fun YumBottomBar(
     navigateToRoute: (String) -> Unit,
 ) {
     NavigationBar(
+        modifier = Modifier.navigationBarsPadding(),
         contentColor = YumNavigationDefaults.navigationContentColor(),
         tonalElevation = 0.dp,
     ) {
@@ -69,6 +72,7 @@ fun YumBottomBar(
             )
 
         }
+        Log.d("TAB LOG", currentRoute)
     }
 }
 

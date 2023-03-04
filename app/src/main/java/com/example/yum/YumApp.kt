@@ -15,8 +15,11 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.yum.component.YumBottomBar
-import com.example.yum.screens.splash.SplashScreen
+import com.example.yum.screens.cart.CartScreen
 import com.example.yum.screens.feed.FeedScreen
+import com.example.yum.screens.sign_up.SignUpScreen
+import com.example.yum.screens.splash.SplashScreen
+import com.example.yum.screens.user.UserScreen
 import com.example.yum.ui.search.SearchScreen
 import com.example.yum.ui.theme.YumTheme
 import kotlinx.coroutines.CoroutineScope
@@ -32,13 +35,15 @@ fun YumApp() {
             color = MaterialTheme.colorScheme.background,
         ) {
             Scaffold(
-                topBar = { }, //TODO
+                topBar = {
+
+                }, //TODO
                 bottomBar = {
                     if (appState.shouldShowBottomBar) {
                         YumBottomBar(
                             tabs = appState.bottomBarTabs,
                             currentRoute = appState.currentRoute!!,
-                            navigateToRoute = appState::navigate,
+                            navigateToRoute = appState::clearAndNavigate,
                         )
                     }
                 },
@@ -58,6 +63,11 @@ fun YumApp() {
     }
 }
 
+
+fun a(){
+
+}
+
 // app state
 @Composable
 fun rememberYumAppState(
@@ -71,29 +81,38 @@ fun rememberYumAppState(
 fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     composable(SPLASH_SCREEN) {
         SplashScreen(
-            openAndPopUp = { route, popup -> appState.navigateAndPopUp(route, popup) },
+            openAndPopUp = { route, popup ->
+                appState.navigateAndPopUp(route, popup)
+            },
         )
     }
-
     navigation(
         route = HOME_SCREEN,
         startDestination = HomeScreenSection.FEED.route,
     ) {
         composable(HomeScreenSection.FEED.route) {
-            FeedScreen(onRecipeTap = { })
+            FeedScreen(onRecipeTap = {
+                appState.navigate(SIGNUP_SCREEN)
+            })
         }
-        composable(HomeScreenSection.SEARCH.route){
+        composable(HomeScreenSection.SEARCH.route) {
             SearchScreen(onRecipeClick = {})
         }
-        composable(HomeScreenSection.CART.route){
-            
+        composable(HomeScreenSection.CART.route) {
+            CartScreen(onRecipeTap = {})
         }
-        composable(HomeScreenSection.USER.route){
-            
+        composable(HomeScreenSection.USER.route) {
+            UserScreen()
         }
 
     }
-
+    composable(
+        route = SIGNUP_SCREEN
+    ){
+        SignUpScreen(
+            onBack = appState::popUp
+        )
+    }
 
     composable(
         route = "$RECIPE_SCREEN$RECIPE_ID_ARG",

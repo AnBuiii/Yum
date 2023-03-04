@@ -1,4 +1,4 @@
-package com.example.yum.model.module
+package com.example.yum.model.service.module
 
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.ktx.auth

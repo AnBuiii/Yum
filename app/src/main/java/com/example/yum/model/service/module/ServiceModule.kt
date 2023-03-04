@@ -1,9 +1,9 @@
-package com.example.yum.model.module
+package com.example.yum.model.service.module
 
-import com.example.yum.model.impl.UserServiceImpl
-import com.example.yum.model.impl.ConfigurationServiceImpl
-import com.example.yum.model.impl.LogServiceImpl
-import com.example.yum.model.impl.RecipeServiceImpl
+import com.example.yum.model.service.impl.UserServiceImpl
+import com.example.yum.model.service.impl.ConfigurationServiceImpl
+import com.example.yum.model.service.impl.LogServiceImpl
+import com.example.yum.model.service.impl.RecipeServiceImpl
 import com.example.yum.model.service.UserService
 import com.example.yum.model.service.ConfigurationService
 import com.example.yum.model.service.LogService

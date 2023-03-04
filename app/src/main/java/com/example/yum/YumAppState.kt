@@ -34,7 +34,18 @@ class YumAppState(
     fun clearAndNavigate(route: String) {
         navController.navigate(route) {
             launchSingleTop = true
-            popUpTo(0) { inclusive = true }
+            popUpTo(0) { inclusive = true  }
+        }
+    }
+    fun navigateToBottomBarRoute(route: String) {
+        if (route != currentRoute) {
+            navController.navigate(route) {
+                launchSingleTop = true
+                restoreState = true
+                popUpTo(findStartDestination(navController.graph).id) {
+                    saveState = true
+                }
+            }
         }
     }
 

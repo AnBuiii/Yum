@@ -1,4 +1,4 @@
-package com.example.yum
+package com.example.yum.screens
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
