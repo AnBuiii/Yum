@@ -19,6 +19,7 @@ const val CART_SCREEN = "CartScreen"
 const val USER_SCREEN = "UserScreen"
 const val RECIPE_SCREEN = "RecipeScreen"
 const val SIGNUP_SCREEN = "SignupScreen"
+const val SIGNIN_SCREEN = "SignInScreen"
 
 
 const val RECIPE_ID = "recipeId"

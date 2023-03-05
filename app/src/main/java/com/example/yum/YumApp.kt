@@ -20,7 +20,7 @@ import com.example.yum.screens.feed.FeedScreen
 import com.example.yum.screens.sign_up.SignUpScreen
 import com.example.yum.screens.splash.SplashScreen
 import com.example.yum.screens.user.UserScreen
-import com.example.yum.ui.search.SearchScreen
+import com.example.yum.screens.search.SearchScreen
 import com.example.yum.ui.theme.YumTheme
 import kotlinx.coroutines.CoroutineScope
 
@@ -102,7 +102,7 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
             CartScreen(onRecipeTap = {})
         }
         composable(HomeScreenSection.USER.route) {
-            UserScreen()
+            UserScreen(onOpenScreen = {route -> appState.navigate(route)})
         }
 
     }
