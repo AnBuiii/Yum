@@ -1,18 +1,37 @@
 package com.example.yum
 
+import android.content.res.Resources
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
+import com.example.yum.common.snackbar.SnackbarManager
+import com.example.yum.common.snackbar.SnackbarMessage.Companion.toMessage
 import kotlinx.coroutines.CoroutineScope
-
+import kotlinx.coroutines.flow.filterNotNull
+import kotlinx.coroutines.launch
 
 
 class YumAppState(
     val navController: NavHostController,
-    val coroutineScope: CoroutineScope,
+    val snackbarHostState: SnackbarHostState,
+    private val snackbarManager: SnackbarManager,
+    private val resources: Resources,
+    coroutineScope: CoroutineScope,
 ) {
+    init {
+        coroutineScope.launch {
+            snackbarManager.snackbarMessages.filterNotNull().collect { snackbarMessage ->
+                val text = snackbarMessage.toMessage(resources)
+                snackbarHostState.showSnackbar(text)
+            }
+        }
+    }
 
     fun popUp() {
         navController.popBackStack()
@@ -34,9 +53,10 @@ class YumAppState(
     fun clearAndNavigate(route: String) {
         navController.navigate(route) {
             launchSingleTop = true
-            popUpTo(0) { inclusive = true  }
+            popUpTo(0) { inclusive = true }
         }
     }
+
     fun navigateToBottomBarRoute(route: String) {
         if (route != currentRoute) {
             navController.navigate(route) {
@@ -61,6 +81,14 @@ class YumAppState(
 
 private val NavGraph.startDestination: NavDestination?
     get() = findNode(startDestinationId)
-private tailrec fun findStartDestination(graph: NavDestination): NavDestination{
-    return if(graph is NavGraph) findStartDestination(graph.startDestination!!) else  graph
+
+private tailrec fun findStartDestination(graph: NavDestination): NavDestination {
+    return if (graph is NavGraph) findStartDestination(graph.startDestination!!) else graph
+}
+
+@Composable
+@ReadOnlyComposable
+internal fun resources(): Resources {
+    LocalConfiguration.current
+    return LocalContext.current.resources
 }

@@ -10,8 +10,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class YumActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-
         setContent {
             YumTheme {
                 YumApp()

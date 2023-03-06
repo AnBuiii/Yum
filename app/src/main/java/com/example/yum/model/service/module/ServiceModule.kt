@@ -1,10 +1,10 @@
 package com.example.yum.model.service.module
 
-import com.example.yum.model.service.impl.UserServiceImpl
+import com.example.yum.model.service.impl.AccountServiceImpl
 import com.example.yum.model.service.impl.ConfigurationServiceImpl
 import com.example.yum.model.service.impl.LogServiceImpl
 import com.example.yum.model.service.impl.RecipeServiceImpl
-import com.example.yum.model.service.UserService
+import com.example.yum.model.service.AccountService
 import com.example.yum.model.service.ConfigurationService
 import com.example.yum.model.service.LogService
 import com.example.yum.model.service.RecipeService
@@ -17,7 +17,7 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
  abstract class ServiceModule {
     @Binds
-    abstract fun provideAccountService(impl: UserServiceImpl): UserService
+    abstract fun provideAccountService(impl: AccountServiceImpl): AccountService
 
     @Binds
     abstract fun provideLogService(impl: LogServiceImpl): LogService

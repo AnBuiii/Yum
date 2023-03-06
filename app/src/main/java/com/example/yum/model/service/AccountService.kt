@@ -3,7 +3,7 @@ package com.example.yum.model.service
 import com.example.yum.model.User
 import kotlinx.coroutines.flow.Flow
 
-interface UserService {
+interface AccountService {
     val currentUserId: String
     val hasUser: Boolean
 
@@ -12,8 +12,8 @@ interface UserService {
     suspend fun authenticate(email: String, password: String)
     suspend fun sendRecoveryEmail(email: String)
     suspend fun createAnonymousUser()
-    suspend fun linkUser(email: String, password: String)
-    suspend fun deleteUser()
+    suspend fun linkAccount(email: String, password: String)
+    suspend fun deleteAccount()
     suspend fun signOut()
 
 

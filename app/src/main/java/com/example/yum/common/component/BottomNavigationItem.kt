@@ -1,4 +1,4 @@
-package com.example.yum.component
+package com.example.yum.common.component
 
 import androidx.compose.animation.core.AnimationSpec
 import androidx.compose.animation.core.animateFloatAsState

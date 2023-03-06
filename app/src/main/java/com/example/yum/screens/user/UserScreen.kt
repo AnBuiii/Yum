@@ -3,12 +3,8 @@ package com.example.yum.screens.user
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.Card
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,12 +19,13 @@ import com.example.yum.R.drawable as AppDrawable
 fun UserScreen(
     modifier: Modifier = Modifier,
     onOpenScreen: (String) -> Unit = {},
+    restartApp: (String) -> Unit = {},
     viewModel: UserViewModel = hiltViewModel(),
 ) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ) {
+    val uiState by viewModel.uiState.collectAsState(initial = UserUiState(false))
+    var showWarningDialog by remember { mutableStateOf(false) }
+
+    if (uiState.isAnonymousAccount) {
         Column(
             modifier = modifier
                 .fillMaxSize()
@@ -36,21 +33,7 @@ fun UserScreen(
         ) {
             Card(
                 modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = {onOpenScreen(SIGNIN_SCREEN)}
-                ) {
-                Row(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Text(text = "Sign In")
-                    Icon(painterResource(id = AppDrawable.baseline_person_add_24), contentDescription = "")
-                }
-            }
-            Card(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = {onOpenScreen(SIGNUP_SCREEN)}
+                onClick = { onOpenScreen(SIGNIN_SCREEN) },
             ) {
                 Row(
                     modifier = Modifier
@@ -58,12 +41,60 @@ fun UserScreen(
                         .fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Text(text = "Create account")
-                    Icon(painter = painterResource(id = AppDrawable.baseline_person_add_24), contentDescription = "")
+                    Text(text = "Sign In")
+                    Icon(
+                        painterResource(id = AppDrawable.baseline_person_add_24),
+                        contentDescription = "",
+                    )
+                }
+            }
+            Card(
+                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                onClick = { onOpenScreen(SIGNUP_SCREEN) },
+            ) {
+                Row(
+                    modifier = Modifier
+                        .padding(16.dp)
+                        .fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                ) {
+                    Text(text = "Sign up")
+                    Icon(
+                        painter = painterResource(id = AppDrawable.baseline_person_add_24),
+                        contentDescription = "",
+                    )
                 }
             }
         }
+
+    } else {
+        Button(
+            onClick = {
+                showWarningDialog = true
+            },
+        ) {
+        }
+        if (showWarningDialog) {
+            AlertDialog(
+                onDismissRequest = { showWarningDialog = false },
+                confirmButton = {
+                    Button(
+                        onClick = {
+                            viewModel.onSignOutClick(restartApp)
+                            showWarningDialog = false
+                        },
+                    ) {
+
+                    }
+                },
+            )
+        }
+
     }
+}
+
+fun signOut(signOut: () -> Unit) {
+
 }
 
 @Preview

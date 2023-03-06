@@ -2,7 +2,7 @@ package com.example.yum.model.service.impl
 
 import com.example.yum.model.Recipe
 import com.example.yum.model.service.RecipeService
-import com.example.yum.model.service.UserService
+import com.example.yum.model.service.AccountService
 import com.example.yum.model.service.trace
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,7 +19,7 @@ import javax.inject.Inject
 
 class RecipeServiceImpl @Inject constructor(
     private val firestore: FirebaseFirestore,
-    private val auth: UserService,
+    private val auth: AccountService,
 ) :
     RecipeService {
     override val recipes: Flow<List<Recipe>>

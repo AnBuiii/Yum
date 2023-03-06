@@ -1,7 +1,7 @@
 package com.example.yum.model.service.impl
 
 import com.example.yum.model.User
-import com.example.yum.model.service.UserService
+import com.example.yum.model.service.AccountService
 import com.example.yum.model.service.trace
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -11,7 +11,7 @@ import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class UserServiceImpl @Inject constructor(private val auth: FirebaseAuth) : UserService {
+class AccountServiceImpl @Inject constructor(private val auth: FirebaseAuth) : AccountService {
     override val currentUserId: String
         get() = auth.currentUser?.uid.orEmpty()
 
@@ -39,23 +39,24 @@ class UserServiceImpl @Inject constructor(private val auth: FirebaseAuth) : User
         auth.signInAnonymously().await()
     }
 
-    override suspend fun linkUser(email: String, password: String) {
+    override suspend fun linkAccount(email: String, password: String) {
         trace(LINK_ACCOUNT_TRACE) {
             val credential = EmailAuthProvider.getCredential(email, password)
             auth.currentUser!!.linkWithCredential(credential).await()
         }
     }
 
-    override suspend fun deleteUser() {
+    override suspend fun deleteAccount() {
         auth.currentUser!!.delete().await()
     }
 
     override suspend fun signOut() {
-        if(auth.currentUser!!.isAnonymous){
+        if (auth.currentUser!!.isAnonymous) {
             auth.currentUser!!.delete()
         }
         auth.signOut()
 
+        // Sign the user back in anonymously.
         createAnonymousUser()
     }
 

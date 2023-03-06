@@ -1,4 +1,4 @@
-package com.example.yum.component
+package com.example.yum.common.component
 
 import android.util.Log
 import androidx.compose.foundation.layout.RowScope

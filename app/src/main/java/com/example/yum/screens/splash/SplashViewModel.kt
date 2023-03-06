@@ -1,12 +1,12 @@
 package com.example.yum.screens.splash
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import com.example.yum.FEED_SCREEN
 import com.example.yum.HOME_SCREEN
 import com.example.yum.SPLASH_SCREEN
+import com.example.yum.model.service.AccountService
 import com.example.yum.model.service.ConfigurationService
 import com.example.yum.model.service.LogService
-import com.example.yum.model.service.UserService
 import com.example.yum.screens.YumViewModel
 import com.google.firebase.auth.FirebaseAuthException
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     configurationService: ConfigurationService,
-    private val userService: UserService,
+    private val accountService: AccountService,
     logService: LogService,
 ) : YumViewModel(logService) {
 
@@ -27,17 +27,16 @@ class SplashViewModel @Inject constructor(
 
     fun onAppStart(openAndPopUp: (String, String) -> Unit) {
         showError.value = false
-        if (!userService.hasUser)
+        if (!accountService.hasUser)
             launchCatching(snackbar = false) {
                 try {
-                    userService.createAnonymousUser()
+                    accountService.createAnonymousUser()
                 } catch (ex: FirebaseAuthException) {
                     showError.value = true
                     throw ex
                 }
             }
+        Log.d("hahaha", accountService.currentUserId)
         openAndPopUp(HOME_SCREEN, SPLASH_SCREEN)
     }
-
-
 }

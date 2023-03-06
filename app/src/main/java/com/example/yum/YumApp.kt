@@ -1,5 +1,6 @@
 package com.example.yum
 
+import android.content.res.Resources
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -14,13 +15,15 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
-import com.example.yum.component.YumBottomBar
+import com.example.yum.common.component.YumBottomBar
+import com.example.yum.common.snackbar.SnackbarManager
 import com.example.yum.screens.cart.CartScreen
 import com.example.yum.screens.feed.FeedScreen
+import com.example.yum.screens.search.SearchScreen
+import com.example.yum.screens.sign_in.SignInScreen
 import com.example.yum.screens.sign_up.SignUpScreen
 import com.example.yum.screens.splash.SplashScreen
 import com.example.yum.screens.user.UserScreen
-import com.example.yum.screens.search.SearchScreen
 import com.example.yum.ui.theme.YumTheme
 import kotlinx.coroutines.CoroutineScope
 
@@ -29,7 +32,7 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun YumApp() {
     val appState = rememberYumAppState()
-    val snackbarHostState = remember { SnackbarHostState() }
+//    val snackbarHostState = remember { SnackbarHostState() }
     YumTheme {
         Surface(
             color = MaterialTheme.colorScheme.background,
@@ -47,7 +50,7 @@ fun YumApp() {
                         )
                     }
                 },
-                snackbarHost = { SnackbarHost(snackbarHostState) },
+                snackbarHost = { SnackbarHost(appState.snackbarHostState) },
             ) { paddingValues ->
                 NavHost(
                     navController = appState.navController,
@@ -64,7 +67,7 @@ fun YumApp() {
 }
 
 
-fun a(){
+fun a() {
 
 }
 
@@ -72,10 +75,14 @@ fun a(){
 @Composable
 fun rememberYumAppState(
     navController: NavHostController = rememberNavController(),
+    snackbarHostState: SnackbarHostState = remember { SnackbarHostState() },
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
-) = remember(navController, coroutineScope) {
-    YumAppState(navController, coroutineScope)
+    snackbarManager: SnackbarManager = SnackbarManager,
+    resources: Resources = resources(),
+) = remember(navController, coroutineScope, snackbarManager) {
+    YumAppState(navController, snackbarHostState, snackbarManager, resources, coroutineScope)
 }
+
 
 // app graph
 fun NavGraphBuilder.yumGraph(appState: YumAppState) {
@@ -91,9 +98,11 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
         startDestination = HomeScreenSection.FEED.route,
     ) {
         composable(HomeScreenSection.FEED.route) {
-            FeedScreen(onRecipeTap = {
-                appState.navigate(SIGNUP_SCREEN)
-            })
+            FeedScreen(
+                onRecipeTap = {
+                    appState.navigate(SIGNUP_SCREEN)
+                },
+            )
         }
         composable(HomeScreenSection.SEARCH.route) {
             SearchScreen(onRecipeClick = {})
@@ -102,15 +111,19 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
             CartScreen(onRecipeTap = {})
         }
         composable(HomeScreenSection.USER.route) {
-            UserScreen(onOpenScreen = {route -> appState.navigate(route)})
+            UserScreen(
+                onOpenScreen = { route -> appState.navigate(route) },
+                restartApp = { route -> appState.clearAndNavigate(route) }
+            )
         }
 
     }
-    composable(
-        route = SIGNUP_SCREEN
-    ){
+    composable(SIGNIN_SCREEN) {
+        SignInScreen(openAndPopUp = { route, popup -> appState.navigateAndPopUp(route, popup) })
+    }
+    composable(SIGNUP_SCREEN) {
         SignUpScreen(
-            onBack = appState::popUp
+            onBack = appState::popUp,
         )
     }
 
@@ -126,13 +139,7 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     }
 }
 
-// home graph
 
-fun NavGraphBuilder.homeGraph(appState: YumAppState) {
-
-}
-
-//fun NavGraphBuilder.
 @Preview
 @Composable
 fun YumAppPreView() {
