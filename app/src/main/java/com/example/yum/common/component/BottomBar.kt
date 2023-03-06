@@ -53,7 +53,7 @@ fun YumBottomBar(
         contentColor = YumNavigationDefaults.navigationContentColor(),
         tonalElevation = 0.dp,
     ) {
-        val currentSection = tabs.first { it.route == currentRoute }
+        val currentSection = tabs.firstOrNull { it.route == currentRoute }
         val configuration = LocalConfiguration.current
         val currentLocale: Locale =
             ConfigurationCompat.getLocales(configuration).get(0) ?: Locale.getDefault()

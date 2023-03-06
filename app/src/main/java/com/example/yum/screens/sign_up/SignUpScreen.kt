@@ -42,7 +42,8 @@ fun SignUpScreen(
         )
 
         //password
-        OutlinedTextField(value = uitState.email,
+        OutlinedTextField(
+            value = uitState.password,
             onValueChange = viewModel::onPasswordChange,
             modifier = fieldModifier,
             placeholder = { Text("Password") },
@@ -52,7 +53,8 @@ fun SignUpScreen(
         )
 
         //repeat password
-        OutlinedTextField(value = uitState.email,
+        OutlinedTextField(
+            value = uitState.repeatPassword,
             onValueChange = viewModel::onRepeatPasswordChange,
             modifier = fieldModifier,
             placeholder = { Text("Repeat Password") },
@@ -61,7 +63,7 @@ fun SignUpScreen(
 
         )
 
-        Button(onClick = { viewModel.onSignUp {  }}) {
+        Button(onClick = { viewModel.onSignUp { } }) {
 
         }
     }

@@ -3,9 +3,6 @@ package com.example.yum
 import android.content.res.Resources
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.ReadOnlyComposable
-import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph
 import androidx.navigation.NavHostController
@@ -86,9 +83,3 @@ private tailrec fun findStartDestination(graph: NavDestination): NavDestination 
     return if (graph is NavGraph) findStartDestination(graph.startDestination!!) else graph
 }
 
-@Composable
-@ReadOnlyComposable
-internal fun resources(): Resources {
-    LocalConfiguration.current
-    return LocalContext.current.resources
-}

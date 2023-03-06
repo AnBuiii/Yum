@@ -1,12 +1,16 @@
 package com.example.yum
 
 import android.content.res.Resources
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalConfiguration
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -27,12 +31,10 @@ import com.example.yum.screens.user.UserScreen
 import com.example.yum.ui.theme.YumTheme
 import kotlinx.coroutines.CoroutineScope
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun YumApp() {
     val appState = rememberYumAppState()
-//    val snackbarHostState = remember { SnackbarHostState() }
     YumTheme {
         Surface(
             color = MaterialTheme.colorScheme.background,
@@ -42,12 +44,15 @@ fun YumApp() {
 
                 }, //TODO
                 bottomBar = {
-                    if (appState.shouldShowBottomBar) {
-                        YumBottomBar(
-                            tabs = appState.bottomBarTabs,
-                            currentRoute = appState.currentRoute!!,
-                            navigateToRoute = appState::clearAndNavigate,
-                        )
+
+                    AnimatedVisibility(appState.shouldShowBottomBar) {
+                        if (appState.shouldShowBottomBar) {
+                            YumBottomBar(
+                                tabs = appState.bottomBarTabs,
+                                currentRoute = appState.currentRoute!!,
+                                navigateToRoute = appState::clearAndNavigate,
+                            )
+                        }
                     }
                 },
                 snackbarHost = { SnackbarHost(appState.snackbarHostState) },
@@ -67,10 +72,6 @@ fun YumApp() {
 }
 
 
-fun a() {
-
-}
-
 // app state
 @Composable
 fun rememberYumAppState(
@@ -81,6 +82,13 @@ fun rememberYumAppState(
     resources: Resources = resources(),
 ) = remember(navController, coroutineScope, snackbarManager) {
     YumAppState(navController, snackbarHostState, snackbarManager, resources, coroutineScope)
+}
+
+@Composable
+@ReadOnlyComposable
+private fun resources(): Resources {
+    LocalConfiguration.current
+    return LocalContext.current.resources
 }
 
 
