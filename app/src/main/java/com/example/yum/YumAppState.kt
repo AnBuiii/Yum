@@ -5,6 +5,7 @@ import androidx.compose.material3.SnackbarHostState
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavDestination
 import androidx.navigation.NavGraph
+import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.currentBackStackEntryAsState
 import com.example.yum.common.snackbar.SnackbarManager
@@ -48,10 +49,17 @@ class YumAppState(
     }
 
     fun clearAndNavigate(route: String) {
-        navController.navigate(route) {
-            launchSingleTop = true
-            popUpTo(0) { inclusive = true }
+        if(route != currentRoute){
+            navController.navigate(route) {
+                launchSingleTop = true
+                restoreState = true
+                popUpTo(navController.graph.findStartDestination().id) {
+//                inclusive = true
+                    saveState = true
+                }
+            }
         }
+
     }
 
     fun navigateToBottomBarRoute(route: String) {
