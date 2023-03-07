@@ -1,17 +1,17 @@
 package com.example.yum.screens.feed
 
 
-import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
+import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -26,7 +26,9 @@ fun FeedScreen(
     onRecipeTap: () -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    var a: String = ""
+    val a: String = ""
+    var tabState by remember { mutableStateOf(0) }
+    val tabList = listOf("Newest food", "Best recipe", "Popular ingredient")
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -46,6 +48,7 @@ fun FeedScreen(
             modifier = Modifier.padding(start = 16.dp)
         )
 
+        //search bar + filter button
         Row(
             horizontalArrangement = Arrangement.spacedBy(6.dp),
             modifier = Modifier
@@ -91,5 +94,47 @@ fun FeedScreen(
                 )
             }
         }
+
+        // tab
+        ScrollableTabRow(
+            modifier = Modifier.padding(bottom = 10.dp),
+            selectedTabIndex = tabState,
+            edgePadding = 0.dp,
+            indicator = { tabPositions ->
+                Canvas(
+                    modifier = Modifier
+                        .tabIndicatorOffset(tabPositions[tabState])
+                        .height(10.dp),
+                    onDraw = {
+                        drawCircle(
+                            color = Color.Black,
+                            radius = 10f,
+                            center = Offset(
+                                tabPositions[tabState].width.toPx() / 2,
+                                0f
+                            )
+                        )
+                    }
+                )
+
+            },
+            divider = {}
+        ) {
+            tabList.forEachIndexed { index, tabTitle ->
+                Tab(
+                    selected = tabState == index,
+                    onClick = { tabState = index },
+                    modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 16.dp)
+                ) {
+                    Text(
+                        tabTitle,
+                        maxLines = 1
+
+                    )
+                }
+            }
+        }
+
     }
+
 }
