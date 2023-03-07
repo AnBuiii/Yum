@@ -3,6 +3,7 @@ package com.example.yum.screens.feed
 
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.pager.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Notifications
@@ -13,13 +14,18 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.util.lerp
 import com.example.yum.R
+import kotlin.math.absoluteValue
 import com.example.yum.R.string as AppText
 
 
+@ExperimentalFoundationApi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun FeedScreen(
@@ -134,7 +140,53 @@ fun FeedScreen(
                 }
             }
         }
+        // pager
+        val pagerState = rememberPagerState()
+        val fling = PagerDefaults.flingBehavior(
+            state = pagerState,
+            pagerSnapDistance = PagerSnapDistance.atMost(10)
+        )
+        HorizontalPager(
+            modifier = Modifier.weight(1f),
+            pageCount = 10,
+            state = pagerState,
+            pageSize = PageSize.Fixed(300.dp),
+            contentPadding = PaddingValues(horizontal = 58.dp),
+            pageSpacing = 8.dp,
+            flingBehavior = fling
+
+        ) { page ->
+            Card(
+                Modifier
+                    .graphicsLayer {
+                        val pageOffset = (
+                                (pagerState.currentPage - page) + pagerState
+                                    .currentPageOffsetFraction
+                                ).absoluteValue
+
+                        alpha = lerp(
+                            start = 0.5f,
+                            stop = 1f,
+                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                        )
+                    }
+                    .size(300.dp)
+            ) {
+
+            }
+
+
+        }
 
     }
 
+}
+@ExperimentalFoundationApi
+private val threePagesPerViewport = object : PageSize {
+    override fun Density.calculateMainAxisPageSize(
+        availableSpace: Int,
+        pageSpacing: Int
+    ): Int {
+        return (availableSpace - 2 * pageSpacing) / 3
+    }
 }

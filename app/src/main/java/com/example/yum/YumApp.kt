@@ -4,6 +4,7 @@ import android.content.res.Resources
 import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -33,6 +34,7 @@ import com.example.yum.screens.user.UserScreen
 import com.example.yum.ui.theme.YumTheme
 import kotlinx.coroutines.CoroutineScope
 
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -96,6 +98,7 @@ private fun resources(): Resources {
 
 
 // app graph
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
 fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     composable(SPLASH_SCREEN) {
@@ -168,6 +171,7 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
 }
 
 
+@ExperimentalFoundationApi
 @ExperimentalAnimationApi
 @Preview
 @Composable
