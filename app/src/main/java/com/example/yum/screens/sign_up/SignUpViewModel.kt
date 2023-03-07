@@ -1,9 +1,12 @@
 package com.example.yum.screens.sign_up
 
 import androidx.compose.runtime.mutableStateOf
+import com.example.yum.SIGNUP_SCREEN
+import com.example.yum.SPLASH_SCREEN
 import com.example.yum.common.ext.isValidEmail
+import com.example.yum.common.ext.isValidPassword
+import com.example.yum.common.ext.passwordMatches
 import com.example.yum.common.snackbar.SnackbarManager
-import com.example.yum.common.snackbar.SnackbarMessage
 import com.example.yum.model.service.AccountService
 import com.example.yum.model.service.LogService
 import com.example.yum.screens.YumViewModel
@@ -15,9 +18,9 @@ import com.example.yum.R.string as AppText
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     logService: LogService,
-    private val accountService: AccountService
+    private val accountService: AccountService,
 ) : YumViewModel(logService) {
-    val uiState = mutableStateOf(SignUpUIState())
+    val uiState = mutableStateOf(SignUpUiState())
 
     private val email
         get() = uiState.value.email
@@ -39,16 +42,25 @@ class SignUpViewModel @Inject constructor(
     fun onRepeatPasswordChange(newValue: String) {
         uiState.value = uiState.value.copy(repeatPassword = newValue)
     }
-    fun showMessage(show: (String)-> Unit){
-        launchCatching {
 
-        }
-    }
-    fun onSignUp(openAndPopUp: (String) -> Unit){
-        if(!email.isValidEmail()){
+    fun onSignUp(openAndPopUp: (String, String) -> Unit) {
+        if (!email.isValidEmail()) {
             SnackbarManager.showMessage(AppText.email_error)
         }
-//        SnackbarManager.showMessage("asd")
+
+        if (!password.isValidPassword()) {
+            SnackbarManager.showMessage(AppText.password_error)
+        }
+
+        if (!password.passwordMatches(repeatPassword)) {
+            SnackbarManager.showMessage(AppText.password_match_error)
+        }
+
+        launchCatching {
+            accountService.linkAccount(email, password)
+            openAndPopUp(SPLASH_SCREEN, SIGNUP_SCREEN)
+        }
+
     }
 
 }

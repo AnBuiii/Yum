@@ -1,7 +1,9 @@
 package com.example.yum
 
 import android.content.res.Resources
+import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -31,6 +33,7 @@ import com.example.yum.screens.user.UserScreen
 import com.example.yum.ui.theme.YumTheme
 import kotlinx.coroutines.CoroutineScope
 
+@ExperimentalAnimationApi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun YumApp() {
@@ -44,22 +47,22 @@ fun YumApp() {
 
                 }, //TODO
                 bottomBar = {
-
+                    if (appState.shouldShowBottomBar) {
+                        YumBottomBar(
+                            tabs = appState.bottomBarTabs,
+                            currentRoute = appState.currentRoute!!,
+                            navigateToRoute = appState::clearAndNavigate,
+                        )
+                    }
                     AnimatedVisibility(appState.shouldShowBottomBar) {
-                        if (appState.shouldShowBottomBar) {
-                            YumBottomBar(
-                                tabs = appState.bottomBarTabs,
-                                currentRoute = appState.currentRoute!!,
-                                navigateToRoute = appState::clearAndNavigate,
-                            )
-                        }
+
                     }
                 },
                 snackbarHost = { SnackbarHost(appState.snackbarHostState) },
             ) { paddingValues ->
                 NavHost(
                     navController = appState.navController,
-                    startDestination = SPLASH_SCREEN,
+                    startDestination = FEED_SCREEN,
                     modifier = Modifier.padding(paddingValues),
                 ) {
                     yumGraph(appState)
@@ -93,46 +96,63 @@ private fun resources(): Resources {
 
 
 // app graph
+@ExperimentalAnimationApi
 fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     composable(SPLASH_SCREEN) {
+        Log.d("TAB LOG", appState.currentRoute!!)
         SplashScreen(
             openAndPopUp = { route, popup ->
                 appState.navigateAndPopUp(route, popup)
             },
         )
+
     }
-    navigation(
-        route = HOME_SCREEN,
-        startDestination = HomeScreenSection.FEED.route,
-    ) {
-        composable(HomeScreenSection.FEED.route) {
-            FeedScreen(
-                onRecipeTap = {
-                    appState.navigate(SIGNUP_SCREEN)
-                },
-            )
-        }
-        composable(HomeScreenSection.SEARCH.route) {
-            SearchScreen(onRecipeClick = {})
-        }
-        composable(HomeScreenSection.CART.route) {
-            CartScreen(onRecipeTap = {})
-        }
-        composable(HomeScreenSection.USER.route) {
-            UserScreen(
-                onOpenScreen = { route -> appState.navigate(route) },
-                restartApp = { route -> appState.clearAndNavigate(route) }
-            )
-        }
+    composable("test"){
+
+    }
+//    navigation(
+//        route = HOME_SCREEN,
+//        startDestination = HomeScreenSection.FEED.route,
+//    ) {
+//
+//
+//    }
+    composable(HomeScreenSection.FEED.route) {
+        FeedScreen(
+            onRecipeTap = {
+//                appState.navigate(SIGNUP_SCREEN)
+            },
+        )
+        Log.d("TAB LOG", appState.currentRoute!!)
+
+    }
+    composable(HomeScreenSection.SEARCH.route) {
+        SearchScreen(onRecipeClick = {})
+        Log.d("TAB LOG", appState.currentRoute!!)
+
+    }
+    composable(HomeScreenSection.CART.route) {
+        CartScreen(onRecipeTap = {})
+    }
+    composable(HomeScreenSection.USER.route) {
+        UserScreen(
+            onOpenScreen = { route -> appState.navigate(route) },
+            restartApp = { route -> appState.clearAndNavigate(route) }
+        )
+        Log.d("TAB LOG", appState.currentRoute!!)
 
     }
     composable(SIGNIN_SCREEN) {
-        SignInScreen(openAndPopUp = { route, popup -> appState.navigateAndPopUp(route, popup) })
+        SignInScreen(openAndPopUp = appState::navigateAndPopUp)
+        Log.d("TAB LOG", appState.currentRoute!!)
+
     }
     composable(SIGNUP_SCREEN) {
         SignUpScreen(
-            onBack = appState::popUp,
+            openAndPopUp = appState::navigateAndPopUp,
         )
+        Log.d("TAB LOG", appState.currentRoute!!)
+
     }
 
     composable(
@@ -148,6 +168,7 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
 }
 
 
+@ExperimentalAnimationApi
 @Preview
 @Composable
 fun YumAppPreView() {

@@ -1,5 +1,6 @@
 package com.example.yum.screens.user
 
+import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
@@ -14,6 +15,7 @@ import com.example.yum.SIGNIN_SCREEN
 import com.example.yum.SIGNUP_SCREEN
 import com.example.yum.R.drawable as AppDrawable
 
+@ExperimentalAnimationApi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserScreen(
@@ -24,6 +26,8 @@ fun UserScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState(initial = UserUiState(false))
     var showWarningDialog by remember { mutableStateOf(false) }
+
+
 
     if (uiState.isAnonymousAccount) {
         Column(
@@ -91,12 +95,11 @@ fun UserScreen(
         }
 
     }
-}
-
-fun signOut(signOut: () -> Unit) {
 
 }
 
+
+@ExperimentalAnimationApi
 @Preview
 @Composable
 fun UserScreenPreview() {

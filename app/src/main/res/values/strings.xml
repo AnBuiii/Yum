@@ -10,7 +10,13 @@
     <string name="cancel">Cancel</string>
     <string name="try_again">Try again</string>
 
+
+    <!--SignInScreen-->
+    <string name="sign_in">Sign in</string>
+
+
     <!-- SignUpScreen -->
+    <string name="sign_up">Sign Up</string>
     <string name="create_account">Create account</string>
     <string name="password_error">Your password should have at least six digits and include one digit, one lower case letter and one upper case letter.</string>
     <string name="password_match_error">Passwords do not match.</string>
@@ -20,4 +26,12 @@
     <string name="home_search">Search</string>
     <string name="home_cart">My Cart</string>
     <string name="home_user">User</string>
+
+    <!--    Feed screen-->
+    <string-array name="quote">
+        <item>What do you want to cook to day</item>
+        <item>Simplicity is the final achievement</item>
+        <item>An apple a day take doctor away</item>
+    </string-array>
+    <string name="search_placeholder">Search For Recipe</string>
 </resources>

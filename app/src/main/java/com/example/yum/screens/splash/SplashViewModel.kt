@@ -2,6 +2,7 @@ package com.example.yum.screens.splash
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import com.example.yum.FEED_SCREEN
 import com.example.yum.HOME_SCREEN
 import com.example.yum.SPLASH_SCREEN
 import com.example.yum.model.service.AccountService
@@ -36,7 +37,6 @@ class SplashViewModel @Inject constructor(
                     throw ex
                 }
             }
-        Log.d("hahaha", accountService.currentUserId)
-        openAndPopUp(HOME_SCREEN, SPLASH_SCREEN)
+        openAndPopUp(FEED_SCREEN, SPLASH_SCREEN)
     }
 }

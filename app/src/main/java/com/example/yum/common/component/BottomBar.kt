@@ -72,7 +72,7 @@ fun YumBottomBar(
             )
 
         }
-        Log.d("TAB LOG", currentRoute)
+
     }
 }
 

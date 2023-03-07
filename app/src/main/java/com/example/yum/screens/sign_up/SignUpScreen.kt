@@ -9,22 +9,23 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.res.stringResource
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.yum.common.ext.buttonModifier
+import com.example.yum.common.ext.fieldModifier
+import com.example.yum.R.string as AppText
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
-    onBack: () -> Unit,
+    openAndPopUp: (String, String) -> Unit,
     viewModel: SignUpViewModel = hiltViewModel(),
 ) {
 
-    val uitState by viewModel.uiState
+    val uiState by viewModel.uiState
 
-    val fieldModifier = Modifier
-        .fillMaxWidth()
-        .padding(horizontal = 16.dp, vertical = 16.dp)
+
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
@@ -33,9 +34,9 @@ fun SignUpScreen(
 
         //email
         OutlinedTextField(
-            value = uitState.email,
+            value = uiState.email,
             onValueChange = viewModel::onEmailChange,
-            modifier = fieldModifier,
+            modifier = Modifier.fieldModifier(),
             placeholder = { Text("Email") },
             singleLine = true,
             leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") },
@@ -43,9 +44,9 @@ fun SignUpScreen(
 
         //password
         OutlinedTextField(
-            value = uitState.password,
+            value = uiState.password,
             onValueChange = viewModel::onPasswordChange,
-            modifier = fieldModifier,
+            modifier = Modifier.fieldModifier(),
             placeholder = { Text("Password") },
             singleLine = true,
             leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Email") }
@@ -54,17 +55,20 @@ fun SignUpScreen(
 
         //repeat password
         OutlinedTextField(
-            value = uitState.repeatPassword,
+            value = uiState.repeatPassword,
             onValueChange = viewModel::onRepeatPasswordChange,
-            modifier = fieldModifier,
+            modifier = Modifier.fieldModifier(),
             placeholder = { Text("Repeat Password") },
             singleLine = true,
             leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Email") }
 
         )
 
-        Button(onClick = { viewModel.onSignUp { } }) {
-
+        Button(
+            onClick = { viewModel.onSignUp(openAndPopUp) },
+            modifier = Modifier.buttonModifier()
+        ) {
+            Text(text = stringResource(id = AppText.sign_up))
         }
     }
 }
