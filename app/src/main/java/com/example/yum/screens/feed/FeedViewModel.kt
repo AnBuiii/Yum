@@ -21,8 +21,15 @@ class FeedViewModel @Inject constructor(
 
     }
 
+    private val searchText
+        get() = uiState.value.searchText
+
     fun scrollToTab(index: Int) {
         uiState.value = uiState.value.copy(tabState = index)
+    }
+
+    fun onSearchTextChange(newValue: String) {
+        uiState.value = uiState.value.copy(searchText = newValue)
     }
 
 }

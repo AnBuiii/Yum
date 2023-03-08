@@ -1,9 +1,9 @@
 package com.example.yum.screens.feed
 
 
+//import androidx.compose.foundation.layout.RowScopeInstance.weight
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-//import androidx.compose.foundation.layout.RowScopeInstance.weight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.*
@@ -18,6 +18,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
+import androidx.compose.ui.input.nestedscroll.nestedScroll
+import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -36,12 +38,17 @@ fun FeedScreen(
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel(),
 ) {
-    val a: String = ""
+
     val uiState by viewModel.uiState
     val tabList = listOf("Newest food", "Best recipe", "Popular ingredient")
-
+    val nestedScroll = rememberNestedScrollInteropConnection()
     val state = rememberLazyListState()
-    LazyColumn(state = state) {
+    LazyColumn(
+        state = state,
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .nestedScroll(nestedScroll)
+    ) {
         item {
             Spacer(modifier = Modifier.height(300.dp))
             Text(
@@ -69,7 +76,7 @@ fun FeedScreen(
 
                 ) {
                 OutlinedTextField(
-                    value = a,
+                    value = uiState.searchText,
                     onValueChange = {},
                     leadingIcon = { Icon(imageVector = Icons.Default.Search, "") },
                     placeholder = { Text(text = stringResource(id = AppText.search_placeholder)) },
@@ -157,7 +164,6 @@ fun FeedScreen(
                 pagerSnapDistance = PagerSnapDistance.atMost(10)
             )
             HorizontalPager(
-//                modifier = Modifier.weight()
                 pageCount = 10,
                 state = pagerState,
                 pageSize = PageSize.Fixed(300.dp),
