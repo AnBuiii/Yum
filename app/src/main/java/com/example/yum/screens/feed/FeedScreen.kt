@@ -1,9 +1,10 @@
 package com.example.yum.screens.feed
 
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.pager.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -15,12 +16,13 @@ import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.BlurredEdgeTreatment
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.draw.blur
 import androidx.compose.ui.geometry.*
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.platform.rememberNestedScrollInteropConnection
+import androidx.compose.ui.graphics.drawscope.clipPath
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
@@ -28,7 +30,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.yum.R
-import com.example.yum.common.snackbar.SnackbarManager
 import kotlin.math.absoluteValue
 import com.example.yum.R.string as AppText
 
@@ -44,218 +45,273 @@ fun FeedScreen(
 
     val uiState by viewModel.uiState
     val tabList = listOf("Newest food", "Best recipe", "Popular ingredientttttt")
-    val nestedScroll = rememberNestedScrollInteropConnection()
     val state = rememberLazyListState()
-    val coroutineScope1 = rememberCoroutineScope()
-    LazyColumn(
-        state = state,
-        modifier = Modifier.fillMaxSize()
-//            .nestedScroll(nestedScroll)
+
+    val option = BitmapFactory.Options()
+    option.inPreferredConfig = Bitmap.Config.ARGB_8888
+    val bitmap = BitmapFactory.decodeResource(
+        LocalContext.current.resources,
+        R.drawable.food_1,
+        option
+    ).asImageBitmap()
+
+    val imageBitmap = ImageBitmap.imageResource(id = R.drawable.food_1)
+
+    Column(
+//        state = state,
+
+        modifier = Modifier
+            .verticalScroll(rememberScrollState())
+            .fillMaxSize()
+
     ) {
-        item {
-            Spacer(modifier = Modifier.height(100.dp))
-            Text(
-                text = stringResource(id = AppText.app_name),
-                modifier = Modifier.padding(start = 16.dp, top = 32.dp),
-                style = MaterialTheme.typography.displayMedium
-            )
-        }
+//        item {
+        Spacer(modifier = Modifier.height(100.dp))
+        Text(
+            text = stringResource(id = AppText.app_name),
+            modifier = Modifier.padding(start = 16.dp, top = 32.dp),
+            style = MaterialTheme.typography.displayMedium
+        )
+//        }
 
         // Quote
-        item {
-            Text(
-                text = stringArrayResource(id = R.array.quote)[0],
-                modifier = Modifier.padding(start = 16.dp)
-            )
-        }
+//        item {
+        Text(
+            text = stringArrayResource(id = R.array.quote)[0],
+            modifier = Modifier.padding(start = 16.dp)
+        )
+//        }
 
         //search bar + filter button
-        item {
-            Row(
-                horizontalArrangement = Arrangement.spacedBy(6.dp),
-                modifier = Modifier
-                    .padding(16.dp)
-                    .height(IntrinsicSize.Max),
+//        item {
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(6.dp),
+            modifier = Modifier
+                .padding(16.dp)
+                .height(IntrinsicSize.Max),
 
-                ) {
-                OutlinedTextField(
-                    value = uiState.searchText,
-                    onValueChange = {},
-                    leadingIcon = { Icon(imageVector = Icons.Default.Search, "") },
-                    placeholder = { Text(text = stringResource(id = AppText.search_placeholder)) },
-                    shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier.weight(1f)
+            ) {
+            OutlinedTextField(
+                value = uiState.searchText,
+                onValueChange = {},
+                leadingIcon = { Icon(imageVector = Icons.Default.Search, "") },
+                placeholder = { Text(text = stringResource(id = AppText.search_placeholder)) },
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier.weight(1f)
+            )
+            OutlinedIconButton(
+                onClick = { },
+                shape = RoundedCornerShape(10.dp),
+                border = BorderStroke(
+                    width = 1.dp,
+                    color = Color.Black
+                ),
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .aspectRatio(1f)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Notifications,
+                    contentDescription = "Filter",
+                    modifier = Modifier.size(24.dp)
                 )
-                OutlinedIconButton(
-                    onClick = { },
-                    shape = RoundedCornerShape(10.dp),
-                    border = BorderStroke(
-                        width = 1.dp,
-                        color = Color.Black
-                    ),
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .aspectRatio(1f)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Notifications,
-                        contentDescription = "Filter",
-                        modifier = Modifier.size(24.dp)
-                    )
-                }
-                OutlinedIconButton(
-                    onClick = { },
-                    shape = RoundedCornerShape(10.dp),
-                    modifier = Modifier
-                        .fillMaxHeight()
-                        .aspectRatio(1f)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Notifications,
-                        contentDescription = "Filter"
-                    )
-                }
+            }
+            OutlinedIconButton(
+                onClick = { },
+                shape = RoundedCornerShape(10.dp),
+                modifier = Modifier
+                    .fillMaxHeight()
+                    .aspectRatio(1f)
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Notifications,
+                    contentDescription = "Filter"
+                )
             }
         }
+//        }
 
         // tab
-        item {
-            ScrollableTabRow(
-                modifier = Modifier.padding(bottom = 10.dp),
-                selectedTabIndex = uiState.tabState,
-                edgePadding = 0.dp,
-                indicator = { tabPositions ->
-                    Canvas(
-                        modifier = Modifier
-                            .tabIndicatorOffset(tabPositions[uiState.tabState])
-                            .height(10.dp),
-                        onDraw = {
-                            drawCircle(
-                                color = Color.Black,
-                                radius = 10f,
-                                center = Offset(
-                                    tabPositions[uiState.tabState].width.toPx() / 2,
-                                    0f
-                                )
+//        item {
+        ScrollableTabRow(
+            modifier = Modifier.padding(bottom = 10.dp),
+            selectedTabIndex = uiState.tabState,
+            edgePadding = 0.dp,
+            indicator = { tabPositions ->
+                Canvas(
+                    modifier = Modifier
+                        .tabIndicatorOffset(tabPositions[uiState.tabState])
+                        .height(10.dp),
+                    onDraw = {
+                        drawCircle(
+                            color = Color.Black,
+                            radius = 10f,
+                            center = Offset(
+                                tabPositions[uiState.tabState].width.toPx() / 2,
+                                0f
                             )
-                        }
-                    )
-
-                },
-                divider = {}
-            ) {
-                tabList.forEachIndexed { index, tabTitle ->
-                    Tab(
-                        selected = uiState.tabState == index,
-                        onClick = { viewModel.scrollToTab(index) },
-                        modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 16.dp)
-                    ) {
-                        Text(
-                            tabTitle,
-                            maxLines = 1
-
                         )
                     }
+                )
+
+            },
+            divider = {}
+        ) {
+            tabList.forEachIndexed { index, tabTitle ->
+                Tab(
+                    selected = uiState.tabState == index,
+                    onClick = { viewModel.scrollToTab(index) },
+                    modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 16.dp)
+                ) {
+                    Text(
+                        tabTitle,
+                        maxLines = 1
+
+                    )
                 }
             }
         }
+//        }
 
         // card
-        item {
-            // pager
-            val pagerState = rememberPagerState()
+//        item {
+        // pager
+        val pagerState = rememberPagerState()
 //            val fling = PagerDefaults.flingBehavior(
 //                state = pagerState,
 //                pagerSnapDistance = PagerSnapDistance.atMost(10)
 //            )
 
 
-            HorizontalPager(
-                modifier = Modifier.height(400.dp),
-                pageCount = 10,
-                state = pagerState,
-                pageSize = PageSize.Fixed(300.dp),
-                contentPadding = PaddingValues(horizontal = 56.dp),
-                pageSpacing = 8.dp,
+        HorizontalPager(
+            modifier = Modifier.height(400.dp),
+            pageCount = 10,
+            state = pagerState,
+            pageSize = PageSize.Fixed(300.dp),
+            contentPadding = PaddingValues(horizontal = 56.dp),
+            pageSpacing = 8.dp,
 //                flingBehavior = fling
 
-            ) { page ->
-                val pageOffset = (
-                        (pagerState.currentPage - page) + pagerState
-                            .currentPageOffsetFraction
-                        ).absoluteValue
-                Card(
-                    Modifier
-                        .graphicsLayer {
-                            alpha = lerp(
-                                start = 0.5f,
-                                stop = 1f,
-                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                            )
-                        }
-                        .size(
-                            lerp(
-                                start = 300f,
-                                stop = 350f,
-                                fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                            ).dp
+        ) { page ->
+            val pageOffset = (
+                    (pagerState.currentPage - page) + pagerState
+                        .currentPageOffsetFraction
+                    ).absoluteValue
+
+
+//                val bg = Bitmap.createScaledBitmap(
+//                    BitmapFactory.decodeResource(
+//                        LocalContext.current.resources,
+//                        R.drawable.food_1
+//                    ), 300, 300, true
+//                )
+
+            Card(
+                Modifier
+                    .graphicsLayer {
+                        alpha = lerp(
+                            start = 0.5f,
+                            stop = 1f,
+                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
                         )
+                    }
+                    .size(
+                        lerp(
+                            start = 300f,
+                            stop = 350f,
+                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
+                        ).dp
+                    )
+            ) {
+
+
+                Box(
+                    modifier = Modifier
+                        .background(Color.Gray.copy(alpha = 0.5f))
+                        .fillMaxSize()
                 ) {
 
-                    Box(
+                    // food image
+                    Image(
+                        bitmap = bitmap,
+                        contentDescription = "",
+                        modifier = Modifier.fillMaxSize(),
+                        contentScale = ContentScale.Crop
+                    )
+
+                    // food image mask
+                    Canvas(
                         modifier = Modifier
+//                            .alpha(0.5f)
                             .fillMaxSize()
-                            .clickable(
-                                onClick = { SnackbarManager.showMessage(R.string.password_match_error) }
-                            ),
-                        contentAlignment = Alignment.Center
+                            .blur(20.dp)
                     ) {
-                        Image(
-                            painter = painterResource(id = R.drawable.food_1),
-                            contentDescription = "",
-                            modifier = Modifier.fillParentMaxSize()
-                        )
-                        Box(
-                            modifier = Modifier
-                                .align(Alignment.TopStart)
-                                .padding(16.dp)
-                                .size(52.dp)
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .alpha(1f)
-                                    .blur(
-                                        radius = 2.dp,
-                                        edgeTreatment = BlurredEdgeTreatment.Unbounded
-                                    )
-                                    .background(
-                                        Color.Transparent,
-                                        shape = RoundedCornerShape(10.dp)
-                                    )
+                        val path = Path()
+
+                        path.addRoundRect(
+                            RoundRect(
+                                Rect(
+                                    Offset(16.dp.toPx(), 16.dp.toPx()),
+                                    Size(72.dp.toPx(), 72.dp.toPx())
+                                ),
+                                CornerRadius(10.dp.toPx())
                             )
-                            FilledIconButton(
-                                modifier = Modifier.fillMaxSize(),
-                                colors = IconButtonDefaults.filledIconButtonColors(containerColor = Color.Transparent),
-                                onClick = { /*TODO*/ },
-                            ) {
-                                Icon(
-                                    painterResource(id = R.drawable.bookmark_unfilled),
-                                    contentDescription = "Filter",
-                                    modifier = Modifier.size(32.dp),
-                                    tint = Color.Red
-                                )
-                            }
+                        )
+
+                        clipPath(path, clipOp = ClipOp.Intersect) {
+                            drawImage(
+                                imageBitmap,
+                                Offset(0f, 0f),
+//
+                            )
                         }
 
                     }
+
+                    // bookmark icon
+
+                    FilledIconButton(
+                        onClick = {},
+                        shape = RoundedCornerShape(10.dp),
+                        colors = IconButtonDefaults.filledIconButtonColors(containerColor = Color.Gray.copy(0.7f)),
+                        modifier = Modifier.size(100.dp).align(Alignment.TopStart).padding(16.dp)
+                    ) {
+                        Icon(
+                            painterResource(id = R.drawable.bookmark_unfilled),
+                            contentDescription = "",
+                            modifier.size(40.dp)
+                        )
+                    }
+
+
+//                        Row(
+//                            modifier = Modifier
+//                                .padding(
+//                                    start = 16.dp,
+//                                    end = 16.dp
+//                                ),
+//                            horizontalArrangement = Arrangement.spacedBy(16.dp),
+//                        ) {
+//
+//                            Box(
+//                                modifier = Modifier
+//                                    .width(80.dp)
+//                                    .padding(15.dp)
+//                            ) {
+//                                Text("Item")
+//                            }
+//
+//                        }
+
                 }
             }
         }
+//        }
 
-        item {
-            Spacer(modifier = Modifier.height(500.dp))
-        }
+//        item {
+        Spacer(modifier = Modifier.height(500.dp))
+//        }
     }
 }
+
 
