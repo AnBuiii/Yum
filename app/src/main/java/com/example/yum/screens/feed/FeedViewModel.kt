@@ -18,8 +18,9 @@ class FeedViewModel @Inject constructor(
         get() = uiState.value.tabState
 
     fun scrollToPage(a: Int) {
-
+//        uiState.value.tabState.
     }
+
 
     private val searchText
         get() = uiState.value.searchText
