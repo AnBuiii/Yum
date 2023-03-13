@@ -23,6 +23,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import androidx.navigation.navigation
 import com.example.yum.common.component.YumBottomBar
+import com.example.yum.common.component.YumSurface
 import com.example.yum.common.snackbar.SnackbarManager
 import com.example.yum.screens.cart.CartScreen
 import com.example.yum.screens.feed.FeedScreen
@@ -41,7 +42,7 @@ import kotlinx.coroutines.CoroutineScope
 fun YumApp() {
     val appState = rememberYumAppState()
     YumTheme {
-        Surface(
+        YumSurface(
             color = MaterialTheme.colorScheme.background,
         ) {
             Scaffold(
@@ -64,7 +65,7 @@ fun YumApp() {
             ) { paddingValues ->
                 NavHost(
                     navController = appState.navController,
-                    startDestination = FEED_SCREEN,
+                    startDestination = SEARCH_SCREEN,
                     modifier = Modifier.padding(paddingValues),
                 ) {
                     yumGraph(appState)
@@ -98,6 +99,7 @@ private fun resources(): Resources {
 
 
 // app graph
+@ExperimentalMaterial3Api
 @ExperimentalFoundationApi
 @ExperimentalAnimationApi
 fun NavGraphBuilder.yumGraph(appState: YumAppState) {

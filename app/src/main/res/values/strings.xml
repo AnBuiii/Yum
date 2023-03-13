@@ -24,7 +24,7 @@
     <!-- tab -->
     <string name="home_feed">Home</string>
     <string name="home_search">Search</string>
-    <string name="home_cart">My Cart</string>
+    <string name="home_cart">Cart</string>
     <string name="home_user">User</string>
 
     <!--    Feed screen-->
@@ -34,4 +34,9 @@
         <item>An apple a day take doctor away</item>
     </string-array>
     <string name="search_placeholder">Search For Recipe</string>
+
+<!--    Search screen-->
+    <string name = "label_search">Search Yum\'s recipe</string>
+    <string name="search_yum">Search Yum\'s recipe</string>
+    <string name="label_back">Back</string>
 </resources>

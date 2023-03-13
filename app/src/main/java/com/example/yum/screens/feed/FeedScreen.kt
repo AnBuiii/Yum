@@ -1,8 +1,6 @@
 package com.example.yum.screens.feed
 
 
-import android.graphics.Bitmap
-import android.graphics.BitmapFactory
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -16,20 +14,20 @@ import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.blur
 import androidx.compose.ui.geometry.*
 import androidx.compose.ui.graphics.*
-import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.yum.R
+import com.example.yum.ui.theme.md_theme_light_primary
+import com.example.yum.ui.theme.seed
 import kotlin.math.absoluteValue
 import com.example.yum.R.string as AppText
 
@@ -46,20 +44,26 @@ fun FeedScreen(
     val uiState by viewModel.uiState
     val tabList = listOf("Newest food", "Best recipe", "Popular ingredientttttt")
     val state = rememberLazyListState()
-
+/*
     val option = BitmapFactory.Options()
     option.inPreferredConfig = Bitmap.Config.ARGB_8888
     val bitmap = BitmapFactory.decodeResource(
         LocalContext.current.resources,
         R.drawable.food_1,
         option
-    ).asImageBitmap()
+    ).asImageBitmap()*/
+
+    //                val bg = Bitmap.createScaledBitmap(
+//                    BitmapFactory.decodeResource(
+//                        LocalContext.current.resources,
+//                        R.drawable.food_1
+//                    ), 300, 300, true
+//                )
 
     val imageBitmap = ImageBitmap.imageResource(id = R.drawable.food_1)
 
     Column(
 //        state = state,
-
         modifier = Modifier
             .verticalScroll(rememberScrollState())
             .fillMaxSize()
@@ -70,7 +74,9 @@ fun FeedScreen(
         Text(
             text = stringResource(id = AppText.app_name),
             modifier = Modifier.padding(start = 16.dp, top = 32.dp),
-            style = MaterialTheme.typography.displayMedium
+            style = MaterialTheme.typography.displayMedium,
+            color = seed
+
         )
 //        }
 
@@ -102,10 +108,10 @@ fun FeedScreen(
             OutlinedIconButton(
                 onClick = { },
                 shape = RoundedCornerShape(10.dp),
-                border = BorderStroke(
-                    width = 1.dp,
-                    color = Color.Black
-                ),
+//                border = BorderStroke(
+//                    width = 1.dp,
+//                    color = Color.Black
+//                ),
                 modifier = Modifier
                     .fillMaxHeight()
                     .aspectRatio(1f)
@@ -133,7 +139,9 @@ fun FeedScreen(
 
         // tab
 //        item {
+        val indicatorColor = MaterialTheme.colorScheme.primary
         ScrollableTabRow(
+
             modifier = Modifier.padding(bottom = 10.dp),
             selectedTabIndex = uiState.tabState,
             edgePadding = 0.dp,
@@ -144,7 +152,7 @@ fun FeedScreen(
                         .height(10.dp),
                     onDraw = {
                         drawCircle(
-                            color = Color.Black,
+                            color = indicatorColor,
                             radius = 10f,
                             center = Offset(
                                 tabPositions[uiState.tabState].width.toPx() / 2,
@@ -177,10 +185,10 @@ fun FeedScreen(
 //        item {
         // pager
         val pagerState = rememberPagerState()
-//            val fling = PagerDefaults.flingBehavior(
-//                state = pagerState,
-//                pagerSnapDistance = PagerSnapDistance.atMost(10)
-//            )
+        val fling = PagerDefaults.flingBehavior(
+            state = pagerState,
+            pagerSnapDistance = PagerSnapDistance.atMost(10)
+        )
 
 
         HorizontalPager(
@@ -199,12 +207,6 @@ fun FeedScreen(
                     ).absoluteValue
 
 
-//                val bg = Bitmap.createScaledBitmap(
-//                    BitmapFactory.decodeResource(
-//                        LocalContext.current.resources,
-//                        R.drawable.food_1
-//                    ), 300, 300, true
-//                )
 
             Card(
                 Modifier
@@ -221,7 +223,8 @@ fun FeedScreen(
                             stop = 350f,
                             fraction = 1f - pageOffset.coerceIn(0f, 1f)
                         ).dp
-                    )
+                    ),
+                shape = RoundedCornerShape(30.dp)
             ) {
 
 
@@ -233,18 +236,19 @@ fun FeedScreen(
 
                     // food image
                     Image(
-                        bitmap = bitmap,
+                        painter = painterResource(id = R.drawable.food_1),
                         contentDescription = "",
                         modifier = Modifier.fillMaxSize(),
                         contentScale = ContentScale.Crop
                     )
 
                     // food image mask
-                    Canvas(
+/*                    Canvas(
                         modifier = Modifier
 //                            .alpha(0.5f)
                             .fillMaxSize()
                             .blur(20.dp)
+
                     ) {
                         val path = Path()
 
@@ -262,46 +266,105 @@ fun FeedScreen(
                             drawImage(
                                 imageBitmap,
                                 Offset(0f, 0f),
-//
                             )
                         }
-
-                    }
+                    }*/
 
                     // bookmark icon
 
                     FilledIconButton(
                         onClick = {},
                         shape = RoundedCornerShape(10.dp),
-                        colors = IconButtonDefaults.filledIconButtonColors(containerColor = Color.Gray.copy(0.7f)),
-                        modifier = Modifier.size(100.dp).align(Alignment.TopStart).padding(16.dp)
+                        colors = IconButtonDefaults.filledIconButtonColors(
+                            containerColor = Color.Black.copy(
+                                0.6f
+                            )
+                        ),
+                        modifier = Modifier
+                            .size(88.dp)
+                            .align(Alignment.TopStart)
+                            .padding(16.dp)
                     ) {
                         Icon(
+
                             painterResource(id = R.drawable.bookmark_unfilled),
                             contentDescription = "",
-                            modifier.size(40.dp)
+                            modifier.size(32.dp),
+                            tint = Color.White
                         )
                     }
 
+                    // food info
+                    Box(
+                        modifier = Modifier
+                            .align(Alignment.BottomStart)
+                            .height(100.dp)
+                            .fillMaxWidth()
+                            .padding()
+                    ) {
+                        Card(
+                            shape = RoundedCornerShape(30.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = Color.Black.copy(alpha = 0.6f)
+                            ),
+                            modifier = Modifier
+                                .align(Alignment.BottomCenter)
+                                .fillMaxWidth()
+                                .height(80.dp)
 
-//                        Row(
-//                            modifier = Modifier
-//                                .padding(
-//                                    start = 16.dp,
-//                                    end = 16.dp
-//                                ),
-//                            horizontalArrangement = Arrangement.spacedBy(16.dp),
-//                        ) {
-//
-//                            Box(
-//                                modifier = Modifier
-//                                    .width(80.dp)
-//                                    .padding(15.dp)
-//                            ) {
-//                                Text("Item")
-//                            }
-//
-//                        }
+                        ) {
+                            Box(
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(16.dp),
+                            ) {
+                                // rate + name
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxHeight()
+                                        .align(Alignment.CenterStart),
+                                    horizontalAlignment = Alignment.Start,
+                                    verticalArrangement = Arrangement.SpaceBetween
+                                ) {
+                                    // rating
+                                    Row {
+                                        for (i in 1..5) {
+                                            Icon(
+                                                painter = painterResource(id = R.drawable.round_star_filled),
+                                                contentDescription = "",
+                                                tint = seed
+                                            )
+                                        }
+                                    }
+                                    // name
+                                    Text(
+                                        text = "Neapolitan pizza",
+                                        fontWeight = FontWeight.SemiBold
+                                    )
+                                }
+
+
+                            }
+                        }
+                        Card(
+                            modifier = Modifier
+                                .align(Alignment.TopEnd)
+                                .size(56.dp)
+                                .offset((-16).dp, 0.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = seed
+                            ),
+                        ) {
+                            Column(
+                                modifier = Modifier.fillMaxSize(),
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center
+                            ) {
+                                Text("Yum")
+                                Text("142")
+                            }
+                        }
+                    }
 
                 }
             }
