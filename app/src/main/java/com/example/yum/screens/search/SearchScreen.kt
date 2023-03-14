@@ -3,27 +3,26 @@ package com.example.yum.screens.search
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.grid.GridCells
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.lazy.grid.rememberLazyGridState
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.yum.common.component.YumDivider
 import com.example.yum.common.component.YumSearchBar
 import com.example.yum.common.component.YumSurface
+import com.example.yum.common.component.YumVerticalGrid
 import com.example.yum.model.SearchCategory
 import com.example.yum.model.SearchCategoryCollection
-import kotlinx.coroutines.delay
 
 
 @ExperimentalMaterial3Api
@@ -44,44 +43,102 @@ fun SearchScreen(
     val uiState by viewModel.uiState
     val tabList = listOf("Just for you", "Explore", "Pro")
     YumSurface {
-        Column(
+//        Column(
+//            modifier = Modifier
+////                .verticalScroll(rememberScrollState())
+////                .fillMaxSize()
+//        ) {
+//
+//            Spacer(modifier = Modifier.height(16.dp))
+//            YumSearchBar(
+//                searchText = uiState.searchText,
+//                onQueryChange = viewModel::onSearchTextChange,
+//                searchFocused = uiState.isSearchFocused,
+//                onSearchFocusChange = viewModel::onSearchTextFocusChange,
+//                onClearQuery = viewModel::onClearSearchText,
+//                searching = uiState.isSearching
+//            )
+//
+//            YumDivider()
+//
+//            LaunchedEffect(uiState.searchText) {
+//                viewModel.onSearchStatusChange(true)
+//                delay(2000)
+//                viewModel.onSearchStatusChange(false)
+//            }
+//            TabRow(
+//                selectedTabIndex = uiState.tabState
+//            ) {
+//                tabList.mapIndexed { index, tab ->
+//                    Tab(
+//                        modifier = Modifier.padding(vertical = 16.dp, horizontal = 1.dp),
+//                        selected = uiState.tabState == index,
+//                        onClick = { viewModel.scrollToTab(index) }) {
+//                        Text(text = tab)
+//                    }
+//
+//                }
+//            }
+//
+//            SearchCategories(categories = viewModel.getSearchCategories())
+//
+//
+//        }
+
+        LazyColumn(
             modifier = Modifier
-//                .verticalScroll(rememberScrollState())
-//                .fillMaxSize()
+                .fillMaxSize()
+                .padding(8.dp)
         ) {
-
-            Spacer(modifier = Modifier.height(16.dp))
-            YumSearchBar(
-                searchText = uiState.searchText,
-                onQueryChange = viewModel::onSearchTextChange,
-                searchFocused = uiState.isSearchFocused,
-                onSearchFocusChange = viewModel::onSearchTextFocusChange,
-                onClearQuery = viewModel::onClearSearchText,
-                searching = uiState.isSearching
-            )
-
-            YumDivider()
-
-            LaunchedEffect(uiState.searchText) {
-                viewModel.onSearchStatusChange(true)
-                delay(2000)
-                viewModel.onSearchStatusChange(false)
+            // top padding
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
             }
-            TabRow(
-                selectedTabIndex = uiState.tabState
-            ) {
-                tabList.mapIndexed { index, tab ->
-                    Tab(
-                        modifier = Modifier.padding(vertical = 16.dp, horizontal = 1.dp),
-                        selected = uiState.tabState == index,
-                        onClick = { viewModel.scrollToTab(index) }) {
-                        Text(text = tab)
+
+            // search bar
+            item {
+                YumSearchBar(
+                    searchText = uiState.searchText,
+                    onQueryChange = viewModel::onSearchTextChange,
+                    searchFocused = uiState.isSearchFocused,
+                    onSearchFocusChange = viewModel::onSearchTextFocusChange,
+                    onClearQuery = viewModel::onClearSearchText,
+                    searching = uiState.isSearching
+                )
+            }
+
+            // divider
+            item {
+                YumDivider()
+            }
+
+            items(viewModel.getSearchCategories()) { collection ->
+//                LazyColumn{
+//                    item{Text(collection.name)}
+//                    items(collection.categories){
+////                        LazyVerticalGrid(GridCells.Fixed(2)){
+////
+////                        }
+//                    }
+//                }
+
+                Column {
+                    Text(
+                        text = collection.name,
+                        modifier = Modifier.padding(8.dp),
+                        style = MaterialTheme.typography.headlineMedium
+                    )
+                    YumVerticalGrid {
+                        collection.categories.forEach {
+                            CategoryCard(
+                                category = it,
+                                modifier = Modifier.padding(8.dp)
+                            )
+                        }
                     }
-
                 }
-            }
 
-            SearchCategories(categories = viewModel.getSearchCategories())
+            }
 
 
         }
@@ -103,6 +160,7 @@ fun SearchCategories(
             )
         }
     }
+
     Spacer(Modifier.height(8.dp))
 }
 
@@ -117,7 +175,7 @@ fun SearchCategoryCollectionCard(
     ) {
         Text(
             text = collection.name,
-            modifier = Modifier.padding(horizontal = 16.dp)
+            modifier = Modifier.padding(horizontal = 8.dp)
         )
 //        LazyVerticalGrid(
 ////            state = rememberLazyGridState(),
@@ -139,7 +197,7 @@ fun SearchCategoryCollectionCard(
 //                CategoryCard(category = category)
 //            }
 //        }
-        LazyColumn{
+        LazyColumn {
 
         }
 
@@ -152,14 +210,40 @@ fun CategoryCard(
     modifier: Modifier = Modifier,
 ) {
     Card(
-        modifier = Modifier
-            .aspectRatio(1.4f)
-            .height(100.dp)
+        shape = RoundedCornerShape(20.dp),
+        modifier = modifier
+            .aspectRatio(0.9f)
     ) {
-        Image(
-            painter = painterResource(id = category.imageRes),
-            contentDescription = "",
-            modifier = Modifier.fillMaxSize()
-        )
+        Box(modifier = Modifier.fillMaxSize()) {
+            Image(
+                painter = painterResource(id = category.imageRes),
+                contentDescription = "",
+                modifier = Modifier.fillMaxSize(),
+                contentScale = ContentScale.Crop
+            )
+            Card(
+                shape = RoundedCornerShape(20.dp),
+                colors = CardDefaults.cardColors(
+                    containerColor = Color.Black.copy(alpha = 0.6f)
+                ),
+                modifier = Modifier
+                    .align(Alignment.BottomCenter)
+                    .fillMaxWidth()
+                    .aspectRatio(2.5f),
+
+                ) {
+                Box(
+                    modifier = Modifier.fillMaxSize(),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Text(
+                        category.name,
+//                        style = MaterialTheme.typography.bodyLarge
+                        fontSize = 18.sp
+                    )
+                }
+            }
+
+        }
     }
 }

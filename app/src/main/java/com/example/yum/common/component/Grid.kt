@@ -8,7 +8,7 @@ import androidx.compose.ui.layout.Layout
 
 
 @Composable
-fun VerticalGrid(
+fun YumVerticalGrid(
     modifier: Modifier = Modifier,
     columns: Int = 2,
     content: @Composable () -> Unit
@@ -18,14 +18,14 @@ fun VerticalGrid(
         modifier = modifier
     ) { measurables, constraints ->
         val itemWidth = constraints.maxWidth / columns
-        // Keep given height constraints, but set an exact width
+
         val itemConstraints = constraints.copy(
             minWidth = itemWidth,
             maxWidth = itemWidth
         )
-        // Measure each item with these constraints
+
         val placeables = measurables.map { it.measure(itemConstraints) }
-        // Track each columns height so we can calculate the overall height
+
         val columnHeights = Array(columns) { 0 }
         placeables.forEachIndexed { index, placeable ->
             val column = index % columns
@@ -37,7 +37,7 @@ fun VerticalGrid(
             width = constraints.maxWidth,
             height = height
         ) {
-            // Track the Y co-ord per column we have placed up to
+
             val columnY = Array(columns) { 0 }
             placeables.forEachIndexed { index, placeable ->
                 val column = index % columns

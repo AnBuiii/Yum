@@ -1,380 +1,233 @@
 package com.example.yum.screens.feed
 
-
-import androidx.compose.foundation.*
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.pager.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Notifications
-import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
-import androidx.compose.runtime.*
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.*
-import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.imageResource
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringArrayResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.util.lerp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.yum.R
-import com.example.yum.ui.theme.md_theme_light_primary
-import com.example.yum.ui.theme.seed
-import kotlin.math.absoluteValue
-import com.example.yum.R.string as AppText
+import com.example.yum.common.component.YumSurface
+import com.example.yum.ui.theme.YumOrange
 
 
-@ExperimentalFoundationApi
-@OptIn(ExperimentalMaterial3Api::class)
+val tabList = listOf("Just for you", "Explore", "Pro")
+val cardString =
+    listOf("Make a Meal Plan", "Learn from the Pros", "Browse Articles for Inspiration")
+
+@ExperimentalMaterial3Api
 @Composable
 fun FeedScreen(
-    onRecipeTap: () -> Unit,
+    onRecipeTap: () -> Unit = {},
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel(),
 ) {
-
     val uiState by viewModel.uiState
-    val tabList = listOf("Newest food", "Best recipe", "Popular ingredientttttt")
-    val state = rememberLazyListState()
-/*
-    val option = BitmapFactory.Options()
-    option.inPreferredConfig = Bitmap.Config.ARGB_8888
-    val bitmap = BitmapFactory.decodeResource(
-        LocalContext.current.resources,
-        R.drawable.food_1,
-        option
-    ).asImageBitmap()*/
-
-    //                val bg = Bitmap.createScaledBitmap(
-//                    BitmapFactory.decodeResource(
-//                        LocalContext.current.resources,
-//                        R.drawable.food_1
-//                    ), 300, 300, true
-//                )
-
-    val imageBitmap = ImageBitmap.imageResource(id = R.drawable.food_1)
-
-    Column(
-//        state = state,
-        modifier = Modifier
-            .verticalScroll(rememberScrollState())
+    YumSurface(
+        modifier = modifier
             .fillMaxSize()
 
     ) {
-//        item {
-        Spacer(modifier = Modifier.height(100.dp))
-        Text(
-            text = stringResource(id = AppText.app_name),
-            modifier = Modifier.padding(start = 16.dp, top = 32.dp),
-            style = MaterialTheme.typography.displayMedium,
-            color = seed
-
-        )
-//        }
-
-        // Quote
-//        item {
-        Text(
-            text = stringArrayResource(id = R.array.quote)[0],
-            modifier = Modifier.padding(start = 16.dp)
-        )
-//        }
-
-        //search bar + filter button
-//        item {
-        Row(
-            horizontalArrangement = Arrangement.spacedBy(6.dp),
+        //
+        Column(
             modifier = Modifier
-                .padding(16.dp)
-                .height(IntrinsicSize.Max),
-
-            ) {
-            OutlinedTextField(
-                value = uiState.searchText,
-                onValueChange = {},
-                leadingIcon = { Icon(imageVector = Icons.Default.Search, "") },
-                placeholder = { Text(text = stringResource(id = AppText.search_placeholder)) },
-                shape = RoundedCornerShape(10.dp),
-                modifier = Modifier.weight(1f)
+                .fillMaxSize()
+        ) {
+            FeedTopBar(
+                selectedTab = uiState.tabState,
+                onTabChange = viewModel::scrollToTab
             )
-            OutlinedIconButton(
-                onClick = { },
-                shape = RoundedCornerShape(10.dp),
-//                border = BorderStroke(
-//                    width = 1.dp,
-//                    color = Color.Black
-//                ),
+
+
+
+            LazyColumn(
                 modifier = Modifier
-                    .fillMaxHeight()
-                    .aspectRatio(1f)
+                    .fillMaxSize()
+                    .background(Color(232, 233, 235))
             ) {
-                Icon(
-                    imageVector = Icons.Default.Notifications,
-                    contentDescription = "Filter",
-                    modifier = Modifier.size(24.dp)
-                )
-            }
-            OutlinedIconButton(
-                onClick = { },
-                shape = RoundedCornerShape(10.dp),
-                modifier = Modifier
-                    .fillMaxHeight()
-                    .aspectRatio(1f)
-            ) {
-                Icon(
-                    imageVector = Icons.Default.Notifications,
-                    contentDescription = "Filter"
-                )
+                hmm()
+                feed()
             }
         }
-//        }
+    }
+}
 
-        // tab
-//        item {
-        val indicatorColor = MaterialTheme.colorScheme.primary
-        ScrollableTabRow(
+@OptIn(ExperimentalMaterial3Api::class)
+fun LazyListScope.feed() {
+    items(100) {
+        Box(
+            modifier = Modifier
+                .aspectRatio(1f)
+                .fillMaxWidth()
+        ) {
+            Image(
+                painter = painterResource(id = R.drawable.food_1),
+                contentDescription = "",
+                contentScale = ContentScale.FillBounds,
+                modifier = Modifier.fillMaxSize()
+            )
 
-            modifier = Modifier.padding(bottom = 10.dp),
-            selectedTabIndex = uiState.tabState,
-            edgePadding = 0.dp,
-            indicator = { tabPositions ->
-                Canvas(
-                    modifier = Modifier
-                        .tabIndicatorOffset(tabPositions[uiState.tabState])
-                        .height(10.dp),
-                    onDraw = {
-                        drawCircle(
-                            color = indicatorColor,
-                            radius = 10f,
-                            center = Offset(
-                                tabPositions[uiState.tabState].width.toPx() / 2,
-                                0f
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                Color.Transparent,
+                                Color.Black.copy(alpha = 0.2f)
                             )
                         )
+                    )
+            ) {
+                Column(
+                    modifier = Modifier
+                        .align(Alignment.BottomStart)
+                        .padding(16.dp),
+
+                    ) {
+                    ElevatedSuggestionChip(
+                        onClick = { /* Do something! */ },
+                        shape = RoundedCornerShape(50),
+                        label = { Text("Yum Original") }
+                    )
+                    Text(
+                        "Creamy Vegan Cauliflower Soup with Garlic + Rosemary",
+                        color = Color.White,
+                        fontWeight = FontWeight.SemiBold,
+                        fontSize = 25.sp
+
+                    )
+                }
+            }
+        }
+    }
+}
+
+fun LazyListScope.hmm() {
+    item {
+        LazyRow(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(120.dp)
+            //                    .background(Color(232, 233, 235))
+            ,
+            contentPadding = PaddingValues(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            items(cardString) {
+                Card(
+                    modifier = Modifier
+                        .aspectRatio(2.4f)
+                        .fillMaxHeight(),
+                    elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
+                ) {
+                    Row(
+                        modifier = Modifier.fillMaxSize(),
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.food_1),
+                            contentDescription = "",
+                            modifier = Modifier
+                                .weight(2f)
+                                .fillMaxHeight(),
+                            contentScale = ContentScale.Crop
+                        )
+                        Box(
+                            modifier = Modifier
+                                .weight(4f)
+                                .padding(horizontal = 16.dp),
+                            contentAlignment = Alignment.Center
+                        ) {
+                            Text(
+                                it,
+                                fontSize = 11.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        }
                     }
+                }
+            }
+        }
+    }
+}
+
+@ExperimentalMaterial3Api
+@Composable
+fun FeedTopBar(
+    modifier: Modifier = Modifier,
+    selectedTab: Int,
+    onTabChange: (Int) -> Unit,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth(),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .weight(1f)
+                .padding(horizontal = 32.dp)
+        ) {
+            Text(
+                stringResource(id = R.string.app_name),
+                style = MaterialTheme.typography.displayMedium.copy(fontSize = 22.sp),
+                color = YumOrange
+            )
+        }
+        TabRow(
+            selectedTabIndex = selectedTab,
+            modifier = Modifier.weight(2f),
+            indicator = { tabPositions ->
+                TabRowDefaults.Indicator(
+                    Modifier
+                        .tabIndicatorOffset(tabPositions[selectedTab])
+                        .padding(horizontal = 4.dp),
+                    height = 3.dp,
                 )
 
             },
             divider = {}
         ) {
-            tabList.forEachIndexed { index, tabTitle ->
+            tabList.forEachIndexed { index, s ->
                 Tab(
-                    selected = uiState.tabState == index,
-                    onClick = { viewModel.scrollToTab(index) },
-                    modifier = Modifier.padding(start = 8.dp, end = 8.dp, bottom = 16.dp)
+                    selected = index == selectedTab,
+                    onClick = { onTabChange(index) },
                 ) {
-                    Text(
-                        tabTitle,
-                        maxLines = 1
-
-                    )
-                }
-            }
-        }
-//        }
-
-        // card
-//        item {
-        // pager
-        val pagerState = rememberPagerState()
-        val fling = PagerDefaults.flingBehavior(
-            state = pagerState,
-            pagerSnapDistance = PagerSnapDistance.atMost(10)
-        )
-
-
-        HorizontalPager(
-            modifier = Modifier.height(400.dp),
-            pageCount = 10,
-            state = pagerState,
-            pageSize = PageSize.Fixed(300.dp),
-            contentPadding = PaddingValues(horizontal = 56.dp),
-            pageSpacing = 8.dp,
-//                flingBehavior = fling
-
-        ) { page ->
-            val pageOffset = (
-                    (pagerState.currentPage - page) + pagerState
-                        .currentPageOffsetFraction
-                    ).absoluteValue
-
-
-
-            Card(
-                Modifier
-                    .graphicsLayer {
-                        alpha = lerp(
-                            start = 0.5f,
-                            stop = 1f,
-                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                        )
-                    }
-                    .size(
-                        lerp(
-                            start = 300f,
-                            stop = 350f,
-                            fraction = 1f - pageOffset.coerceIn(0f, 1f)
-                        ).dp
-                    ),
-                shape = RoundedCornerShape(30.dp)
-            ) {
-
-
-                Box(
-                    modifier = Modifier
-                        .background(Color.Gray.copy(alpha = 0.5f))
-                        .fillMaxSize()
-                ) {
-
-                    // food image
-                    Image(
-                        painter = painterResource(id = R.drawable.food_1),
-                        contentDescription = "",
-                        modifier = Modifier.fillMaxSize(),
-                        contentScale = ContentScale.Crop
-                    )
-
-                    // food image mask
-/*                    Canvas(
-                        modifier = Modifier
-//                            .alpha(0.5f)
-                            .fillMaxSize()
-                            .blur(20.dp)
-
-                    ) {
-                        val path = Path()
-
-                        path.addRoundRect(
-                            RoundRect(
-                                Rect(
-                                    Offset(16.dp.toPx(), 16.dp.toPx()),
-                                    Size(72.dp.toPx(), 72.dp.toPx())
-                                ),
-                                CornerRadius(10.dp.toPx())
-                            )
-                        )
-
-                        clipPath(path, clipOp = ClipOp.Intersect) {
-                            drawImage(
-                                imageBitmap,
-                                Offset(0f, 0f),
-                            )
-                        }
-                    }*/
-
-                    // bookmark icon
-
-                    FilledIconButton(
-                        onClick = {},
-                        shape = RoundedCornerShape(10.dp),
-                        colors = IconButtonDefaults.filledIconButtonColors(
-                            containerColor = Color.Black.copy(
-                                0.6f
-                            )
-                        ),
-                        modifier = Modifier
-                            .size(88.dp)
-                            .align(Alignment.TopStart)
-                            .padding(16.dp)
-                    ) {
-                        Icon(
-
-                            painterResource(id = R.drawable.bookmark_unfilled),
-                            contentDescription = "",
-                            modifier.size(32.dp),
-                            tint = Color.White
-                        )
-                    }
-
-                    // food info
                     Box(
                         modifier = Modifier
-                            .align(Alignment.BottomStart)
-                            .height(100.dp)
                             .fillMaxWidth()
-                            .padding()
+                            .padding(vertical = 22.dp),
+                        contentAlignment = Alignment.Center
                     ) {
-                        Card(
-                            shape = RoundedCornerShape(30.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = Color.Black.copy(alpha = 0.6f)
-                            ),
-                            modifier = Modifier
-                                .align(Alignment.BottomCenter)
-                                .fillMaxWidth()
-                                .height(80.dp)
-
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxSize()
-                                    .padding(16.dp),
-                            ) {
-                                // rate + name
-                                Column(
-                                    modifier = Modifier
-                                        .fillMaxHeight()
-                                        .align(Alignment.CenterStart),
-                                    horizontalAlignment = Alignment.Start,
-                                    verticalArrangement = Arrangement.SpaceBetween
-                                ) {
-                                    // rating
-                                    Row {
-                                        for (i in 1..5) {
-                                            Icon(
-                                                painter = painterResource(id = R.drawable.round_star_filled),
-                                                contentDescription = "",
-                                                tint = seed
-                                            )
-                                        }
-                                    }
-                                    // name
-                                    Text(
-                                        text = "Neapolitan pizza",
-                                        fontWeight = FontWeight.SemiBold
-                                    )
-                                }
-
-
-                            }
-                        }
-                        Card(
-                            modifier = Modifier
-                                .align(Alignment.TopEnd)
-                                .size(56.dp)
-                                .offset((-16).dp, 0.dp),
-                            colors = CardDefaults.cardColors(
-                                containerColor = seed
-                            ),
-                        ) {
-                            Column(
-                                modifier = Modifier.fillMaxSize(),
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center
-                            ) {
-                                Text("Yum")
-                                Text("142")
-                            }
-                        }
+                        Text(
+                            text = s,
+                            style = MaterialTheme.typography.titleLarge.copy(
+                                fontSize = 12.sp,
+                                fontWeight = FontWeight.SemiBold
+                            )
+                        )
                     }
-
                 }
             }
         }
-//        }
-
-//        item {
-        Spacer(modifier = Modifier.height(500.dp))
-//        }
     }
 }
-
-

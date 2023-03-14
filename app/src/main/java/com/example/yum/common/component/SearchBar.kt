@@ -10,11 +10,11 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.onFocusChanged
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import com.example.yum.R
-import com.example.yum.ui.theme.seed
 
 @Composable
 fun YumSearchBar(
@@ -50,7 +50,7 @@ fun YumSearchBar(
                     IconButton(onClick = onClearQuery) {
                         Icon(
                             imageVector = Icons.Outlined.ArrowBack,
-                            tint = seed,
+                            tint = Color.Black,
                             contentDescription = stringResource(R.string.label_back)
                         )
                     }
@@ -67,7 +67,7 @@ fun YumSearchBar(
                 )
                 if (searching) {
                     CircularProgressIndicator(
-                        color = seed,
+                        color = Color.Black,
                         modifier = Modifier
                             .padding(horizontal = 6.dp)
                             .size(36.dp)
