@@ -1,28 +1,29 @@
 package com.example.yum.screens.search
 
-import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.itemsIndexed
-import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.text.KeyboardActions
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.focus.FocusManager
+import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.yum.common.component.YumDivider
-import com.example.yum.common.component.YumSearchBar
+import com.example.yum.R
 import com.example.yum.common.component.YumSurface
-import com.example.yum.common.component.YumVerticalGrid
-import com.example.yum.model.SearchCategory
-import com.example.yum.model.SearchCategoryCollection
 
 
 @ExperimentalMaterial3Api
@@ -40,210 +41,104 @@ fun SearchScreen(
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = hiltViewModel(),
 ) {
+
     val uiState by viewModel.uiState
-    val tabList = listOf("Just for you", "Explore", "Pro")
-    YumSurface {
-//        Column(
-//            modifier = Modifier
-////                .verticalScroll(rememberScrollState())
-////                .fillMaxSize()
-//        ) {
-//
-//            Spacer(modifier = Modifier.height(16.dp))
-//            YumSearchBar(
-//                searchText = uiState.searchText,
-//                onQueryChange = viewModel::onSearchTextChange,
-//                searchFocused = uiState.isSearchFocused,
-//                onSearchFocusChange = viewModel::onSearchTextFocusChange,
-//                onClearQuery = viewModel::onClearSearchText,
-//                searching = uiState.isSearching
-//            )
-//
-//            YumDivider()
-//
-//            LaunchedEffect(uiState.searchText) {
-//                viewModel.onSearchStatusChange(true)
-//                delay(2000)
-//                viewModel.onSearchStatusChange(false)
-//            }
-//            TabRow(
-//                selectedTabIndex = uiState.tabState
-//            ) {
-//                tabList.mapIndexed { index, tab ->
-//                    Tab(
-//                        modifier = Modifier.padding(vertical = 16.dp, horizontal = 1.dp),
-//                        selected = uiState.tabState == index,
-//                        onClick = { viewModel.scrollToTab(index) }) {
-//                        Text(text = tab)
-//                    }
-//
-//                }
-//            }
-//
-//            SearchCategories(categories = viewModel.getSearchCategories())
-//
-//
-//        }
+    val focusRequester = remember { FocusRequester() }
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp)
+    YumSurface(
+        modifier = Modifier.fillMaxSize()
+    ) {
+        Column(
+            modifier = Modifier.fillMaxSize()
         ) {
-            // top padding
-            item {
-                Spacer(modifier = Modifier.height(16.dp))
-            }
-
-            // search bar
-            item {
-                YumSearchBar(
-                    searchText = uiState.searchText,
-                    onQueryChange = viewModel::onSearchTextChange,
-                    searchFocused = uiState.isSearchFocused,
-                    onSearchFocusChange = viewModel::onSearchTextFocusChange,
-                    onClearQuery = viewModel::onClearSearchText,
-                    searching = uiState.isSearching
-                )
-            }
-
-            // divider
-            item {
-                YumDivider()
-            }
-
-            items(viewModel.getSearchCategories()) { collection ->
-//                LazyColumn{
-//                    item{Text(collection.name)}
-//                    items(collection.categories){
-////                        LazyVerticalGrid(GridCells.Fixed(2)){
-////
-////                        }
-//                    }
-//                }
-
+            SearchField(
+                focusRequester = focusRequester,
+                text = uiState.searchText,
+                onTextChange = viewModel::onSearchTextChange
+            )
+            Column(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.SpaceBetween
+            ) {
                 Column {
-                    Text(
-                        text = collection.name,
-                        modifier = Modifier.padding(8.dp),
-                        style = MaterialTheme.typography.headlineMedium
-                    )
-                    YumVerticalGrid {
-                        collection.categories.forEach {
-                            CategoryCard(
-                                category = it,
-                                modifier = Modifier.padding(8.dp)
-                            )
-                        }
+                    Text(text = "8 RESULT")
+                    Button(onClick = { /*TODO*/ }) {
+
                     }
                 }
-
-            }
-
-
-        }
-    }
-}
-
-
-@Composable
-fun SearchCategories(
-    categories: List<SearchCategoryCollection>,
-) {
-    LazyColumn(
-//        state = rememberLazyListState()
-    ) {
-        itemsIndexed(categories) { index, collection ->
-            SearchCategoryCollectionCard(
-                index = index,
-                collection = collection,
-            )
-        }
-    }
-
-    Spacer(Modifier.height(8.dp))
-}
-
-@Composable
-fun SearchCategoryCollectionCard(
-    collection: SearchCategoryCollection,
-    index: Int,
-    modifier: Modifier = Modifier,
-) {
-    Column(
-//        modifier = modifier.verticalScroll(rememberScrollState()),
-    ) {
-        Text(
-            text = collection.name,
-            modifier = Modifier.padding(horizontal = 8.dp)
-        )
-//        LazyVerticalGrid(
-////            state = rememberLazyGridState(),
-//            columns = GridCells.Fixed(2),
-//            verticalArrangement = Arrangement.spacedBy(4.dp),
-//            horizontalArrangement = Arrangement.spacedBy(4.dp),
-//            modifier = Modifier
-////                .fillMaxWidth()
-////                .wrapContentHeight()
-//        ) {
-////            item { Text("asd") }
-////            items(collection.categories) { category ->
-////                CategoryCard(category = category)
-////            }
-//
-//        }
-//        VerticalGrid {
-//            collection.categories.forEach{category->
-//                CategoryCard(category = category)
-//            }
-//        }
-        LazyColumn {
-
-        }
-
-    }
-}
-
-@Composable
-fun CategoryCard(
-    category: SearchCategory,
-    modifier: Modifier = Modifier,
-) {
-    Card(
-        shape = RoundedCornerShape(20.dp),
-        modifier = modifier
-            .aspectRatio(0.9f)
-    ) {
-        Box(modifier = Modifier.fillMaxSize()) {
-            Image(
-                painter = painterResource(id = category.imageRes),
-                contentDescription = "",
-                modifier = Modifier.fillMaxSize(),
-                contentScale = ContentScale.Crop
-            )
-            Card(
-                shape = RoundedCornerShape(20.dp),
-                colors = CardDefaults.cardColors(
-                    containerColor = Color.Black.copy(alpha = 0.6f)
-                ),
-                modifier = Modifier
-                    .align(Alignment.BottomCenter)
-                    .fillMaxWidth()
-                    .aspectRatio(2.5f),
-
-                ) {
-                Box(
-                    modifier = Modifier.fillMaxSize(),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        category.name,
-//                        style = MaterialTheme.typography.bodyLarge
-                        fontSize = 18.sp
-                    )
+                Column {
+//                    Text()
                 }
             }
-
         }
     }
 }
+
+@ExperimentalMaterial3Api
+@Composable
+private fun SearchField(
+    modifier: Modifier = Modifier,
+    focusRequester: FocusRequester = remember { FocusRequester() },
+    text: String = "",
+    onTextChange: (String) -> Unit = {},
+    focusManager: FocusManager = LocalFocusManager.current,
+) {
+    Row(
+        modifier = modifier
+    ) {
+        OutlinedTextField(
+            modifier = modifier
+                .fillMaxWidth()
+                .padding(start = 16.dp, end = 16.dp, top = 8.dp)
+                .focusRequester(focusRequester),
+            value = text,
+            onValueChange = onTextChange,
+            leadingIcon = {
+                IconButton(onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Default.Search,
+                        contentDescription = "",
+                    )
+                }
+            },
+            trailingIcon = {
+                if (text.isBlank())
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.outline_photo_camera),
+                            contentDescription = ""
+                        )
+                    }
+                else
+                    IconButton(onClick = { /*TODO*/ }) {
+                        Icon(
+                            imageVector = Icons.Default.Close,
+                            contentDescription = ""
+                        )
+                    }
+            },
+            colors = TextFieldDefaults.outlinedTextFieldColors(
+                focusedBorderColor = Color.Transparent,
+                unfocusedBorderColor = Color.Transparent
+            ),
+            singleLine = true,
+            keyboardOptions = KeyboardOptions(
+                imeAction = ImeAction.Search
+            ),
+            keyboardActions = KeyboardActions(
+                onSearch = {
+                    focusManager.clearFocus()
+                }
+            ),
+            placeholder = { Text("Search for recipe") }
+        )
+    }
+}
+
+
+
+
+

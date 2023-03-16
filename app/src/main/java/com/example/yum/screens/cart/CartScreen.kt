@@ -13,9 +13,8 @@ fun CartScreen(
     modifier: Modifier = Modifier,
 ) {
     Box(
-        modifier = modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
-    ){
+        modifier = modifier.fillMaxSize(), contentAlignment = Alignment.Center,
+    ) {
         Text("Cart screen")
     }
 }

@@ -54,15 +54,12 @@ fun FeedScreen(
                 selectedTab = uiState.tabState,
                 onTabChange = viewModel::scrollToTab
             )
-
-
-
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
                     .background(Color(232, 233, 235))
             ) {
-                hmm()
+                suggestionCard()
                 feed()
             }
         }
@@ -120,7 +117,7 @@ fun LazyListScope.feed() {
     }
 }
 
-fun LazyListScope.hmm() {
+fun LazyListScope.suggestionCard() {
     item {
         LazyRow(
             modifier = Modifier
@@ -171,7 +168,7 @@ fun LazyListScope.hmm() {
 
 @ExperimentalMaterial3Api
 @Composable
-fun FeedTopBar(
+private fun FeedTopBar(
     modifier: Modifier = Modifier,
     selectedTab: Int,
     onTabChange: (Int) -> Unit,

@@ -21,7 +21,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import androidx.navigation.navigation
 import com.example.yum.common.component.YumBottomBar
 import com.example.yum.common.component.YumSurface
 import com.example.yum.common.snackbar.SnackbarManager
@@ -49,7 +48,7 @@ fun YumApp() {
                 topBar = {
 
                 }, //TODO
-                bottomBar = {
+                        bottomBar = {
                     if (appState.shouldShowBottomBar) {
                         YumBottomBar(
                             tabs = appState.bottomBarTabs,
@@ -112,7 +111,7 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
         )
 
     }
-    composable("test"){
+    composable("test") {
 
     }
 //    navigation(
