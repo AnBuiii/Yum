@@ -11,14 +11,10 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Search
+import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
@@ -27,6 +23,7 @@ import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
@@ -55,29 +52,73 @@ fun SearchScreen(
 ) {
 
     val uiState by viewModel.uiState
-    val focusRequester = remember { FocusRequester() }
     val searchHasFocused = remember { mutableStateOf(false) }
+    var active by rememberSaveable { mutableStateOf(false) }
+    val focusManager = LocalFocusManager.current
+
+    fun closeSearchBar() {
+        focusManager.clearFocus()
+        active = false
+    }
 
     YumSurface(
         modifier = Modifier.fillMaxSize()
     ) {
 
+
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
 
-            SearchField(
-                focusRequester = focusRequester,
-                text = uiState.searchText,
-                onTextChange = viewModel::onSearchTextChange,
-                onSearchFocusChange = {
-                    searchHasFocused.value = it
+//            SearchField(
+//                focusRequester = focusRequester,
+//                text = uiState.searchText,
+//                onTextChange = viewModel::onSearchTextChange,
+//                onSearchFocusChange = {
+//                    searchHasFocused.value = it
+//                }
+//            )
+            SearchBar(
+                modifier = Modifier.fillMaxWidth(),
+                query = uiState.searchText,
+                onQueryChange = viewModel::onSearchTextChange,
+                onSearch = { closeSearchBar() },
+                active = active,
+                onActiveChange = {
+                    active = it
+                    if (!active) focusManager.clearFocus()
+                },
+                placeholder = { Text("Hinted search text") },
+                leadingIcon = { Icon(Icons.Default.Search, contentDescription = null) },
+                trailingIcon = { Icon(Icons.Default.MoreVert, contentDescription = null) },
+                shape = RectangleShape,
+                colors = SearchBarDefaults.colors(
+                    containerColor = Color.Transparent
+                )
+            ) {
+                LazyColumn(
+                    modifier = Modifier.fillMaxWidth(),
+                    contentPadding = PaddingValues(16.dp),
+                    verticalArrangement = Arrangement.spacedBy(4.dp)
+                ) {
+                    items(4) { idx ->
+                        val resultText = "Suggestion $idx"
+                        ListItem(
+                            headlineContent = { Text(resultText) },
+                            supportingContent = { Text("Additional info") },
+                            leadingContent = { Icon(Icons.Filled.Star, contentDescription = null) },
+                            modifier = Modifier.clickable {
+//                                text = resultText
+                                closeSearchBar()
+                            }
+                        )
+                    }
                 }
-            )
+            }
             Box(
                 modifier = Modifier.fillMaxSize()
             ) {
-                Column(modifier = Modifier.fillMaxSize()){
+                Column(modifier = Modifier.fillMaxSize()) {
                     FilterSection()
                     LazyColumn(
                         modifier = Modifier.fillMaxSize()

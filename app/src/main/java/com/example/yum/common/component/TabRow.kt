@@ -9,6 +9,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
@@ -17,7 +18,8 @@ fun YumTabRow(
     modifier: Modifier = Modifier,
     selectedTab: Int,
     onTabChange: (Int) -> Unit,
-    tabList: List<String>
+    tabList: List<String>,
+    textSize: TextUnit = 12.sp,
 ) {
     TabRow(
         selectedTabIndex = selectedTab,
@@ -34,6 +36,7 @@ fun YumTabRow(
         },
         divider = {}
     ) {
+
         tabList.forEachIndexed { index, s ->
             Tab(
                 selected = index == selectedTab,
@@ -48,7 +51,7 @@ fun YumTabRow(
                     Text(
                         text = s,
                         style = MaterialTheme.typography.titleLarge.copy(
-                            fontSize = 12.sp,
+                            fontSize = textSize,
                             fontWeight = FontWeight.SemiBold
                         )
                     )

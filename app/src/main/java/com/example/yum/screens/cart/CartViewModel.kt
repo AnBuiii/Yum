@@ -12,4 +12,12 @@ class CartViewModel @Inject constructor(
 ) : YumViewModel(logService) {
     val uiState = mutableStateOf(CardUiState())
 
+    fun onCartTabChange(index: Int) {
+        uiState.value = uiState.value.copy(tabState = index)
+    }
+
+    fun onChangeBottomSheet(value: Boolean) {
+        uiState.value = uiState.value.copy(isBottomSheetOpen = value)
+    }
+
 }

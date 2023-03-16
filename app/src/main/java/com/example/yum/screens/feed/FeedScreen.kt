@@ -38,6 +38,7 @@ fun FeedScreen(
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel(),
 ) {
+
     val uiState by viewModel.uiState
     YumSurface(
         modifier = modifier
