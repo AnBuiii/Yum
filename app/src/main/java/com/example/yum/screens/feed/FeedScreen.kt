@@ -24,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.yum.R
+import com.example.yum.common.component.YumRecipeCard
 import com.example.yum.common.component.YumSurface
 import com.example.yum.ui.theme.YumOrange
 
@@ -69,51 +70,7 @@ fun FeedScreen(
 @OptIn(ExperimentalMaterial3Api::class)
 fun LazyListScope.feed() {
     items(100) {
-        Box(
-            modifier = Modifier
-                .aspectRatio(1f)
-                .fillMaxWidth()
-        ) {
-            Image(
-                painter = painterResource(id = R.drawable.food_1),
-                contentDescription = "",
-                contentScale = ContentScale.FillBounds,
-                modifier = Modifier.fillMaxSize()
-            )
-
-            Box(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                Color.Transparent,
-                                Color.Black.copy(alpha = 0.2f)
-                            )
-                        )
-                    )
-            ) {
-                Column(
-                    modifier = Modifier
-                        .align(Alignment.BottomStart)
-                        .padding(16.dp),
-
-                    ) {
-                    ElevatedSuggestionChip(
-                        onClick = { /* Do something! */ },
-                        shape = RoundedCornerShape(50),
-                        label = { Text("Yum Original") }
-                    )
-                    Text(
-                        "Creamy Vegan Cauliflower Soup with Garlic + Rosemary",
-                        color = Color.White,
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 25.sp
-
-                    )
-                }
-            }
-        }
+        YumRecipeCard()
     }
 }
 

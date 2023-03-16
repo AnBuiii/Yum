@@ -1,28 +1,40 @@
 package com.example.yum.screens.search
 
+import android.util.Log
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Close
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.focus.FocusManager
 import androidx.compose.ui.focus.FocusRequester
 import androidx.compose.ui.focus.focusRequester
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.yum.R
+import com.example.yum.common.component.YumRecipeCard
 import com.example.yum.common.component.YumSurface
 
 
@@ -44,35 +56,44 @@ fun SearchScreen(
 
     val uiState by viewModel.uiState
     val focusRequester = remember { FocusRequester() }
+    val searchHasFocused = remember { mutableStateOf(false) }
 
     YumSurface(
         modifier = Modifier.fillMaxSize()
     ) {
+
         Column(
             modifier = Modifier.fillMaxSize()
         ) {
+
             SearchField(
                 focusRequester = focusRequester,
                 text = uiState.searchText,
-                onTextChange = viewModel::onSearchTextChange
+                onTextChange = viewModel::onSearchTextChange,
+                onSearchFocusChange = {
+                    searchHasFocused.value = it
+                }
             )
-            Column(
-                modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color.Black),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceBetween
+            Box(
+                modifier = Modifier.fillMaxSize()
             ) {
-                Column {
-                    Text(text = "8 RESULT")
-                    Button(onClick = { /*TODO*/ }) {
-
+                Column(modifier = Modifier.fillMaxSize()){
+                    FilterSection()
+                    LazyColumn(
+                        modifier = Modifier.fillMaxSize()
+                    ) {
+                        items(12) {
+                            YumRecipeCard()
+                        }
                     }
                 }
-                Column {
-//                    Text()
-                }
+                SearchSuggestionSection(
+                    isVisible = searchHasFocused.value && uiState.searchText.isNotBlank(),
+                    modifier = Modifier.align(Alignment.TopCenter)
+                )
             }
+
+
         }
     }
 }
@@ -85,6 +106,7 @@ private fun SearchField(
     text: String = "",
     onTextChange: (String) -> Unit = {},
     focusManager: FocusManager = LocalFocusManager.current,
+    onSearchFocusChange: (Boolean) -> Unit,
 ) {
     Row(
         modifier = modifier
@@ -92,8 +114,9 @@ private fun SearchField(
         OutlinedTextField(
             modifier = modifier
                 .fillMaxWidth()
-                .padding(start = 16.dp, end = 16.dp, top = 8.dp)
-                .focusRequester(focusRequester),
+                .padding(horizontal = 16.dp)
+                .focusRequester(focusRequester)
+                .onFocusChanged { onSearchFocusChange(it.isFocused) },
             value = text,
             onValueChange = onTextChange,
             leadingIcon = {
@@ -138,6 +161,72 @@ private fun SearchField(
     }
 }
 
+@Composable
+private fun FilterSection(
+    modifier: Modifier = Modifier,
+) {
+    Row(
+        modifier = modifier
+            .fillMaxWidth()
+            .background(Color.Black)
+            .padding(vertical = 4.dp, horizontal = 16.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Text("10 RESULT", color = Color.White, fontSize = 12.sp)
+
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(4.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("FILTER", color = Color.White, fontSize = 12.sp)
+            Icon(
+                imageVector = Icons.Default.Lock,
+                contentDescription = "",
+                tint = Color.White,
+                modifier = Modifier.size(14.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun SearchSuggestionSection(
+    isVisible: Boolean,
+    modifier: Modifier = Modifier,
+) {
+    AnimatedVisibility(
+        visible = isVisible,
+        enter = fadeIn(initialAlpha = 0.3f),
+        exit = fadeOut()
+    ) {
+        Log.d("focus", "hello")
+        LazyColumn(
+            modifier = modifier
+                .fillMaxWidth()
+                .shadow(1.dp)
+        ) {
+            items(10) { b ->
+                Box(
+                    modifier = Modifier
+                        .background(
+                            if (b % 2 == 0) Color.White
+                            else Color(117, 117, 117)
+                        )
+                        .fillMaxWidth()
+                        .clickable { }
+
+                ) {
+                    Text(
+                        text = "$b",
+                        fontSize = 18.sp,
+                        modifier = Modifier.padding(16.dp)
+                    )
+                }
+            }
+        }
+    }
+}
 
 
 

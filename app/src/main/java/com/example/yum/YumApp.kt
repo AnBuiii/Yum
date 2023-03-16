@@ -64,7 +64,7 @@ fun YumApp() {
             ) { paddingValues ->
                 NavHost(
                     navController = appState.navController,
-                    startDestination = FEED_SCREEN,
+                    startDestination = SEARCH_SCREEN,
                     modifier = Modifier.padding(paddingValues),
                 ) {
                     yumGraph(appState)
