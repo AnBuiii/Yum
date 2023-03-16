@@ -1,8 +1,15 @@
 package com.example.yum.screens.cart
 
-import androidx.lifecycle.ViewModel
+import androidx.compose.runtime.mutableStateOf
+import com.example.yum.model.service.LogService
+import com.example.yum.screens.YumViewModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
-class CartViewModel @Inject constructor() : ViewModel(){
+@HiltViewModel
+class CartViewModel @Inject constructor(
+    logService: LogService,
+) : YumViewModel(logService) {
+    val uiState = mutableStateOf(CardUiState())
 
 }

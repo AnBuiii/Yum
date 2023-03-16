@@ -7,14 +7,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.*
-import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
@@ -26,6 +23,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.yum.R
 import com.example.yum.common.component.YumRecipeCard
 import com.example.yum.common.component.YumSurface
+import com.example.yum.common.component.YumTabRow
 import com.example.yum.ui.theme.YumOrange
 
 
@@ -147,41 +145,12 @@ private fun FeedTopBar(
                 color = YumOrange
             )
         }
-        TabRow(
-            selectedTabIndex = selectedTab,
-            modifier = Modifier.weight(2f),
-            indicator = { tabPositions ->
-                TabRowDefaults.Indicator(
-                    Modifier
-                        .tabIndicatorOffset(tabPositions[selectedTab])
-                        .padding(horizontal = 4.dp),
-                    height = 3.dp,
-                )
 
-            },
-            divider = {}
-        ) {
-            tabList.forEachIndexed { index, s ->
-                Tab(
-                    selected = index == selectedTab,
-                    onClick = { onTabChange(index) },
-                ) {
-                    Box(
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(vertical = 22.dp),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        Text(
-                            text = s,
-                            style = MaterialTheme.typography.titleLarge.copy(
-                                fontSize = 12.sp,
-                                fontWeight = FontWeight.SemiBold
-                            )
-                        )
-                    }
-                }
-            }
-        }
+        YumTabRow(
+            selectedTab = selectedTab,
+            onTabChange = onTabChange,
+            tabList = tabList,
+            modifier = Modifier.weight(2f)
+        )
     }
 }
