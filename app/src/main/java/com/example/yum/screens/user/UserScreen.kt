@@ -6,6 +6,7 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
@@ -15,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -63,7 +65,6 @@ fun UserScreen(
 
         } else {
             Box(modifier = Modifier.fillMaxSize()) {
-
                 Title(scroll.value)
                 Header()
                 Body(scroll)
@@ -78,7 +79,9 @@ fun UserScreen(
 fun HeaderItem(scrollValue: Int) {
     val bodyScrollValueToShowText = with(LocalDensity.current) { TitleHeight.toPx() }
     Box(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Color.White),
     ) {
         AnimatedVisibility(
             visible = scrollValue >= bodyScrollValueToShowText.toInt(),
@@ -212,22 +215,66 @@ private fun Body(
     scroll: ScrollState,
 ) {
     Column(
-        modifier = Modifier.verticalScroll(scroll)
+        modifier = Modifier
+            .verticalScroll(scroll)
+            .fillMaxWidth()
     ) {
-        Spacer(Modifier.height(TitleHeight + TopBarHeight))
-        YumSurface(Modifier.fillMaxWidth()) {
-            Column {
-                Spacer(Modifier.height(TitleHeight))
-                Text("asd")
-                Spacer(Modifier.height(1600.dp))
-                Spacer(
-                    modifier = Modifier
-                        .padding(bottom = BottomBarHeight)
-                        .navigationBarsPadding()
-                        .height(8.dp)
-                )
-            }
-        }
+//        item { Spacer(Modifier.height(TitleHeight + TopBarHeight)) }
+//        item {
+//            Row(
+//                modifier = Modifier
+//                    .fillMaxWidth()
+//                    .background(Color.Black)
+//                    .padding(vertical = 8.dp)
+//                    .clickable { },
+//                horizontalArrangement = Arrangement.End,
+//                verticalAlignment = Alignment.CenterVertically
+//            ) {
+//                Text("View by", color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
+//                Spacer(modifier = Modifier.width(8.dp))
+//                Text("Your collection", color = YumGreen, fontSize = 12.sp)
+//                Icon(
+//                    imageVector = Icons.Default.ArrowDropDown,
+//                    contentDescription = "",
+//                    tint = YumGreen
+//                )
+//            }
+//        }
+//
+//        items(listOf("All Yum", "Break fast", "Desserts", "Dinners", "Drinks", "Sides")) { s ->
+//            Box(
+//                modifier = Modifier
+//                    .aspectRatio(2.5f)
+//                    .fillMaxWidth()
+//            ) {
+//                Image(painter = painterResource(id = R.drawable.food_1), contentDescription = "")
+//                Row(
+//                    modifier = Modifier
+//                        .fillMaxSize()
+//                        .background(
+//                            brush = Brush.verticalGradient(
+//                                colors = listOf(
+//                                    Color.Transparent,
+//                                    Color.Black.copy(alpha = 0.2f)
+//                                )
+//                            )
+//                        )
+//                        .padding(horizontal = 16.dp),
+//                    horizontalArrangement = Arrangement.SpaceBetween,
+//                    verticalAlignment = Alignment.CenterVertically
+//                ) {
+//                    Text(s, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
+//                    Column(
+//                        horizontalAlignment = Alignment.CenterHorizontally,
+//                        verticalArrangement = Arrangement.spacedBy(4.dp)
+//                    ) {
+//                        Text("1")
+//                        Text("RECIPES")
+//                    }
+//                }
+//            }
+//        }
+//        item { Spacer(modifier = Modifier.height(10000.dp)) }
     }
 }
 
