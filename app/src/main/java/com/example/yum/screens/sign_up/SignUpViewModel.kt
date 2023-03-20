@@ -1,6 +1,7 @@
 package com.example.yum.screens.sign_up
 
 import androidx.compose.runtime.mutableStateOf
+import com.example.yum.FEED_SCREEN
 import com.example.yum.SIGNUP_SCREEN
 import com.example.yum.SPLASH_SCREEN
 import com.example.yum.common.ext.isValidEmail
@@ -58,7 +59,7 @@ class SignUpViewModel @Inject constructor(
 
         launchCatching {
             accountService.linkAccount(email, password)
-            openAndPopUp(SPLASH_SCREEN, SIGNUP_SCREEN)
+            openAndPopUp(FEED_SCREEN, SIGNUP_SCREEN)
         }
 
     }

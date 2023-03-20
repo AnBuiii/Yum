@@ -16,8 +16,8 @@
         <activity
             android:name=".YumActivity"
             android:exported="true"
-            android:label="@string/app_name"
-            android:theme="@style/Theme.Yum">
+            android:theme="@style/Theme.Yum"
+            android:windowSoftInputMode="stateAlwaysHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

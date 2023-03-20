@@ -53,7 +53,7 @@ fun YumApp() {
                         YumBottomBar(
                             tabs = appState.bottomBarTabs,
                             currentRoute = appState.currentRoute!!,
-                            navigateToRoute = appState::clearAndNavigate,
+                            navigateToRoute = appState::navigateToBottomBarRoute,
                         )
                     }
                     AnimatedVisibility(appState.shouldShowBottomBar) {
@@ -64,7 +64,7 @@ fun YumApp() {
             ) { paddingValues ->
                 NavHost(
                     navController = appState.navController,
-                    startDestination = CART_SCREEN,
+                    startDestination = SPLASH_SCREEN,
                     modifier = Modifier.padding(paddingValues),
                 ) {
                     yumGraph(appState)

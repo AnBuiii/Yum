@@ -32,7 +32,6 @@ fun CartScreen(
     modifier: Modifier = Modifier,
     viewModel: CartViewModel = hiltViewModel(),
 ) {
-
     val uiState by viewModel.uiState
     YumSurface(modifier.fillMaxSize()) {
         CartBottomSheet(

@@ -18,7 +18,6 @@ open class YumViewModel(private val logService: LogService) : ViewModel() {
                     SnackbarManager.showMessage(throwable.toSnackbarMessage())
                 }
                 logService.logNonFatalCrash(throwable)
-                Log.d("bug", "$throwable")
             },
             block = block,
         )

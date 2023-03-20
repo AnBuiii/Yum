@@ -1,19 +1,45 @@
 package com.example.yum.screens.user
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.example.yum.SIGNIN_SCREEN
-import com.example.yum.SIGNUP_SCREEN
-import com.example.yum.R.drawable as AppDrawable
+import com.example.yum.R
+import com.example.yum.common.component.YumSurface
+
+private val MinTitleOffset = 56.dp
+private val BottomBarHeight = 56.dp
+
+private val GradientScroll = 180.dp
+private val ImageOverlap = 115.dp
+private val MinImageOffset = 12.dp
+private val MaxTitleOffset = ImageOverlap + MinTitleOffset + GradientScroll
+private val ExpandedImageSize = 300.dp
+private val CollapsedImageSize = 150.dp
+private val HzPadding = Modifier.padding(horizontal = 24.dp)
+
+private val TopBarHeight = 56.dp
+private val TitleHeight = 300.dp
 
 @ExperimentalAnimationApi
 @OptIn(ExperimentalMaterial3Api::class)
@@ -26,82 +52,182 @@ fun UserScreen(
 ) {
     val uiState by viewModel.uiState.collectAsState(initial = UserUiState(false))
     var showWarningDialog by remember { mutableStateOf(false) }
+    val scroll = rememberScrollState()
 
+    YumSurface {
+        if (uiState.isAnonymousAccount) {
+            AnonymousSection(
+                onSignIn = { viewModel.onSignInTap(onOpenScreen) },
+                onSignUp = { viewModel.onSignUpTap(onOpenScreen) }
+            )
 
+        } else {
+            Box(modifier = Modifier.fillMaxSize()) {
 
-    if (uiState.isAnonymousAccount) {
-        Column(
-            modifier = modifier
-                .fillMaxSize()
-                .verticalScroll(rememberScrollState()),
-        ) {
-            Card(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = { onOpenScreen(SIGNIN_SCREEN) },
-            ) {
-                Row(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Text(text = "Sign In")
-                    Icon(
-                        painterResource(id = AppDrawable.baseline_person_add_24),
-                        contentDescription = "",
-                    )
-                }
-            }
-            Card(
-                modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                onClick = { onOpenScreen(SIGNUP_SCREEN) },
-            ) {
-                Row(
-                    modifier = Modifier
-                        .padding(16.dp)
-                        .fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                ) {
-                    Text(text = "Sign up")
-                    Icon(
-                        painter = painterResource(id = AppDrawable.baseline_person_add_24),
-                        contentDescription = "",
-                    )
-                }
+                Title(scroll.value)
+                Header()
+                Body(scroll)
+                HeaderItem(scroll.value)
+
             }
         }
+    }
+}
 
-    } else {
-        Button(
-            onClick = {
-                showWarningDialog = true
-            },
+@Composable
+fun HeaderItem(scrollValue: Int) {
+    val bodyScrollValueToShowText = with(LocalDensity.current) { TitleHeight.toPx() }
+    Box(
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        AnimatedVisibility(
+            visible = scrollValue >= bodyScrollValueToShowText.toInt(),
+            enter = fadeIn(initialAlpha = 0.2f),
+            exit = fadeOut(),
+            modifier = Modifier.align(Alignment.TopStart)
         ) {
-        }
-        if (showWarningDialog) {
-            AlertDialog(
-                onDismissRequest = { showWarningDialog = false },
-                confirmButton = {
-                    Button(
-                        onClick = {
-                            viewModel.onSignOutClick(restartApp)
-                            showWarningDialog = false
-                        },
-                    ) {
-
-                    }
-                },
+            Text(
+                "Bùi Lê Hoài An", modifier = Modifier.padding(16.dp),
+                fontSize = 18.sp,
+                fontWeight = FontWeight.SemiBold
             )
         }
 
+        Row(
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+            modifier = Modifier.align(Alignment.TopEnd)
+        ) {
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(imageVector = Icons.Default.Settings, contentDescription = "")
+            }
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(imageVector = Icons.Default.Settings, contentDescription = "")
+            }
+            IconButton(onClick = { /*TODO*/ }) {
+                Icon(imageVector = Icons.Default.Settings, contentDescription = "")
+            }
+        }
     }
 
+
 }
 
-
-@ExperimentalAnimationApi
-@Preview
 @Composable
-fun UserScreenPreview() {
-    UserScreen()
+private fun AnonymousSection(
+    modifier: Modifier = Modifier,
+    onSignIn: () -> Unit = {},
+    onSignUp: () -> Unit = {},
+) {
+    Box(
+        modifier = modifier
+            .fillMaxSize()
+    ) {
+        Column(
+            modifier.align(Alignment.Center),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            ElevatedAssistChip(
+                modifier = Modifier.size(height = 48.dp, width = 200.dp),
+                onClick = onSignIn,
+                label = { Text("Sign In") },
+                leadingIcon = {
+                    Icon(
+                        Icons.Filled.Person,
+                        contentDescription = "",
+                        Modifier.size(AssistChipDefaults.IconSize)
+                    )
+                }
+            )
+            ElevatedAssistChip(
+                modifier = Modifier.size(height = 48.dp, width = 200.dp),
+                onClick = onSignUp,
+                label = { Text("Sign Up") },
+                leadingIcon = {
+                    Icon(
+                        painterResource(id = R.drawable.baseline_person_add_24),
+                        contentDescription = "Localized description",
+                        Modifier.size(AssistChipDefaults.IconSize)
+                    )
+                }
+            )
+        }
+    }
 }
+
+@Composable
+private fun Title(
+    scrollValue: Int,
+) {
+    val maxOffset = with(LocalDensity.current) { TopBarHeight.toPx() }
+    val minOffset = with(LocalDensity.current) { (TopBarHeight - TitleHeight).toPx() }
+    Column(
+        modifier = Modifier
+            .heightIn(TitleHeight)
+            .fillMaxWidth()
+            .offset {
+                val offset = (maxOffset - scrollValue / 2).coerceAtLeast(minOffset)
+                IntOffset(x = 0, y = offset.toInt())
+            },
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.spacedBy(
+            space = 16.dp,
+            alignment = Alignment.CenterVertically
+        ),
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.food_1),
+            contentDescription = "",
+            modifier = Modifier
+                .size(120.dp)
+                .clip(CircleShape),
+            contentScale = ContentScale.Crop
+        )
+        Text(
+            text = "Bùi Lê Hoài An",
+            textAlign = TextAlign.Center,
+            fontWeight = FontWeight.SemiBold
+        )
+        Text(
+            text = "Edit your description and tell us",
+            textAlign = TextAlign.Center
+        )
+    }
+}
+
+@Composable
+private fun Header() {
+    val headerHeight = 400.dp
+    Spacer(
+        modifier = Modifier
+            .height(TopBarHeight)
+            .fillMaxWidth()
+            .background(MaterialTheme.colorScheme.background)
+    )
+}
+
+@Composable
+private fun Body(
+//    related: List<SnackCollection>,
+    scroll: ScrollState,
+) {
+    Column(
+        modifier = Modifier.verticalScroll(scroll)
+    ) {
+        Spacer(Modifier.height(TitleHeight + TopBarHeight))
+        YumSurface(Modifier.fillMaxWidth()) {
+            Column {
+                Spacer(Modifier.height(TitleHeight))
+                Text("asd")
+                Spacer(Modifier.height(1600.dp))
+                Spacer(
+                    modifier = Modifier
+                        .padding(bottom = BottomBarHeight)
+                        .navigationBarsPadding()
+                        .height(8.dp)
+                )
+            }
+        }
+    }
+}
+
