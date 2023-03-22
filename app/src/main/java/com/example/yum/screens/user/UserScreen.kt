@@ -6,9 +6,9 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
@@ -16,6 +16,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.yum.R
 import com.example.yum.common.component.YumSurface
+import com.example.yum.ui.theme.YumGreen
 
 private val MinTitleOffset = 56.dp
 private val BottomBarHeight = 56.dp
@@ -218,63 +220,76 @@ private fun Body(
         modifier = Modifier
             .verticalScroll(scroll)
             .fillMaxWidth()
+
     ) {
-//        item { Spacer(Modifier.height(TitleHeight + TopBarHeight)) }
-//        item {
-//            Row(
-//                modifier = Modifier
-//                    .fillMaxWidth()
-//                    .background(Color.Black)
-//                    .padding(vertical = 8.dp)
-//                    .clickable { },
-//                horizontalArrangement = Arrangement.End,
-//                verticalAlignment = Alignment.CenterVertically
-//            ) {
-//                Text("View by", color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
-//                Spacer(modifier = Modifier.width(8.dp))
-//                Text("Your collection", color = YumGreen, fontSize = 12.sp)
-//                Icon(
-//                    imageVector = Icons.Default.ArrowDropDown,
-//                    contentDescription = "",
-//                    tint = YumGreen
-//                )
-//            }
-//        }
-//
-//        items(listOf("All Yum", "Break fast", "Desserts", "Dinners", "Drinks", "Sides")) { s ->
-//            Box(
-//                modifier = Modifier
-//                    .aspectRatio(2.5f)
-//                    .fillMaxWidth()
-//            ) {
-//                Image(painter = painterResource(id = R.drawable.food_1), contentDescription = "")
-//                Row(
-//                    modifier = Modifier
-//                        .fillMaxSize()
-//                        .background(
-//                            brush = Brush.verticalGradient(
-//                                colors = listOf(
-//                                    Color.Transparent,
-//                                    Color.Black.copy(alpha = 0.2f)
-//                                )
-//                            )
-//                        )
-//                        .padding(horizontal = 16.dp),
-//                    horizontalArrangement = Arrangement.SpaceBetween,
-//                    verticalAlignment = Alignment.CenterVertically
-//                ) {
-//                    Text(s, fontSize = 16.sp, fontWeight = FontWeight.SemiBold, color = Color.White)
-//                    Column(
-//                        horizontalAlignment = Alignment.CenterHorizontally,
-//                        verticalArrangement = Arrangement.spacedBy(4.dp)
-//                    ) {
-//                        Text("1")
-//                        Text("RECIPES")
-//                    }
-//                }
-//            }
-//        }
-//        item { Spacer(modifier = Modifier.height(10000.dp)) }
+        Spacer(Modifier.height(TitleHeight + TopBarHeight))
+
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .background(Color.Black)
+                .padding(vertical = 8.dp)
+                .clickable { },
+            horizontalArrangement = Arrangement.End,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text("View by", color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
+            Spacer(modifier = Modifier.width(8.dp))
+            Text("Your collection", color = YumGreen, fontSize = 12.sp)
+            Icon(
+                imageVector = Icons.Default.ArrowDropDown,
+                contentDescription = "",
+                tint = YumGreen
+            )
+        }
+
+
+        listOf("All Yum", "Break fast", "Desserts", "Dinners", "Drinks", "Sides").forEach {
+            Box(
+                modifier = Modifier
+                    .aspectRatio(2.5f)
+                    .fillMaxWidth()
+            ) {
+                Image(
+                    painter = painterResource(id = R.drawable.food_1),
+                    contentDescription = "",
+                    modifier = Modifier.fillMaxSize(),
+                    contentScale = ContentScale.Crop
+                )
+                Row(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .background(
+                            brush = Brush.verticalGradient(
+                                colors = listOf(
+                                    Color.Transparent,
+                                    Color.Black.copy(alpha = 0.4f),
+                                    Color.Black.copy(alpha = 0.6f)
+                                )
+                            )
+                        )
+                        .padding(horizontal = 16.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        it,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = Color.White
+                    )
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                    ) {
+                        Text("1", color = Color.White, fontSize = 18.sp)
+                        Text("RECIPES", color = Color.White.copy(alpha = 0.7f), fontSize = 14.sp)
+                    }
+                }
+            }
+        }
     }
+    Spacer(modifier = Modifier.height(10000.dp))
 }
+
 

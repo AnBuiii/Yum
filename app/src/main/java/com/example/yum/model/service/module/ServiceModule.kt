@@ -23,7 +23,7 @@ import dagger.hilt.components.SingletonComponent
     abstract fun provideLogService(impl: LogServiceImpl): LogService
 
     @Binds
-    abstract fun provideStorageService(impl: RecipeServiceImpl): RecipeService
+    abstract fun provideRecipeService(impl: RecipeServiceImpl): RecipeService
 
     @Binds
     abstract fun provideConfigurationService(impl: ConfigurationServiceImpl): ConfigurationService

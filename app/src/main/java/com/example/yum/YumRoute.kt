@@ -17,7 +17,7 @@ const val FEED_SCREEN = "FeedScreen"
 const val SEARCH_SCREEN = "SearchScreen"
 const val CART_SCREEN = "CartScreen"
 const val USER_SCREEN = "UserScreen"
-const val RECIPE_SCREEN = "RecipeScreen"
+const val RECIPE_DETAIL_SCREEN = "RecipeScreen"
 const val SIGNUP_SCREEN = "SignupScreen"
 const val SIGNIN_SCREEN = "SignInScreen"
 

@@ -31,13 +31,15 @@ class RecipeServiceImpl @Inject constructor(
             }
         }
 
-    override suspend fun getRecipe(recipeId: String): Recipe? =
-        currentCollection(auth.currentUserId).document(recipeId).get().await().toObject()
-
+    override suspend fun getRecipe(recipeId: String): Recipe? {
+//        currentCollection(auth.currentUserId).document(recipeId).get().await().toObject()
+        return firestore.collection(RECIPE_COLLECTION).document(recipeId).get().await().toObject()
+    }
 
     override suspend fun save(recipe: Recipe): String =
         trace(SAVE_RECIPE_TRACE) {
-            currentCollection(auth.currentUserId).add(recipe).await().id
+//            currentCollection(auth.currentUserId).add(recipe).await().id
+            firestore.collection(RECIPE_COLLECTION).add(recipe).await().id
         }
 
     override suspend fun update(recipe: Recipe) {

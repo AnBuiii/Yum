@@ -1,6 +1,7 @@
 package com.example.yum.screens.search
 
 import androidx.compose.runtime.mutableStateOf
+import com.example.yum.model.Recipe
 import com.example.yum.model.SearchCategoryCollection
 import com.example.yum.model.searchCategoryCollections
 import com.example.yum.model.service.LogService
@@ -18,6 +19,10 @@ class SearchViewModel @Inject constructor(
 
     fun onSearchTextChange(newValue: String) {
         uiState.value = uiState.value.copy(searchText = newValue)
+    }
+
+    fun onRecipeTap(openScreen:(String) -> Unit, recipe: Recipe){
+        openScreen("$")
     }
 
     fun scrollToTab(index: Int) {

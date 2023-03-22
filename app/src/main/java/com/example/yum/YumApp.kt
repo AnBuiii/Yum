@@ -26,6 +26,7 @@ import com.example.yum.common.component.YumSurface
 import com.example.yum.common.snackbar.SnackbarManager
 import com.example.yum.screens.cart.CartScreen
 import com.example.yum.screens.feed.FeedScreen
+import com.example.yum.screens.recipe.RecipeDetailScreen
 import com.example.yum.screens.search.SearchScreen
 import com.example.yum.screens.sign_in.SignInScreen
 import com.example.yum.screens.sign_up.SignUpScreen
@@ -48,7 +49,7 @@ fun YumApp() {
                 topBar = {
 
                 }, //TODO
-                        bottomBar = {
+                bottomBar = {
                     if (appState.shouldShowBottomBar) {
                         YumBottomBar(
                             tabs = appState.bottomBarTabs,
@@ -160,14 +161,17 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     }
 
     composable(
-        route = "$RECIPE_SCREEN$RECIPE_ID_ARG",
+        route = "$RECIPE_DETAIL_SCREEN$RECIPE_ID_ARG",
         arguments = listOf(
             navArgument(RECIPE_ID) {
                 defaultValue = RECIPE_DEFAULT_ID
             },
         ),
     ) {
-        // recipe screen
+        RecipeDetailScreen(
+            popUp = { appState.popUp() },
+            recipeId = it.arguments?.getString(RECIPE_ID) ?: RECIPE_DEFAULT_ID
+        )
     }
 }
 

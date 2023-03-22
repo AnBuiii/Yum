@@ -35,13 +35,6 @@ import com.example.yum.common.component.YumRecipeCard
 import com.example.yum.common.component.YumSurface
 
 
-@ExperimentalMaterial3Api
-@Composable
-fun SearchRoute(
-    onRecipeClick: (String) -> Unit,
-) {
-    SearchScreen(onRecipeClick = {}, modifier = Modifier)
-}
 
 @ExperimentalMaterial3Api
 @Composable
