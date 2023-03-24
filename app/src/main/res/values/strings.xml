@@ -39,4 +39,6 @@
     <string name = "label_search">Search Yum\'s recipe</string>
     <string name="search_yum">Search Yum\'s recipe</string>
     <string name="label_back">Back</string>
+
+
 </resources>

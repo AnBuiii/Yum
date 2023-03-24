@@ -8,6 +8,7 @@ plugins {
     id("com.google.gms.google-services")
     id("com.google.firebase.crashlytics")
     id("com.google.firebase.firebase-perf")
+    id ("org.jetbrains.kotlin.plugin.serialization")
     id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
 }
 
@@ -80,6 +81,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview:1.3.3")
     implementation("androidx.compose.material3:material3:1.1.0-alpha08")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.29.1-alpha")
+    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
 
     //splash screen
     implementation("androidx.core:core-splashscreen:1.0.0-beta02")
@@ -92,7 +94,6 @@ dependencies {
 
     //dagger - hilt
     implementation("com.google.dagger:hilt-android:2.44.2")
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     kapt("com.google.dagger:hilt-android-compiler:2.44.2")
     kapt("androidx.hilt:hilt-compiler:1.0.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
@@ -116,7 +117,18 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling:1.3.3")
     debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.3")
 
-    //
+    //coroutine
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
+
+    //ktor
+    implementation("io.ktor:ktor-client-core:2.2.4")
+    implementation("io.ktor:ktor-client-cio:2.2.4")
+    implementation("io.ktor:ktor-client-serialization:2.2.4")
+    implementation("io.ktor:ktor-client-logging:2.2.4")
+
+//    implementation("ch.qos.logback:logback-classic:1.3.0")
+
+    implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
+    implementation("io.ktor:ktor-client-content-negotiation:2.2.4")
 
 }
