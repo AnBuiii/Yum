@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.anbui.yum.R
 import com.anbui.yum.common.component.YumSurface
+import com.anbui.yum.data.model.UserInfoDto
 import com.anbui.yum.ui.theme.YumGreen
 
 private val MinTitleOffset = 56.dp
@@ -59,7 +60,7 @@ fun UserScreen(
     val scroll = rememberScrollState()
 
     YumSurface {
-        if (uiState.userInfo.userId.isNotBlank()) {
+        if (uiState.userInfo.userId.isBlank()) {
             AnonymousSection(
                 onSignIn = { viewModel.onSignInTap(onOpenScreen) },
                 onSignUp = { viewModel.onSignUpTap(onOpenScreen) }
@@ -67,10 +68,10 @@ fun UserScreen(
 
         } else {
             Box(modifier = Modifier.fillMaxSize()) {
-                Title(scroll.value)
+                Title(scroll.value, uiState.userInfo)
                 Header()
                 Body(scroll)
-                HeaderItem(scroll.value)
+                HeaderItem(scroll.value, uiState.userInfo)
 
             }
         }
@@ -78,7 +79,7 @@ fun UserScreen(
 }
 
 @Composable
-fun HeaderItem(scrollValue: Int) {
+fun HeaderItem(scrollValue: Int, userInfoDto: UserInfoDto) {
     val bodyScrollValueToShowText = with(LocalDensity.current) { TitleHeight.toPx() }
     Box(
         modifier = Modifier
@@ -92,7 +93,7 @@ fun HeaderItem(scrollValue: Int) {
             modifier = Modifier.align(Alignment.TopStart)
         ) {
             Text(
-                "Bùi Lê Hoài An", modifier = Modifier.padding(16.dp),
+                userInfoDto.name, modifier = Modifier.padding(16.dp),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold
             )
@@ -163,6 +164,7 @@ private fun AnonymousSection(
 @Composable
 private fun Title(
     scrollValue: Int,
+    userInfoDto: UserInfoDto
 ) {
     val maxOffset = with(LocalDensity.current) { TopBarHeight.toPx() }
     val minOffset = with(LocalDensity.current) { (TopBarHeight - TitleHeight).toPx() }
@@ -189,12 +191,12 @@ private fun Title(
             contentScale = ContentScale.Crop
         )
         Text(
-            text = "Bùi Lê Hoài An",
+            text = userInfoDto.name,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            text = "Edit your description and tell us",
+            text = userInfoDto.title,
             textAlign = TextAlign.Center
         )
     }

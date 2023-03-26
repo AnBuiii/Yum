@@ -23,6 +23,7 @@ class SplashViewModel @Inject constructor(
 
     init {
         val user = User("builehoaian", "builehoaian")
+        Log.d("AAAAAAA", user.toString())
         viewModelScope.launch {
             userService.signIn(user)
         }
