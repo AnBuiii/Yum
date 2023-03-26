@@ -59,7 +59,7 @@ fun UserScreen(
     val scroll = rememberScrollState()
 
     YumSurface {
-        if (uiState.isAnonymousAccount) {
+        if (uiState.userInfo.userId.isNotBlank()) {
             AnonymousSection(
                 onSignIn = { viewModel.onSignInTap(onOpenScreen) },
                 onSignUp = { viewModel.onSignUpTap(onOpenScreen) }

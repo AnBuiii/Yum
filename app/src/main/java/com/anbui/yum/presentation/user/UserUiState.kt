@@ -1,5 +1,7 @@
 package com.anbui.yum.presentation.user
 
+import com.anbui.yum.data.model.UserInfoDto
+
 data class UserUiState(
-    val isAnonymousAccount: Boolean = false
+    val userInfo : UserInfoDto = UserInfoDto()
 )

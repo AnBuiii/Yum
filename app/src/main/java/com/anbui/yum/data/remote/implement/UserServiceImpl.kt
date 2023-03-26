@@ -16,11 +16,8 @@ class UserServiceImpl(
     private val prefs: SharedPreferences,
     private val client: HttpClient,
 ) : UserService {
-    override val currentUser: User?
-        get()  {
-            val userId = prefs.getString("userId", null) ?: return null
-            return User("123","123")
-        }
+    override val currentUserId: String?
+        get() = prefs.getString("userId", null)
 
     override suspend fun signIn(user: User) {
         try {
@@ -53,6 +50,5 @@ class UserServiceImpl(
             Log.d("SIGNUP", e.toString())
         }
     }
-
 
 }
