@@ -1,8 +1,10 @@
 package com.anbui.yum.data.remote.service
 
-import com.anbui.yum.domain.model.User
+import com.anbui.yum.data.model.User
 
 interface UserService {
-    suspend fun signUp(user: User)
+    val currentUser: User?
     suspend fun signIn(user: User)
+    suspend fun signUp(user: User)
+
 }

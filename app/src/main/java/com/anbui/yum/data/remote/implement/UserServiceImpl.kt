@@ -2,11 +2,10 @@ package com.anbui.yum.data.remote.implement
 
 import android.content.SharedPreferences
 import android.util.Log
-import com.anbui.yum.data.remote.dto.UserDto
+import com.anbui.yum.data.model.User
 import com.anbui.yum.data.remote.service.SIGN_IN_URL
 import com.anbui.yum.data.remote.service.SIGN_UP_URL
 import com.anbui.yum.data.remote.service.UserService
-import com.anbui.yum.domain.model.User
 import io.ktor.client.*
 import io.ktor.client.call.*
 import io.ktor.client.request.*
@@ -17,42 +16,41 @@ class UserServiceImpl(
     private val prefs: SharedPreferences,
     private val client: HttpClient,
 ) : UserService {
+    override val currentUser: User?
+        get()  {
+            val userId = prefs.getString("userId", null) ?: return null
+            return User("123","123")
+        }
 
-    override suspend fun signUp(user: User) {
-        return try {
-            val user: UserDto = client.post(SIGN_UP_URL) {
+    override suspend fun signIn(user: User) {
+        try {
+            val userId: String = client.post(SIGN_IN_URL) {
                 contentType(ContentType.Application.Json)
                 setBody(user)
             }.body()
+            Log.d("id", userId)
+            prefs.edit()
+                .putString("userId", userId)
+                .apply()
+
+        } catch (e: Exception) {
+            Log.d("SIGNUP", e.toString())
+        }
+    }
+
+    override suspend fun signUp(user: User) {
+        try {
+            val userId: String = client.post(SIGN_UP_URL) {
+                contentType(ContentType.Application.Json)
+                setBody(user)
+            }.body()
+            prefs.edit()
+                .putString("userId", userId)
+                .apply()
 
 
         } catch (e: Exception) {
             Log.d("SIGNUP", e.toString())
-            return
-        }
-    }
-
-    override suspend fun signIn(user: User) {
-        return try {
-            val user = client.post(SIGN_IN_URL) {
-                contentType(ContentType.Application.Json)
-                setBody(user)
-            }.body<UserDto>()
-
-            prefs.edit()
-                .putString("userId", user.id)
-                .apply()
-
-            Log.d("HELLO", user.toString())
-            return
-        } catch (e: Exception) {
-            Log.d("SIGNIN", e.toString())
-            prefs.edit()
-                .putString("userId", null)
-                .apply()
-            return
-
-
         }
     }
 

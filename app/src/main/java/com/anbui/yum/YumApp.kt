@@ -24,14 +24,14 @@ import androidx.navigation.navArgument
 import com.anbui.yum.common.component.YumBottomBar
 import com.anbui.yum.common.component.YumSurface
 import com.anbui.yum.common.snackbar.SnackbarManager
-import com.anbui.yum.screens.cart.CartScreen
-import com.anbui.yum.screens.feed.FeedScreen
-import com.anbui.yum.screens.recipe.RecipeDetailScreen
-import com.anbui.yum.screens.search.SearchScreen
-import com.anbui.yum.screens.sign_in.SignInScreen
-import com.anbui.yum.screens.sign_up.SignUpScreen
-import com.anbui.yum.screens.splash.SplashScreen
-import com.anbui.yum.screens.user.UserScreen
+import com.anbui.yum.presentation.cart.CartScreen
+import com.anbui.yum.presentation.feed.FeedScreen
+import com.anbui.yum.presentation.recipe.RecipeDetailScreen
+import com.anbui.yum.presentation.search.SearchScreen
+import com.anbui.yum.presentation.sign_in.SignInScreen
+import com.anbui.yum.presentation.sign_up.SignUpScreen
+import com.anbui.yum.presentation.splash.SplashScreen
+import com.anbui.yum.presentation.user.UserScreen
 import com.anbui.yum.ui.theme.YumTheme
 import kotlinx.coroutines.CoroutineScope
 
