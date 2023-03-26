@@ -5,20 +5,17 @@ plugins {
     kotlin("kapt")
     id("com.android.application")
     id("com.google.dagger.hilt.android")
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
-    id("com.google.firebase.firebase-perf")
     id ("org.jetbrains.kotlin.plugin.serialization")
     id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
 }
 
 
 android {
-    namespace = "com.example.yum"
+    namespace = "com.anbui.yum"
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.example.yum"
+        applicationId = "com.anbui.yum"
         minSdk = 30
         targetSdk = 33
         versionCode = 1
@@ -98,14 +95,6 @@ dependencies {
     kapt("androidx.hilt:hilt-compiler:1.0.0")
     implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
 
-    // firebase
-    implementation(project.dependencies.platform("com.google.firebase:firebase-bom:30.4.1"))
-    implementation("com.google.firebase:firebase-crashlytics-ktx")
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.firebase:firebase-firestore-ktx")
-    implementation("com.google.firebase:firebase-perf-ktx")
-    implementation("com.google.firebase:firebase-config-ktx")
 
     //test
     testImplementation("junit:junit:4.13.2")
