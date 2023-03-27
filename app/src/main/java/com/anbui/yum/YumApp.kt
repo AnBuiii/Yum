@@ -176,10 +176,3 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
 }
 
 
-@ExperimentalFoundationApi
-@ExperimentalAnimationApi
-@Preview
-@Composable
-fun YumAppPreView() {
-    YumApp()
-}
