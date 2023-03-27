@@ -1,16 +1,10 @@
-import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
-
-val ktor_version: String by project
-val life_cycle_version: String by project
-val activity_version: String by project
-
 plugins {
     kotlin("android")
     kotlin("kapt")
     id("com.android.application")
     id("com.google.dagger.hilt.android")
     id ("org.jetbrains.kotlin.plugin.serialization")
-    id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
+//    id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
 }
 
 
@@ -63,65 +57,47 @@ android {
     }
 }
 
-
-configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
-    android.set(true)
-    ignoreFailures.set(false)
-    disabledRules.set(setOf())
-    reporters {
-        reporter(ReporterType.PLAIN)
-        reporter(ReporterType.CHECKSTYLE)
-        reporter(ReporterType.SARIF)
-    }
-}
-
-
 dependencies {
-    implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$life_cycle_version")
-    implementation("androidx.activity:activity-compose:$activity_version")
-    implementation("androidx.compose.ui:ui:1.3.3")
-    implementation("androidx.compose.ui:ui-util:1.3.3")
-    implementation("androidx.compose.ui:ui-tooling-preview:1.3.3")
-    implementation("androidx.compose.material3:material3:1.1.0-alpha08")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.29.1-alpha")
-    implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
+    implementation(libs.androidx.ktx)
+    implementation(libs.androidx.lifecycle)
+    implementation(libs.androidx.activity.compose)
+    implementation(libs.androidx.compose.ui)
+    implementation(libs.androidx.compose.ui.util)
+    implementation(libs.androidx.compose.ui.tooling.preview)
+    debugImplementation(libs.androidx.compose.ui.tooling)
+    debugImplementation(libs.androidx.compose.ui.testManifest)
+    androidTestImplementation(libs.androidx.compose.ui.test)
+    implementation(libs.androidx.compose.material3)
+
+    implementation(libs.accompanist.systemuicontroller)
 
     //splash screen
-    implementation("androidx.core:core-splashscreen:1.0.0-beta02")
+    implementation(libs.androidx.splash.screen)
 
     //navigation
-    implementation("androidx.navigation:navigation-compose:2.5.3")
-
-    //datastore
-    implementation("androidx.datastore:datastore-preferences:1.0.0")
+    implementation(libs.androidx.navigation.compose)
 
     //dagger - hilt
-    implementation("com.google.dagger:hilt-android:2.44.2")
-    kapt("com.google.dagger:hilt-android-compiler:2.44.2")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation("androidx.hilt:hilt-navigation-compose:1.0.0")
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.androidx.hilt.navigation.compose)
+    //kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     //test
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
-    androidTestImplementation("androidx.compose.ui:ui-test-junit4:1.3.3")
-
-    //debug
-    debugImplementation("androidx.compose.ui:ui-tooling:1.3.3")
-    debugImplementation("androidx.compose.ui:ui-test-manifest:1.3.3")
+    testImplementation(libs.junit4)
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.espresso.core)
 
     //coroutine
-    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
+    implementation(libs.kotlinx.coroutines.android)
 
     //ktor
-    implementation("io.ktor:ktor-client-core:$ktor_version")
-    implementation("io.ktor:ktor-client-cio:$ktor_version")
-    implementation("io.ktor:ktor-client-serialization:$ktor_version")
-    implementation("io.ktor:ktor-client-logging:$ktor_version")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
-    implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
+    implementation(libs.ktor.client.core)
+    implementation(libs.ktor.client.cio)
+    implementation(libs.ktor.client.serialization)
+    implementation(libs.ktor.client.logging)
+    implementation(libs.ktor.client.content.negotiation)
+    implementation(libs.ktor.serialization.kotlinx.json)
 //    implementation("ch.qos.logback:logback-classic:1.3.0")
 
 
