@@ -1,10 +1,10 @@
+@Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     kotlin("android")
     kotlin("kapt")
-    id("com.android.application")
-    id("com.google.dagger.hilt.android")
-    id ("org.jetbrains.kotlin.plugin.serialization")
-//    id("org.jlleitschuh.gradle.ktlint") version "11.3.1"
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 
@@ -36,16 +36,13 @@ android {
         targetCompatibility = JavaVersion.VERSION_1_8
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.1.1"
+        kotlinCompilerExtensionVersion = "1.4.4"
     }
     kotlinOptions {
         jvmTarget = "1.8"
     }
     buildFeatures {
         compose = true
-    }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.2.0"
     }
     packagingOptions {
         resources {
@@ -81,7 +78,6 @@ dependencies {
     implementation(libs.hilt.android)
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
-    //kapt("androidx.hilt:hilt-compiler:1.0.0")
 
     //test
     testImplementation(libs.junit4)
