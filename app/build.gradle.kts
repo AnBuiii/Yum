@@ -1,5 +1,9 @@
 import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
+val ktor_version: String by project
+val life_cycle_version: String by project
+val activity_version: String by project
+
 plugins {
     kotlin("android")
     kotlin("kapt")
@@ -16,7 +20,7 @@ android {
 
     defaultConfig {
         applicationId = "com.anbui.yum"
-        minSdk = 30
+        minSdk = 33
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
@@ -36,6 +40,9 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.1.1"
     }
     kotlinOptions {
         jvmTarget = "1.8"
@@ -71,8 +78,8 @@ configure<org.jlleitschuh.gradle.ktlint.KtlintExtension> {
 
 dependencies {
     implementation("androidx.core:core-ktx:1.9.0")
-    implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.0")
-    implementation("androidx.activity:activity-compose:1.6.1")
+    implementation("androidx.lifecycle:lifecycle-runtime-ktx:$life_cycle_version")
+    implementation("androidx.activity:activity-compose:$activity_version")
     implementation("androidx.compose.ui:ui:1.3.3")
     implementation("androidx.compose.ui:ui-util:1.3.3")
     implementation("androidx.compose.ui:ui-tooling-preview:1.3.3")
@@ -109,14 +116,14 @@ dependencies {
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-play-services:1.6.4")
 
     //ktor
-    implementation("io.ktor:ktor-client-core:2.2.4")
-    implementation("io.ktor:ktor-client-cio:2.2.4")
-    implementation("io.ktor:ktor-client-serialization:2.2.4")
-    implementation("io.ktor:ktor-client-logging:2.2.4")
-
+    implementation("io.ktor:ktor-client-core:$ktor_version")
+    implementation("io.ktor:ktor-client-cio:$ktor_version")
+    implementation("io.ktor:ktor-client-serialization:$ktor_version")
+    implementation("io.ktor:ktor-client-logging:$ktor_version")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:$ktor_version")
+    implementation("io.ktor:ktor-client-content-negotiation:$ktor_version")
 //    implementation("ch.qos.logback:logback-classic:1.3.0")
 
-    implementation("io.ktor:ktor-serialization-kotlinx-json:2.2.4")
-    implementation("io.ktor:ktor-client-content-negotiation:2.2.4")
+
 
 }

@@ -13,8 +13,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.Yum"
-        android:usesCleartextTraffic="true"
-        tools:targetApi="tiramisu">
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".YumActivity"
             android:exported="true"
