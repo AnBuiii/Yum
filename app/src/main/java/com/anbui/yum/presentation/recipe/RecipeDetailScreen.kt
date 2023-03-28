@@ -46,10 +46,11 @@ fun RecipeDetailScreen(
     val scroll = rememberScrollState()
 
     Box(modifier = Modifier.fillMaxSize()) {
+
         Image(recipe = uiState.recipe)
-        Header()
         Body(scroll)
-//        HeaderItem(scroll.value, uiState.recipe)
+        Title(scrollValue = scroll.value)
+        HeaderItem(scroll.value, uiState.recipe)
 
     }
 
@@ -58,14 +59,24 @@ fun RecipeDetailScreen(
     }
 }
 
+@Composable
+fun Title(scrollValue: Int) {
+    val scrollValue = with(LocalDensity.current) { scrollValue.toDp() }
+    Box(
+        modifier = Modifier
+            .padding(top = (TitleHeight - scrollValue).coerceAtLeast(0.dp))
+            .height(50.dp)
+            .fillMaxWidth()
+            .background(Color.Blue),
+    )
+}
 
 @Composable
 fun HeaderItem(scrollValue: Int, recipe: Recipe) {
     val bodyScrollValueToShowText = with(LocalDensity.current) { TitleHeight.toPx() }
     Box(
         modifier = Modifier
-            .fillMaxWidth()
-            .background(Color.White),
+            .fillMaxWidth(),
     ) {
         AnimatedVisibility(
             visible = scrollValue >= bodyScrollValueToShowText.toInt(),
@@ -105,25 +116,16 @@ private fun Image(
 ) {
 
     AsyncImage(
-        model = null,
+        model = recipe.imageUrl,
         contentDescription = "",
         modifier = Modifier
             .height(TitleHeight)
-            .fillMaxWidth().background(Color.Black),
+            .fillMaxWidth()
+            .background(Color.Black),
         contentScale = ContentScale.FillBounds,
     )
 }
 
-@Composable
-private fun Header() {
-    val headerHeight = 400.dp
-    Spacer(
-        modifier = Modifier
-            .height(TopBarHeight)
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background),
-    )
-}
 
 @Composable
 private fun Body(
