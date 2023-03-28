@@ -3,9 +3,11 @@ package com.anbui.yum.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import com.anbui.yum.data.remote.implement.RecipeServiceImpl
 import com.anbui.yum.data.remote.implement.UserInfoServiceImpl
 import com.anbui.yum.data.remote.service.UserService
 import com.anbui.yum.data.remote.implement.UserServiceImpl
+import com.anbui.yum.data.remote.service.RecipeService
 import com.anbui.yum.data.remote.service.UserInfoService
 import dagger.Module
 import dagger.Provides
@@ -60,6 +62,12 @@ object AppModule {
     @Singleton
     fun provideUserInfoService(client: HttpClient, prefs: SharedPreferences): UserInfoService {
         return UserInfoServiceImpl(prefs, client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideRecipeService(client: HttpClient): RecipeService{
+        return RecipeServiceImpl(client)
     }
 
 

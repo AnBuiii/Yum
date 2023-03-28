@@ -14,27 +14,39 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
+import coil.request.ImageRequest
 import com.anbui.yum.R
+import com.anbui.yum.data.model.Recipe
 
 @ExperimentalMaterial3Api
 @Composable
-fun YumRecipeCard() {
+fun YumRecipeCard(
+    onTap: () -> Unit = {},
+    recipe: Recipe,
+) {
     Box(
         modifier = Modifier
             .aspectRatio(1f)
             .fillMaxWidth()
+            .clickable { onTap() },
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.food_1),
+        AsyncImage(
+            model = ImageRequest.Builder(LocalContext.current)
+                .data(recipe.imageUrl)
+                .crossfade(true)
+                .build(),
+            placeholder = painterResource(R.drawable.food_1),
             contentDescription = "",
-            contentScale = ContentScale.FillBounds,
-            modifier = Modifier.fillMaxSize()
+            modifier = Modifier.fillMaxSize(),
+            contentScale = ContentScale.FillBounds
         )
 
         Box(
@@ -44,10 +56,10 @@ fun YumRecipeCard() {
                     brush = Brush.verticalGradient(
                         colors = listOf(
                             Color.Transparent,
-                            Color.Black.copy(alpha = 0.2f)
-                        )
-                    )
-                )
+                            Color.Black.copy(alpha = 0.2f),
+                        ),
+                    ),
+                ),
         ) {
             Row(
                 modifier = Modifier
@@ -55,7 +67,7 @@ fun YumRecipeCard() {
                     .fillMaxWidth()
                     .padding(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalAlignment = Alignment.Bottom
+                verticalAlignment = Alignment.Bottom,
             ) {
                 Column(
                     modifier = Modifier
@@ -64,13 +76,13 @@ fun YumRecipeCard() {
                     ElevatedSuggestionChip(
                         onClick = { /* Do something! */ },
                         shape = RoundedCornerShape(50),
-                        label = { Text("Yum Original") }
+                        label = { Text("Yum Original") },
                     )
                     Text(
                         "Creamy Vegan Cauliflower Soup with Garlic",
                         color = Color.White,
                         fontWeight = FontWeight.SemiBold,
-                        fontSize = 25.sp
+                        fontSize = 25.sp,
                     )
                 }
                 BadgedBox(
@@ -82,14 +94,15 @@ fun YumRecipeCard() {
                                 badgeNumber,
                                 modifier = Modifier.semantics {
                                     contentDescription = "$badgeNumber new notifications"
-                                }
+                                },
                             )
                         }
-                    }) {
+                    },
+                ) {
                     Icon(
                         Icons.Filled.Star,
                         contentDescription = "Favorite",
-                        tint = Color.White
+                        tint = Color.White,
                     )
                 }
             }

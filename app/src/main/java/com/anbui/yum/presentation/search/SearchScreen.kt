@@ -117,7 +117,7 @@ fun SearchScreen(
                         modifier = Modifier.fillMaxSize()
                     ) {
                         items(12) {
-                            YumRecipeCard()
+//                            YumRecipeCard(recipe = recipe)
                         }
                     }
                 }

@@ -124,8 +124,9 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
 //    }
     composable(HomeScreenSection.FEED.route) {
         FeedScreen(
-            onRecipeTap = {
-//                appState.navigate(SIGNUP_SCREEN)
+            onRecipeTap = {route->
+                Log.d("Recipe route", route)
+                appState.navigate(route)
             },
         )
         Log.d("TAB LOG", appState.currentRoute!!)
@@ -161,7 +162,7 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     }
 
     composable(
-        route = "$RECIPE_DETAIL_SCREEN$RECIPE_ID_ARG",
+        route = "$RECIPE_DETAIL_SCREEN/{$RECIPE_ID}",
         arguments = listOf(
             navArgument(RECIPE_ID) {
                 defaultValue = RECIPE_DEFAULT_ID

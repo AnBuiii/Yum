@@ -16,14 +16,13 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val userService: UserService,
-    private val userInfoService: UserInfoService,
+//    private val userInfoService: UserInfoService,
 ) : YumViewModel() {
 
     val showError = mutableStateOf(false)
 
     init {
         val user = User("builehoaian", "builehoaian")
-        Log.d("AAAAAAA", user.toString())
         viewModelScope.launch {
             userService.signIn(user)
         }

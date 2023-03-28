@@ -42,7 +42,7 @@ fun SplashScreen(
 
 //            Button(AppText.try_again, Modifier.basicButton()) { viewModel.onAppStart(openAndPopUp) }
         } else {
-            CircularProgressIndicator(color = MaterialTheme.colorScheme.onBackground)
+//            CircularProgressIndicator(color = MaterialTheme.colorScheme.onBackground)
         }
     }
 

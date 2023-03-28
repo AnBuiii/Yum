@@ -2,9 +2,9 @@ package com.anbui.yum.data.remote.implement
 
 import android.content.SharedPreferences
 import android.util.Log
+import com.anbui.yum.common.util.Constants.SIGN_IN_URL
+import com.anbui.yum.common.util.Constants.SIGN_UP_URL
 import com.anbui.yum.data.model.User
-import com.anbui.yum.data.remote.service.SIGN_IN_URL
-import com.anbui.yum.data.remote.service.SIGN_UP_URL
 import com.anbui.yum.data.remote.service.UserService
 import io.ktor.client.*
 import io.ktor.client.call.*
@@ -25,7 +25,7 @@ class UserServiceImpl(
                 contentType(ContentType.Application.Json)
                 setBody(user)
             }.body()
-            Log.d("id", userId)
+            Log.d("Current user id", userId)
             prefs.edit()
                 .putString("userId", userId)
                 .apply()

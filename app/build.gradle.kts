@@ -6,8 +6,6 @@ plugins {
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.serialization)
 }
-
-
 android {
     namespace = "com.anbui.yum"
     compileSdk = 33
@@ -66,6 +64,11 @@ dependencies {
     androidTestImplementation(libs.androidx.compose.ui.test)
     implementation(libs.androidx.compose.material3)
 
+    //test
+    testImplementation(libs.junit4)
+    androidTestImplementation(libs.androidx.test.ext)
+    androidTestImplementation(libs.androidx.test.espresso.core)
+
     implementation(libs.accompanist.systemuicontroller)
 
     //splash screen
@@ -79,11 +82,6 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.androidx.hilt.navigation.compose)
 
-    //test
-    testImplementation(libs.junit4)
-    androidTestImplementation(libs.androidx.test.ext)
-    androidTestImplementation(libs.androidx.test.espresso.core)
-
     //coroutine
     implementation(libs.kotlinx.coroutines.android)
 
@@ -95,6 +93,15 @@ dependencies {
     implementation(libs.ktor.client.content.negotiation)
     implementation(libs.ktor.serialization.kotlinx.json)
 //    implementation("ch.qos.logback:logback-classic:1.3.0")
+
+    // room
+    implementation(libs.androidx.room.runtime)
+    kapt(libs.androidx.room.compiler)
+    implementation(libs.androidx.room.ktx)
+    implementation(libs.androidx.room.paging)
+
+    // coil
+    implementation(libs.coil.kt.compose)
 
 
 

@@ -24,6 +24,7 @@ import com.anbui.yum.R
 import com.anbui.yum.common.component.YumRecipeCard
 import com.anbui.yum.common.component.YumSurface
 import com.anbui.yum.common.component.YumTabRow
+import com.anbui.yum.data.model.Recipe
 import com.anbui.yum.ui.theme.YumOrange
 
 
@@ -34,7 +35,7 @@ val cardString =
 @ExperimentalMaterial3Api
 @Composable
 fun FeedScreen(
-    onRecipeTap: () -> Unit = {},
+    onRecipeTap: (String) -> Unit = {},
     modifier: Modifier = Modifier,
     viewModel: FeedViewModel = hiltViewModel(),
 ) {
@@ -42,34 +43,43 @@ fun FeedScreen(
     val uiState by viewModel.uiState
     YumSurface(
         modifier = modifier
-            .fillMaxSize()
+            .fillMaxSize(),
 
-    ) {
+        ) {
         //
         Column(
             modifier = Modifier
-                .fillMaxSize()
+                .fillMaxSize(),
         ) {
             FeedTopBar(
                 selectedTab = uiState.tabState,
-                onTabChange = viewModel::scrollToTab
+                onTabChange = viewModel::scrollToTab,
             )
             LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(Color(232, 233, 235))
+                    .background(Color(232, 233, 235)),
             ) {
                 suggestionCard()
-                feed()
+                feed(
+                    uiState.recipes,
+                    onRecipeTap = {recipeId ->
+                        viewModel.onRecipeTap(onRecipeTap, recipeId)
+                    },
+                )
             }
         }
     }
+
+//    LaunchedEffect(true) {
+//        viewModel.getFeedRecipes()
+//    }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-fun LazyListScope.feed() {
-    items(100) {
-        YumRecipeCard()
+fun LazyListScope.feed(recipes: List<Recipe>, onRecipeTap: (String) -> Unit) {
+    items(recipes) { recipe ->
+        YumRecipeCard(recipe = recipe, onTap = { onRecipeTap(recipe.id) })
     }
 }
 
@@ -78,22 +88,21 @@ fun LazyListScope.suggestionCard() {
         LazyRow(
             modifier = Modifier
                 .fillMaxWidth()
-                .height(120.dp)
+                .height(120.dp),
             //                    .background(Color(232, 233, 235))
-            ,
             contentPadding = PaddingValues(16.dp),
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             items(cardString) {
                 Card(
                     modifier = Modifier
                         .aspectRatio(2.4f)
                         .fillMaxHeight(),
-                    elevation = CardDefaults.cardElevation(defaultElevation = 5.dp)
+                    elevation = CardDefaults.cardElevation(defaultElevation = 5.dp),
                 ) {
                     Row(
                         modifier = Modifier.fillMaxSize(),
-                        verticalAlignment = Alignment.CenterVertically
+                        verticalAlignment = Alignment.CenterVertically,
                     ) {
                         Image(
                             painter = painterResource(id = R.drawable.food_1),
@@ -101,18 +110,18 @@ fun LazyListScope.suggestionCard() {
                             modifier = Modifier
                                 .weight(2f)
                                 .fillMaxHeight(),
-                            contentScale = ContentScale.Crop
+                            contentScale = ContentScale.Crop,
                         )
                         Box(
                             modifier = Modifier
                                 .weight(4f)
                                 .padding(horizontal = 16.dp),
-                            contentAlignment = Alignment.Center
+                            contentAlignment = Alignment.Center,
                         ) {
                             Text(
                                 it,
                                 fontSize = 11.sp,
-                                fontWeight = FontWeight.SemiBold
+                                fontWeight = FontWeight.SemiBold,
                             )
                         }
                     }
@@ -133,17 +142,17 @@ private fun FeedTopBar(
         modifier = modifier
             .fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Box(
             modifier = Modifier
                 .weight(1f)
-                .padding(horizontal = 32.dp)
+                .padding(horizontal = 32.dp),
         ) {
             Text(
                 stringResource(id = R.string.app_name),
                 style = MaterialTheme.typography.displayMedium.copy(fontSize = 22.sp),
-                color = YumOrange
+                color = YumOrange,
             )
         }
 
@@ -151,7 +160,7 @@ private fun FeedTopBar(
             selectedTab = selectedTab,
             onTabChange = onTabChange,
             tabList = tabList,
-            modifier = Modifier.weight(2f)
+            modifier = Modifier.weight(2f),
         )
     }
 }
