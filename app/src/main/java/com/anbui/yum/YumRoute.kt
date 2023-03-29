@@ -23,7 +23,7 @@ const val SIGNIN_SCREEN = "SignInScreen"
 
 
 const val RECIPE_ID = "recipeId"
-const val RECIPE_DEFAULT_ID = "-1"
+const val RECIPE_DEFAULT_ID = "6423d2ac60b56f3bf3c259da"
 const val RECIPE_ID_ARG = "?$RECIPE_ID = {$RECIPE_ID}"
 
 enum class HomeScreenSection(

@@ -8,32 +8,36 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.MoreVert
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.anbui.yum.R
+import com.anbui.yum.common.component.YumTabRow
+import com.anbui.yum.common.component.YumTabRowPair
 import com.anbui.yum.data.model.Recipe
 import com.anbui.yum.ui.theme.YumGreen
 
 
 private val TopBarHeight = 56.dp
-private val TitleHeight = 400.dp
+private val TITLE_HEIGHT = 200.dp
+private val IMAGE_HEIGHT = 400.dp
 
 @Composable
 fun RecipeDetailScreen(
@@ -49,8 +53,7 @@ fun RecipeDetailScreen(
 
         Image(recipe = uiState.recipe)
         Body(scroll)
-        Title(scrollValue = scroll.value)
-        HeaderItem(scroll.value, uiState.recipe)
+        Title(scrollValue = scroll.value, uiState.recipe)
 
     }
 
@@ -60,20 +63,59 @@ fun RecipeDetailScreen(
 }
 
 @Composable
-fun Title(scrollValue: Int) {
-    val scrollValue = with(LocalDensity.current) { scrollValue.toDp() }
+fun Title(scrollValue: Int, recipe: Recipe) {
+    val scrollValueDp = with(LocalDensity.current) { scrollValue.toDp() }
     Box(
         modifier = Modifier
-            .padding(top = (TitleHeight - scrollValue).coerceAtLeast(0.dp))
-            .height(50.dp)
+            .padding(top = (IMAGE_HEIGHT - scrollValueDp).coerceAtLeast(0.dp))
+            .height(TITLE_HEIGHT)
             .fillMaxWidth()
-            .background(Color.Blue),
-    )
+            .background(Color.White),
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.SpaceBetween,
+
+            ) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
+                Column() {
+                    Text(text = recipe.title, fontSize = 20.sp)
+                    Text(text = recipe.subTitle, fontSize = 16.sp)
+                }
+                FilledIconButton(onClick = { /*TODO*/ }, shape = CircleShape) {
+                    Icon(imageVector = Icons.Default.MoreVert, contentDescription = "")
+                }
+
+            }
+            val tabList =
+                listOf(
+                    "Overview" to "",
+                    "Ingredient" to "",
+                    "Direction" to "",
+                    "Nutrition" to "",
+                    "Review" to "",
+                )
+
+
+            YumTabRowPair(
+                selectedTab = 0,
+                onTabChange = {},
+                tabList = tabList,
+            )
+
+
+        }
+    }
 }
 
 @Composable
 fun HeaderItem(scrollValue: Int, recipe: Recipe) {
-    val bodyScrollValueToShowText = with(LocalDensity.current) { TitleHeight.toPx() }
+    val bodyScrollValueToShowText = with(LocalDensity.current) { IMAGE_HEIGHT.toPx() }
     Box(
         modifier = Modifier
             .fillMaxWidth(),
@@ -92,16 +134,22 @@ fun HeaderItem(scrollValue: Int, recipe: Recipe) {
         }
 
         Row(
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.align(Alignment.TopEnd),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(top = 32.dp, start = 16.dp, end = 16.dp),
         ) {
-            IconButton(onClick = { /*TODO*/ }) {
+
+            FilledIconButton(
+                onClick = { /*TODO*/ },
+                shape = CircleShape,
+            ) {
                 Icon(imageVector = Icons.Default.Settings, contentDescription = "")
             }
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.Settings, contentDescription = "")
-            }
-            IconButton(onClick = { /*TODO*/ }) {
+            FilledIconButton(
+                onClick = { /*TODO*/ },
+                shape = CircleShape,
+            ) {
                 Icon(imageVector = Icons.Default.Settings, contentDescription = "")
             }
         }
@@ -119,7 +167,7 @@ private fun Image(
         model = recipe.imageUrl,
         contentDescription = "",
         modifier = Modifier
-            .height(TitleHeight)
+            .height(IMAGE_HEIGHT)
             .fillMaxWidth()
             .background(Color.Black),
         contentScale = ContentScale.FillBounds,
@@ -138,7 +186,7 @@ private fun Body(
             .fillMaxWidth(),
 
         ) {
-        Spacer(Modifier.height(TitleHeight + TopBarHeight))
+        Spacer(Modifier.height(IMAGE_HEIGHT + TITLE_HEIGHT + 80.dp))
 
         Row(
             modifier = Modifier

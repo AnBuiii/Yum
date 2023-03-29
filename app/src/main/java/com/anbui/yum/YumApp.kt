@@ -14,7 +14,6 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -65,7 +64,7 @@ fun YumApp() {
             ) { paddingValues ->
                 NavHost(
                     navController = appState.navController,
-                    startDestination = SPLASH_SCREEN,
+                    startDestination = "$RECIPE_DETAIL_SCREEN/{recipeId}",
                     modifier = Modifier.padding(paddingValues),
                 ) {
                     yumGraph(appState)
@@ -124,7 +123,7 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
 //    }
     composable(HomeScreenSection.FEED.route) {
         FeedScreen(
-            onRecipeTap = {route->
+            onRecipeTap = { route ->
                 Log.d("Recipe route", route)
                 appState.navigate(route)
             },
@@ -143,7 +142,7 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     composable(HomeScreenSection.USER.route) {
         UserScreen(
             onOpenScreen = { route -> appState.navigate(route) },
-            restartApp = { route -> appState.clearAndNavigate(route) }
+            restartApp = { route -> appState.clearAndNavigate(route) },
         )
         Log.d("TAB LOG", appState.currentRoute!!)
 
@@ -171,7 +170,7 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     ) {
         RecipeDetailScreen(
             popUp = { appState.popUp() },
-            recipeId = it.arguments?.getString(RECIPE_ID) ?: RECIPE_DEFAULT_ID
+            recipeId = it.arguments?.getString(RECIPE_ID) ?: RECIPE_DEFAULT_ID,
         )
     }
 }
