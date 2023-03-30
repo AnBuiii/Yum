@@ -9,7 +9,7 @@ import javax.inject.Inject
 class CartViewModel @Inject constructor(
 
 ) : YumViewModel() {
-    val uiState = mutableStateOf(CardUiState())
+    val uiState = mutableStateOf(CartUiState())
 
     fun onCartTabChange(index: Int) {
         uiState.value = uiState.value.copy(tabState = index)

@@ -35,8 +35,8 @@ val cardString =
 @ExperimentalMaterial3Api
 @Composable
 fun FeedScreen(
-    onRecipeTap: (String) -> Unit = {},
     modifier: Modifier = Modifier,
+    onRecipeTap: (String) -> Unit = {},
     viewModel: FeedViewModel = hiltViewModel(),
 ) {
 

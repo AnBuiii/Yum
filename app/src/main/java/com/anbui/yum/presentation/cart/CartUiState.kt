@@ -1,6 +1,6 @@
 package com.anbui.yum.presentation.cart
 
-data class CardUiState(
+data class CartUiState(
     val tabState: Int = 0,
     val isBottomSheetOpen: Boolean = false
 )

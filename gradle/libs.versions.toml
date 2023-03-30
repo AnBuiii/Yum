@@ -10,7 +10,7 @@ androidxNavigation = "2.5.3"
 androidxHiltNavigationCompose = "1.0.0"
 androidxRoom = "2.5.0"
 hilt = "2.45"
-accompanist = "0.30.0"
+accompanists = "0.30.0"
 kotlinxCoroutines = "1.6.4"
 ktor = "2.2.4"
 kotlin = "1.8.10"
@@ -43,7 +43,7 @@ androidx-room-paging = { group = "androidx.room", name = "room-paging", version.
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
-accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version = "0.30.0" }
+accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanists" }
 kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutines" }
 ktor-client-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
 ktor-client-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }

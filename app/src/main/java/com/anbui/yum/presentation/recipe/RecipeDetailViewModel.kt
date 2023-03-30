@@ -1,6 +1,5 @@
 package com.anbui.yum.presentation.recipe
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.anbui.yum.data.remote.service.RecipeService
@@ -21,5 +20,9 @@ class RecipeDetailViewModel @Inject constructor(
         viewModelScope.launch {
             uiState.value = uiState.value.copy(recipe = recipeService.getRecipe(recipeId)!!)
         }
+    }
+
+    fun onChangeTab(value: Int){
+        uiState.value = uiState.value.copy(selectedTab = value)
     }
 }
