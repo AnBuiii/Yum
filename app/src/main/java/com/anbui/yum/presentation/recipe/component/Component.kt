@@ -1,6 +1,8 @@
 package com.anbui.yum.presentation.recipe.component
 
 import androidx.compose.animation.animateContentSize
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -121,13 +123,9 @@ fun RecipeExpandableText(
         modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
-        Box(
-            modifier = Modifier
-                .height(intrinsicSize = IntrinsicSize.Max)
-                .width(intrinsicSize = IntrinsicSize.Max),
-        ) {
+        Box {
             Text(
-                text = "sajdhakdjhaIt is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).kjdhka",
+                text = "sajdhakdjhaIt is a long established fact that a reader will be distracted by tahdjakkkkhdaksjdhajdkahjdkasdhjalhfjsfjasfkalfhjasfhasjfahsflashfjaklsdfjashfakslfjashdfjdksalskdjfhasjdkflasdjfhasjdkflasdjfhasdjfkalskdfjhsjdkalskdfjhjkdlkjhasdfsdfjlkjsdfasdfhjklkjhsfsdfklkjfasdfhjklkjhsfasdffhe readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).kjdhka",
                 maxLines = if (isCollapse) collapseMaxLine else Int.MAX_VALUE,
                 color = YumBlack,
                 fontSize = 12.sp,
@@ -135,12 +133,17 @@ fun RecipeExpandableText(
                     if (it.lineCount >= collapseMaxLine) isCollapsable = true
                 },
                 textAlign = TextAlign.Justify,
-                modifier = Modifier.animateContentSize(),
+                modifier = Modifier.animateContentSize(
+                    animationSpec = spring(
+                        dampingRatio = Spring.DampingRatioLowBouncy,
+                        stiffness = Spring.StiffnessLow,
+                    ),
+                ),
                 lineHeight = 16.sp,
             )
             if (isCollapsable && isCollapse) {
                 Box(
-                    modifier = Modifier.fillMaxSize().background(
+                    modifier = Modifier.fillMaxWidth().height(110.dp).background(
                         brush = Brush.verticalGradient(
                             colors = listOf(Color.Transparent, Color.White),
                         ),

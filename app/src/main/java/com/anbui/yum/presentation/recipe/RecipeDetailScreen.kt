@@ -42,12 +42,13 @@ fun RecipeDetailScreen(
     val coroutineScope = rememberCoroutineScope()
     val imageHeightPx = with(LocalDensity.current) { IMAGE_HEIGHT.toPx() }
 
-    val scroll1 = rememberScrollState()
-
     Box(modifier = Modifier.fillMaxSize()) {
 
         ImageItem(recipe = uiState.recipe)
-        BodyItem(scrollState = scrollState, pagerState = pagerState)
+        BodyItem(
+            scrollState = scrollState,
+            pagerState = pagerState,
+        )
         TitleItem(
             scrollValue = scrollState.value,
             recipe = uiState.recipe,
@@ -57,8 +58,8 @@ fun RecipeDetailScreen(
                     pagerState.animateScrollToPage(it)
                 }
             },
-            hm = scroll1
-        )
+
+            )
         HeaderItem()
 
     }
@@ -68,12 +69,16 @@ fun RecipeDetailScreen(
         viewModel.getRecipe(recipeId)
     }
 
+
     LaunchedEffect(scrollState.isScrollInProgress) {
-        if (scrollState.value > 0 && scrollState.value < imageHeightPx)
+        if (scrollState.value > 0 && scrollState.value < imageHeightPx) {
             scrollState.animateScrollTo(
                 imageHeightPx.toInt(),
                 animationSpec = spring(),
             )
+        }
+
+
     }
 
 }

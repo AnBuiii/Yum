@@ -2,7 +2,6 @@ package com.anbui.yum.presentation.recipe.tabs
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Star
@@ -20,55 +19,49 @@ import com.anbui.yum.presentation.recipe.component.RecipeExpandableText
 import com.anbui.yum.presentation.recipe.component.RelatedRecipes
 
 @Composable
-internal fun OverviewTab() {
-    LazyColumn(
-        modifier = Modifier.fillMaxWidth().height(300.dp),
-        reverseLayout = true
+internal fun OverviewTab(
+) {
+    val pagePadding = 24.dp
+    Column(
+        modifier = Modifier.padding(pagePadding),
     ) {
-        val pagePadding = 24.dp
-        item{
-            Column(
-                modifier = Modifier.fillMaxWidth().padding(pagePadding),
-            ) {
-                Row(
-                    modifier = Modifier.fillMaxWidth().clickable { },
-                    verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(16.dp),
-                ) {
-                    Icon(Icons.Default.List, contentDescription = "")
-                    Text("Update Collection", fontWeight = FontWeight.SemiBold)
-                }
-
-                Divider(modifier = Modifier.padding(vertical = 12.dp))
-
-                listOf(
-                    Triple(Icons.Default.Star, "Rating", "4.69"),
-                    Triple(Icons.Default.Star, "Servings", "4.69"),
-                    Triple(Icons.Default.Star, "Calories per serving", "4.69"),
-                    Triple(Icons.Default.Star, "Total time", "4.69"),
-                ).map {
-                    OverviewListItem(
-                        icon = it.first,
-                        header = it.second,
-                        value = it.third,
-                    )
-                    Divider(modifier = Modifier.padding(vertical = 12.dp))
-                }
-
-                RecipeExpandableText()
-
-                Spacer(modifier = Modifier.height(32.dp))
-
-
-                val relatedRecipes = listOf(Recipe(), Recipe(), Recipe(), Recipe())
-
-                RelatedRecipes(relatedRecipes, title = "Related Recipes", trail = "View more")
-
-                RelatedRecipes(relatedRecipes, title = "Related Recipes", trail = "View more")
-
-
-            }
+        Row(
+            modifier = Modifier.fillMaxWidth().clickable { },
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
+        ) {
+            Icon(Icons.Default.List, contentDescription = "")
+            Text("Update Collection", fontWeight = FontWeight.SemiBold)
         }
+
+        Divider(modifier = Modifier.padding(vertical = 12.dp))
+
+        listOf(
+            Triple(Icons.Default.Star, "Rating", "4.69"),
+            Triple(Icons.Default.Star, "Servings", "4.69"),
+            Triple(Icons.Default.Star, "Calories per serving", "4.69"),
+            Triple(Icons.Default.Star, "Total time", "4.69"),
+        ).map {
+            OverviewListItem(
+                icon = it.first,
+                header = it.second,
+                value = it.third,
+            )
+            Divider(modifier = Modifier.padding(vertical = 12.dp))
+        }
+
+        RecipeExpandableText()
+
+        Spacer(modifier = Modifier.height(32.dp))
+
+        val relatedRecipes = listOf(Recipe(), Recipe(), Recipe(), Recipe())
+
+        RelatedRecipes(relatedRecipes, title = "Related Recipes", trail = "View more")
+
+        RelatedRecipes(relatedRecipes, title = "Related Recipes", trail = "View more")
+
+
     }
+
 
 }

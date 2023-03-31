@@ -10,11 +10,10 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import com.anbui.yum.presentation.recipe.IMAGE_HEIGHT
 import com.anbui.yum.presentation.recipe.TITLE_HEIGHT
 import com.anbui.yum.presentation.recipe.tabs.*
@@ -29,8 +28,7 @@ fun BodyItem(
     Column(
         modifier = Modifier
             .verticalScroll(scrollState)
-            .fillMaxWidth()
-            .background(Color.White),
+            .fillMaxWidth(),
 
         ) {
         Spacer(Modifier.height(IMAGE_HEIGHT + TITLE_HEIGHT))
@@ -38,7 +36,7 @@ fun BodyItem(
             pageCount = 5,
             state = pagerState,
             beyondBoundsPageCount = 2,
-            modifier = Modifier.height(1000.dp).background(Color.Gray),
+            modifier = Modifier.background(MaterialTheme.colorScheme.background),
             verticalAlignment = Alignment.Top,
 
             ) { index ->
