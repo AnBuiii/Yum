@@ -67,7 +67,7 @@ fun RecipeScreenTab(
                     Text(
                         text = detail.first,
                         style = MaterialTheme.typography.titleLarge.copy(
-                            fontSize = 14.sp,
+                            fontSize = 15.sp,
                             fontWeight = FontWeight.SemiBold,
                         ),
                     )

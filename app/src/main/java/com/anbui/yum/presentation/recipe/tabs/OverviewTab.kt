@@ -17,6 +17,7 @@ import com.anbui.yum.data.model.Recipe
 import com.anbui.yum.presentation.recipe.component.OverviewListItem
 import com.anbui.yum.presentation.recipe.component.RecipeExpandableText
 import com.anbui.yum.presentation.recipe.component.RelatedRecipes
+import com.anbui.yum.ui.theme.YumGreen
 
 @Composable
 internal fun OverviewTab(
@@ -30,7 +31,7 @@ internal fun OverviewTab(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Icon(Icons.Default.List, contentDescription = "")
+            Icon(Icons.Default.List, contentDescription = "", tint = YumGreen)
             Text("Update Collection", fontWeight = FontWeight.SemiBold)
         }
 

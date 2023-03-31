@@ -29,13 +29,13 @@ fun BodyItem(
         modifier = Modifier
             .verticalScroll(scrollState)
             .fillMaxWidth(),
+//        modifier = Modifier.nestedScroll(rememberNestedScrollInteropConnection())
 
         ) {
         Spacer(Modifier.height(IMAGE_HEIGHT + TITLE_HEIGHT))
         HorizontalPager(
             pageCount = 5,
             state = pagerState,
-            beyondBoundsPageCount = 2,
             modifier = Modifier.background(MaterialTheme.colorScheme.background),
             verticalAlignment = Alignment.Top,
 
