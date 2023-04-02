@@ -12,24 +12,21 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.alpha
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anbui.yum.data.model.Recipe
-import com.anbui.yum.presentation.recipe.IMAGE_HEIGHT
 import com.anbui.yum.presentation.recipe.TITLE_HEIGHT
 
 @ExperimentalFoundationApi
 @Composable
-fun TitleItem(scrollValue: Int, recipe: Recipe, pagerState: PagerState, onTabChange: (Int) -> Unit) {
-    val scrollValueDp = with(LocalDensity.current) { scrollValue.toDp() }
-    val alpha = (IMAGE_HEIGHT - scrollValueDp).coerceAtLeast(0.dp) * 2 / IMAGE_HEIGHT
+fun TitleItem( recipe: Recipe, pagerState: PagerState, onTabChange: (Int) -> Unit) {
+//    val scrollValueDp = with(LocalDensity.current) { scrollValue.toDp() }
+//    val alpha = (IMAGE_HEIGHT - scrollValueDp).coerceAtLeast(0.dp) * 2 / IMAGE_HEIGHT
     Box(
         modifier = Modifier
-            .padding(top = (IMAGE_HEIGHT - scrollValueDp).coerceAtLeast(0.dp))
+//            .padding(top = (IMAGE_HEIGHT - scrollValueDp).coerceAtLeast(0.dp))
             .height(TITLE_HEIGHT)
             .fillMaxWidth()
             .background(Color.White),
@@ -44,7 +41,9 @@ fun TitleItem(scrollValue: Int, recipe: Recipe, pagerState: PagerState, onTabCha
 
             // recipe info
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp).alpha(alpha),
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
+//                    .alpha(alpha)
+                ,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Column(

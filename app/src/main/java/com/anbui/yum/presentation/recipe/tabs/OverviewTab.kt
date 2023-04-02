@@ -2,6 +2,8 @@ package com.anbui.yum.presentation.recipe.tabs
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Star
@@ -24,10 +26,12 @@ internal fun OverviewTab(
 ) {
     val pagePadding = 24.dp
     Column(
-        modifier = Modifier.padding(pagePadding),
+        modifier = Modifier
+            .padding(vertical = pagePadding)
+            .verticalScroll(rememberScrollState()),
     ) {
         Row(
-            modifier = Modifier.fillMaxWidth().clickable { },
+            modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth().clickable { },
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
@@ -35,7 +39,7 @@ internal fun OverviewTab(
             Text("Update Collection", fontWeight = FontWeight.SemiBold)
         }
 
-        Divider(modifier = Modifier.padding(vertical = 12.dp))
+        Divider(modifier = Modifier.padding(vertical = 12.dp, horizontal = pagePadding))
 
         listOf(
             Triple(Icons.Default.Star, "Rating", "4.69"),
@@ -48,7 +52,7 @@ internal fun OverviewTab(
                 header = it.second,
                 value = it.third,
             )
-            Divider(modifier = Modifier.padding(vertical = 12.dp))
+            Divider(modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp))
         }
 
         RecipeExpandableText()

@@ -64,6 +64,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.testManifest)
     androidTestImplementation(libs.androidx.compose.ui.test)
     implementation(libs.androidx.compose.material3)
+    implementation(libs.androidx.compose.material)
 
     //test
     testImplementation(libs.junit4)
@@ -103,6 +104,8 @@ dependencies {
 
     // coil
     implementation(libs.coil.kt.compose)
+
+
 
 
 

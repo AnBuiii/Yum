@@ -93,7 +93,7 @@ fun OverviewListItem(
     value: String,
 ) {
     Row(
-        modifier = modifier.fillMaxWidth(), verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.fillMaxWidth().padding(horizontal = 24.dp), verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Row(
@@ -120,7 +120,7 @@ fun RecipeExpandableText(
     var isCollapse by remember { mutableStateOf(true) }
 
     Column(
-        modifier = Modifier.fillMaxWidth().padding(top = 8.dp),
+        modifier = Modifier.fillMaxWidth().padding(top = 8.dp, start = 24.dp, end = 24.dp),
         verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         Box {
@@ -182,7 +182,7 @@ fun RelatedRecipes(
     onAddCollectTab: (String) -> Unit = {},
 ) {
     Row(
-        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp),
+        modifier = Modifier.fillMaxWidth().padding(vertical = 8.dp, horizontal = 24.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -202,6 +202,7 @@ fun RelatedRecipes(
     }
     LazyRow(
         horizontalArrangement = Arrangement.spacedBy(16.dp),
+        contentPadding = PaddingValues(horizontal = 24.dp)
     ) {
 
         itemsIndexed(recipes) { index, recipe ->
