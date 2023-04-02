@@ -5,8 +5,8 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class IngredientDetail(
-    val ingredient: String = "",
     val unit: String = "",
-    val amount: @Contextual Number,
-    val note: String = ""
+    val amount: @Contextual Number = 0,
+    val note: String = "",
+    val ingredientId: String = "",
 )

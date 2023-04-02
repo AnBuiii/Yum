@@ -12,21 +12,19 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.anbui.yum.data.model.Recipe
 import com.anbui.yum.presentation.recipe.TITLE_HEIGHT
 import com.anbui.yum.presentation.recipe.tabs.*
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BodyItem(
-//    scrollState: ScrollState,
     pagerState: PagerState,
-
-    ) {
+    recipe: Recipe,
+) {
     Column(
         modifier = Modifier
-//            .verticalScroll(scrollState)
             .fillMaxWidth(),
-//        modifier = Modifier.nestedScroll(rememberNestedScrollInteropConnection())
 
         ) {
         Spacer(Modifier.height(TITLE_HEIGHT))
@@ -38,11 +36,11 @@ fun BodyItem(
 
             ) { index ->
             when (index) {
-                0 -> OverviewTab()
-                1 -> IngredientTab()
-                2 -> DirectionTab()
-                3 -> NutritionTab()
-                4 -> ReviewTab()
+                0 -> OverviewTab(recipe)
+                1 -> IngredientTab(recipe)
+                2 -> DirectionTab(recipe)
+                3 -> NutritionTab(recipe)
+                4 -> ReviewTab(recipe)
             }
 
 

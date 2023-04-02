@@ -100,21 +100,21 @@ fun OverviewListItem(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             Icon(
-                imageVector = Icons.Default.Star,
+                imageVector = icon,
                 contentDescription = null,
                 tint = YumOrange,
                 modifier = Modifier.size(16.dp),
             )
-            Text("Rating", fontSize = 12.sp)
+            Text(header, fontSize = 12.sp)
         }
-        Text("4,49", fontSize = 12.sp)
+        Text(value, fontSize = 12.sp)
     }
 }
 
 @Composable
 fun RecipeExpandableText(
+    text: String,
     collapseMaxLine: Int = 6,
-
     ) {
     var isCollapsable by remember { mutableStateOf(false) }
     var isCollapse by remember { mutableStateOf(true) }
@@ -125,7 +125,7 @@ fun RecipeExpandableText(
     ) {
         Box {
             Text(
-                text = "sajdhakdjhaIt is a long established fact that a reader will be distracted by tahdjakkkkhdaksjdhajdkahjdkasdhjalhfjsfjasfkalfhjasfhasjfahsflashfjaklsdfjashfakslfjashdfjdksalskdjfhasjdkflasdjfhasjdkflasdjfhasdjfkalskdfjhsjdkalskdfjhjkdlkjhasdfsdfjlkjsdfasdfhjklkjhsfsdfklkjfasdfhjklkjhsfasdffhe readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for 'lorem ipsum' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).kjdhka",
+                text = text,
                 maxLines = if (isCollapse) collapseMaxLine else Int.MAX_VALUE,
                 color = YumBlack,
                 fontSize = 12.sp,

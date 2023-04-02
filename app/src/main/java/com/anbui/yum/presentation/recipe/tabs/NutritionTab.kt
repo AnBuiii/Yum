@@ -2,131 +2,105 @@ package com.anbui.yum.presentation.recipe.tabs
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.List
-import androidx.compose.material3.*
+import androidx.compose.material.icons.filled.Settings
+import androidx.compose.material3.Icon
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import com.anbui.yum.data.model.IngredientDetail
-import com.anbui.yum.ui.theme.YumBlack
+import com.anbui.yum.data.model.Recipe
+import com.anbui.yum.presentation.recipe.component.PieChart
+import com.anbui.yum.presentation.recipe.component.TabTopBar
 import com.anbui.yum.ui.theme.YumGreen
 
 @Composable
-fun NutritionTab() {
+fun NutritionTab(
+    recipe: Recipe
+) {
     val pagePadding = 24.dp
     val ingredients = listOf(
         IngredientDetail(
-            ingredient = "garlic cloves",
+            ingredientId = "garlic cloves",
             unit = "can",
             amount = 4,
             note = "asdasd",
         ),
         IngredientDetail(
-            ingredient = "garlic cloves",
+            ingredientId = "garlic cloves",
             unit = "helo",
             amount = 4,
             note = "ok bro",
         ),
         IngredientDetail(
-            ingredient = "garlic cloves",
+            ingredientId = "garlic cloves",
             unit = "",
             amount = 4,
             note = "hm",
         ),
         IngredientDetail(
-            ingredient = "garlic cloves",
+            ingredientId = "garlic cloves",
             unit = "",
             amount = 4,
         ),
         IngredientDetail(
-            ingredient = "garlic cloves",
+            ingredientId = "garlic cloves",
             unit = "",
             amount = 4,
         ),
         IngredientDetail(
-            ingredient = "garlic cloves",
+            ingredientId = "garlic cloves",
             unit = "",
             amount = 4,
         ),
         IngredientDetail(
-            ingredient = "garlic cloves",
+            ingredientId = "garlic cloves",
             unit = "",
             amount = 4,
         ),
         IngredientDetail(
-            ingredient = "garlic cloves",
+            ingredientId = "garlic cloves",
             unit = "",
             amount = 4,
         ),
         IngredientDetail(
-            ingredient = "garlic cloves",
+            ingredientId = "garlic cloves",
             unit = "",
             amount = 4,
         ),
     )
-    Column(
-        modifier = Modifier.padding(pagePadding),
-    ) {
-        Row(
-            modifier = Modifier.fillMaxWidth().clickable { },
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Icon(Icons.Default.List, contentDescription = "", tint = YumGreen)
-            Text("Add All to Shoppubn", fontWeight = FontWeight.SemiBold)
-        }
-        Divider(modifier = Modifier.padding(vertical = 12.dp))
+    LazyColumn{
 
-
-        ingredients.map { detail ->
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(16.dp),
-                verticalAlignment = Alignment.Top,
-            ) {
-                FilledIconButton(
-                    onClick = {},
-                    colors = IconButtonDefaults.filledIconButtonColors(
-                        containerColor = YumGreen,
-                        contentColor = Color.White,
-                    ),
-                    modifier = Modifier.size(22.dp)
-                ) {
-                    Icon(
-                        imageVector = Icons.Default.Add,
-                        contentDescription = null,
-                    )
-                }
-                Column(
-                    modifier = Modifier.padding(start = 16.dp),
-
+        item {
+            TabTopBar(
+                modifier = Modifier.padding(24.dp),
+                leading = {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.clickable { },
                     ) {
-                    Text(
-                        buildAnnotatedString {
-                            withStyle(SpanStyle(fontSize = 14.sp)) {
-                                append("${detail.amount} ${detail.unit} ")
-                            }
-                            withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, fontSize = 14.sp)) {
-                                append(detail.ingredient)
-                            }
-                        },
-                    )
-                    Text(
-                        detail.note,
-                        color = YumBlack.copy(alpha = 0.7f),
-                        fontSize = 12.sp
-                    )
-                }
-            }
+                        Icon(Icons.Default.Settings, contentDescription = "", tint = YumGreen)
+                        Text("Edit Dietary Preferences", fontWeight = FontWeight.SemiBold)
+                    }
+                },
+                trailing = {},
+            )
+
         }
+        item{
+            Spacer(modifier = Modifier.padding(top = 12.dp))
+        }
+        item{
+            PieChart(
+                modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
+            )
+        }
+
+
+
 
     }
 

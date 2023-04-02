@@ -2,8 +2,8 @@ package com.anbui.yum.presentation.recipe.tabs
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.List
 import androidx.compose.material.icons.filled.Star
@@ -11,7 +11,6 @@ import androidx.compose.material3.Divider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
@@ -19,34 +18,45 @@ import com.anbui.yum.data.model.Recipe
 import com.anbui.yum.presentation.recipe.component.OverviewListItem
 import com.anbui.yum.presentation.recipe.component.RecipeExpandableText
 import com.anbui.yum.presentation.recipe.component.RelatedRecipes
+import com.anbui.yum.presentation.recipe.component.TabTopBar
 import com.anbui.yum.ui.theme.YumGreen
+import kotlin.math.roundToInt
 
 @Composable
 internal fun OverviewTab(
+    recipe: Recipe
 ) {
     val pagePadding = 24.dp
-    Column(
-        modifier = Modifier
-            .padding(vertical = pagePadding)
-            .verticalScroll(rememberScrollState()),
-    ) {
-        Row(
-            modifier = Modifier.padding(horizontal = 16.dp).fillMaxWidth().clickable { },
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp),
-        ) {
-            Icon(Icons.Default.List, contentDescription = "", tint = YumGreen)
-            Text("Update Collection", fontWeight = FontWeight.SemiBold)
+    LazyColumn {
+        item {
+            TabTopBar(
+                modifier = Modifier.padding(24.dp),
+                leading = {
+                    Row(
+                        horizontalArrangement = Arrangement.spacedBy(8.dp),
+                        modifier = Modifier.clickable { },
+                    ) {
+                        Icon(Icons.Default.List, contentDescription = "", tint = YumGreen)
+                        Text("Update Collection", fontWeight = FontWeight.SemiBold)
+                    }
+                },
+                trailing = {},
+            )
+
+        }
+        item{
+            Divider(modifier = Modifier.padding(horizontal = pagePadding))
+            Spacer(modifier = Modifier.padding(top = 12.dp))
         }
 
-        Divider(modifier = Modifier.padding(vertical = 12.dp, horizontal = pagePadding))
+        val detailList = listOf(
+            Triple(Icons.Default.Star, "Ratings", "${recipe.ratings.roundToInt()}"),
+            Triple(Icons.Default.Star, "Servings", "${recipe.servings}"),
+            Triple(Icons.Default.Star, "Calories per serving", "${recipe.caloriesPerServing}"),
+            Triple(Icons.Default.Star, "Total time", "${recipe.totalTimeInMinute}"),
+        )
 
-        listOf(
-            Triple(Icons.Default.Star, "Rating", "4.69"),
-            Triple(Icons.Default.Star, "Servings", "4.69"),
-            Triple(Icons.Default.Star, "Calories per serving", "4.69"),
-            Triple(Icons.Default.Star, "Total time", "4.69"),
-        ).map {
+        items(detailList) {
             OverviewListItem(
                 icon = it.first,
                 header = it.second,
@@ -55,16 +65,18 @@ internal fun OverviewTab(
             Divider(modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp))
         }
 
-        RecipeExpandableText()
+        item {
+            RecipeExpandableText(recipe.note)
+            Spacer(modifier = Modifier.height(32.dp))
+        }
 
-        Spacer(modifier = Modifier.height(32.dp))
 
         val relatedRecipes = listOf(Recipe(), Recipe(), Recipe(), Recipe())
 
-        RelatedRecipes(relatedRecipes, title = "Related Recipes", trail = "View more")
-
-        RelatedRecipes(relatedRecipes, title = "Related Recipes", trail = "View more")
-
+        item {
+            RelatedRecipes(relatedRecipes, title = "Related Recipes", trail = "View more")
+        }
+        item { RelatedRecipes(relatedRecipes, title = "Related Recipes", trail = "View more") }
 
     }
 

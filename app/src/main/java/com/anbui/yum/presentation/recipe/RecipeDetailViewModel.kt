@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.anbui.yum.data.model.Recipe
+import com.anbui.yum.data.model.recipes
 import com.anbui.yum.data.remote.service.RecipeService
 import com.anbui.yum.presentation.YumViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -18,6 +19,10 @@ class RecipeDetailViewModel @Inject constructor(
     ) : YumViewModel() {
 
     val uiState = mutableStateOf(RecipeDetailUiState())
+
+    fun testRecipe(){
+        uiState.value = uiState.value.copy(recipe = recipes[0])
+    }
 
     fun getRecipe(recipeId: String) {
         viewModelScope.launch {

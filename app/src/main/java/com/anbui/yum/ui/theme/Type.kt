@@ -13,6 +13,16 @@ import com.anbui.yum.R
 val appTextFont = FontFamily(
     Font(R.font.pacifico_regular, FontWeight.Normal)
 )
+
+val normal = TextStyle(
+    fontSize = 12.sp
+)
+
+val semi = TextStyle(
+    fontSize = 14.sp,
+    fontWeight = FontWeight.SemiBold
+
+)
 val Typography = Typography(
     // app text
     displayMedium = TextStyle(
