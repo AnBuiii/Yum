@@ -79,7 +79,7 @@ fun RecipeDetailScreen(
     // get recipe
     LaunchedEffect(true) {
 //        viewModel.getRecipe(recipeId)
-        viewModel.testRecipe()
+        viewModel.getRecipe(recipeId)
     }
 
 }

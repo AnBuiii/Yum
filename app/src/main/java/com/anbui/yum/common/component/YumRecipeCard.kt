@@ -1,6 +1,5 @@
 package com.anbui.yum.common.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -79,7 +78,7 @@ fun YumRecipeCard(
                         label = { Text("Yum Original") },
                     )
                     Text(
-                        "Creamy Vegan Cauliflower Soup with Garlic",
+                        recipe.title,
                         color = Color.White,
                         fontWeight = FontWeight.SemiBold,
                         fontSize = 25.sp,

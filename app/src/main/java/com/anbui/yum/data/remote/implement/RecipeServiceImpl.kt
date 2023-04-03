@@ -13,7 +13,9 @@ class RecipeServiceImpl(
 ) : RecipeService {
     override suspend fun getAllRecipe(): List<Recipe> {
         return try {
-            client.get("$BASE_URL/recipe").body()
+            val a: List<Recipe> = client.get("$BASE_URL/recipe").body()
+            Log.d("hm", a.toString())
+            a
         } catch (e: Exception) {
             Log.d("Recipe service get all recipe error", e.toString())
             listOf()
