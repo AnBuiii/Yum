@@ -5,7 +5,6 @@ import androidx.lifecycle.viewModelScope
 import com.anbui.yum.SIGNIN_SCREEN
 import com.anbui.yum.SIGNUP_SCREEN
 import com.anbui.yum.SPLASH_SCREEN
-import com.anbui.yum.data.model.UserInfoDto
 import com.anbui.yum.data.remote.service.UserInfoService
 import com.anbui.yum.presentation.YumViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel

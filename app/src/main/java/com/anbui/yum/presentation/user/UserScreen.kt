@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.anbui.yum.R
 import com.anbui.yum.common.component.YumSurface
-import com.anbui.yum.data.model.UserInfoDto
+import com.anbui.yum.data.model.UserInfo
 import com.anbui.yum.ui.theme.YumGreen
 
 
@@ -84,7 +84,7 @@ fun UserScreen(
 }
 
 @Composable
-fun HeaderItem(scrollValue: Int, userInfoDto: UserInfoDto) {
+fun HeaderItem(scrollValue: Int, userInfo: UserInfo) {
     val bodyScrollValueToShowText = with(LocalDensity.current) { TitleHeight.toPx() }
     Box(
         modifier = Modifier
@@ -98,7 +98,7 @@ fun HeaderItem(scrollValue: Int, userInfoDto: UserInfoDto) {
             modifier = Modifier.align(Alignment.TopStart)
         ) {
             Text(
-                userInfoDto.name, modifier = Modifier.padding(16.dp),
+                userInfo.name, modifier = Modifier.padding(16.dp),
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold
             )
@@ -169,7 +169,7 @@ private fun AnonymousSection(
 @Composable
 private fun Title(
     scrollValue: Int,
-    userInfoDto: UserInfoDto
+    userInfo: UserInfo
 ) {
     val maxOffset = with(LocalDensity.current) { TopBarHeight.toPx() }
     val minOffset = with(LocalDensity.current) { (TopBarHeight - TitleHeight).toPx() }
@@ -196,12 +196,12 @@ private fun Title(
             contentScale = ContentScale.Crop
         )
         Text(
-            text = userInfoDto.name,
+            text = userInfo.name,
             textAlign = TextAlign.Center,
             fontWeight = FontWeight.SemiBold
         )
         Text(
-            text = userInfoDto.title,
+            text = userInfo.title,
             textAlign = TextAlign.Center
         )
     }
