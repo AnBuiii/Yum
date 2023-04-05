@@ -2,6 +2,7 @@ package com.anbui.yum.data.remote.implement
 
 import android.util.Log
 import com.anbui.yum.common.util.Constants.BASE_URL
+import com.anbui.yum.data.model.Nutrition
 import com.anbui.yum.data.model.Recipe
 import com.anbui.yum.data.remote.service.RecipeService
 import io.ktor.client.*
@@ -19,6 +20,15 @@ class RecipeServiceImpl(
         } catch (e: Exception) {
             Log.d("Recipe service get all recipe error", e.toString())
             listOf()
+        }
+    }
+
+    override suspend fun getNutrition(recipeId: String): Nutrition {
+        return try {
+            client.get("$BASE_URL/recipe/$recipeId/nutrition").body()
+        } catch (e: Exception) {
+            Log.d("Recipe service get recipe error", e.toString())
+            Nutrition()
         }
     }
 

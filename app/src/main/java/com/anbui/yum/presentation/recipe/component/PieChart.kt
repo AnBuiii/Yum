@@ -22,16 +22,16 @@ import kotlin.math.roundToInt
 @Composable
 fun PieChart(
     modifier: Modifier = Modifier,
-    values: List<Float> = listOf(15f, 35f, 50f),
+    values: List<Int> = listOf(),
     colors: List<Color> = listOf(YumOrange, YumGreen, YumBlack),
     legend: List<String> = listOf("Protein", "Carbs", "Fat"),
     size: Dp = 100.dp,
-    ) {
+) {
 
     val sumOfValues = values.sum()
 
     val proportions = values.map {
-        it * 100 / sumOfValues
+        it.toFloat() * 100 / sumOfValues
     }
 
     val sweepAngles = proportions.map {
@@ -39,7 +39,10 @@ fun PieChart(
     }
 
     Row(
-        modifier = modifier.clip(RoundedCornerShape(10.dp)).background(YumBlack.copy(0.1f)).padding(24.dp),
+        modifier = modifier
+            .clip(RoundedCornerShape(10.dp))
+            .background(YumBlack.copy(0.1f))
+            .padding(24.dp),
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Canvas(
@@ -67,7 +70,7 @@ fun PieChart(
             verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             for (i in values.indices) {
-                DisplayLegend1(color = colors[i], legend = legend[i], value = values[i])
+                DisplayLegend1(color = colors[i], legend = legend[i], value = proportions[i])
                 if (i < values.lastIndex) Divider()
             }
         }
@@ -87,7 +90,10 @@ fun DisplayLegend1(color: Color, legend: String, value: Float) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
         ) {
-            Box(modifier = Modifier.size(16.dp).clip(RoundedCornerShape(5.dp)).background(color))
+            Box(modifier = Modifier
+                .size(16.dp)
+                .clip(RoundedCornerShape(5.dp))
+                .background(color))
 
             Spacer(modifier = Modifier.width(8.dp))
 

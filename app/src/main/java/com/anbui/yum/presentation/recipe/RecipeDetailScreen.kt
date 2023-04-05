@@ -71,14 +71,15 @@ fun RecipeDetailScreen(
             )
             BodyItem(
                 pagerState = pagerState,
-                recipe = uiState.recipe
+                recipe = uiState.recipe,
+                nutrition = uiState.currentNutrition,
+                reviews = uiState.review
             )
         },
     )
 
     // get recipe
     LaunchedEffect(true) {
-//        viewModel.getRecipe(recipeId)
         viewModel.getRecipe(recipeId)
     }
 

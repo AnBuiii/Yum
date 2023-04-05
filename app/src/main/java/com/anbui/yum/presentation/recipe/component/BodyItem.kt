@@ -12,7 +12,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.anbui.yum.data.model.Nutrition
 import com.anbui.yum.data.model.Recipe
+import com.anbui.yum.data.model.Review
 import com.anbui.yum.presentation.recipe.TITLE_HEIGHT
 import com.anbui.yum.presentation.recipe.tabs.*
 
@@ -21,6 +23,8 @@ import com.anbui.yum.presentation.recipe.tabs.*
 fun BodyItem(
     pagerState: PagerState,
     recipe: Recipe,
+    nutrition: Nutrition,
+    reviews: List<Review>
 ) {
     Column(
         modifier = Modifier
@@ -39,8 +43,8 @@ fun BodyItem(
                 0 -> OverviewTab(recipe)
                 1 -> IngredientTab(recipe)
                 2 -> DirectionTab(recipe)
-                3 -> NutritionTab(recipe)
-                4 -> ReviewTab(recipe)
+                3 -> NutritionTab(nutrition)
+                4 -> ReviewTab(reviews)
             }
 
 

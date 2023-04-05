@@ -1,26 +1,28 @@
 package com.anbui.yum.di
 
+//import io.ktor.client.engine.android.*
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
 import com.anbui.yum.data.remote.implement.RecipeServiceImpl
+import com.anbui.yum.data.remote.implement.ReviewServiceImpl
 import com.anbui.yum.data.remote.implement.UserInfoServiceImpl
-import com.anbui.yum.data.remote.service.UserService
 import com.anbui.yum.data.remote.implement.UserServiceImpl
 import com.anbui.yum.data.remote.service.RecipeService
+import com.anbui.yum.data.remote.service.ReviewService
 import com.anbui.yum.data.remote.service.UserInfoService
+import com.anbui.yum.data.remote.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.*
-//import io.ktor.client.engine.android.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
-import javax.inject.Singleton
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
+import javax.inject.Singleton
 
 
 @Module
@@ -68,6 +70,12 @@ object AppModule {
     @Singleton
     fun provideRecipeService(client: HttpClient): RecipeService{
         return RecipeServiceImpl(client)
+    }
+
+    @Provides
+    @Singleton
+    fun provideReviewService(client: HttpClient): ReviewService{
+        return ReviewServiceImpl(client)
     }
 
 

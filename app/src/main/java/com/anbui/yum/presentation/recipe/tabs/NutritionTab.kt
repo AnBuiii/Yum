@@ -3,7 +3,6 @@ package com.anbui.yum.presentation.recipe.tabs
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Divider
@@ -13,8 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.anbui.yum.data.model.Recipe
-import com.anbui.yum.data.model.nutritionFacts
+import com.anbui.yum.data.model.Nutrition
 import com.anbui.yum.presentation.recipe.component.NutritionListItem
 import com.anbui.yum.presentation.recipe.component.PieChart
 import com.anbui.yum.presentation.recipe.component.TabTopBar
@@ -24,7 +22,7 @@ import com.anbui.yum.ui.theme.semi
 
 @Composable
 fun NutritionTab(
-    recipe: Recipe,
+    nutrition: Nutrition,
 ) {
     LazyColumn {
 
@@ -49,7 +47,14 @@ fun NutritionTab(
         }
         item {
             PieChart(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                values = listOf(
+                    nutrition.caloriesFromProtein,
+                    nutrition.caloriesFromCarbs,
+                    nutrition.caloriesFromFat,
+                ),
             )
 
         }
@@ -59,8 +64,40 @@ fun NutritionTab(
             Divider(modifier = Modifier.padding(horizontal = 24.dp), color = YumBlack)
         }
 
-        items(nutritionFacts) {
-            NutritionListItem(title = it.first, amount = it.second, rda = it.third)
+        item {
+            NutritionListItem(title = "Calories", amount = "${nutrition.calories} cal", rda = "%")
+            Divider(modifier = Modifier.padding(horizontal = 24.dp))
+            NutritionListItem(
+                title = "Calories from Fat",
+                amount = "${nutrition.caloriesFromFat} cal",
+                rda = "%",
+            )
+            Divider(modifier = Modifier.padding(horizontal = 24.dp))
+            NutritionListItem(
+                title = "Calories from Carbs",
+                amount = "${nutrition.caloriesFromCarbs} cal",
+                rda = "%",
+            )
+            Divider(modifier = Modifier.padding(horizontal = 24.dp))
+            NutritionListItem(
+                title = "Calories from Protein",
+                amount = "${nutrition.caloriesFromProtein} cal",
+                rda = "%",
+            )
+            Divider(modifier = Modifier.padding(horizontal = 24.dp))
+            NutritionListItem(
+                title = "Cholesterol",
+                amount = "${nutrition.cholesterol} mg",
+                rda = "%",
+            )
+            Divider(modifier = Modifier.padding(horizontal = 24.dp))
+            NutritionListItem(title = "Sodium", amount = "${nutrition.sodium} mg", rda = "%")
+            Divider(modifier = Modifier.padding(horizontal = 24.dp))
+            NutritionListItem(title = "Potassium", amount = "${nutrition.potassium} mg", rda = "%")
+            Divider(modifier = Modifier.padding(horizontal = 24.dp))
+            NutritionListItem(title = "Calcium", amount = "${nutrition.calcium} mg", rda = "%")
+            Divider(modifier = Modifier.padding(horizontal = 24.dp))
+            NutritionListItem(title = "Iron", amount = "${nutrition.iron} mg", rda = "%")
             Divider(modifier = Modifier.padding(horizontal = 24.dp))
 
         }
