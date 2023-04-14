@@ -21,7 +21,12 @@ import com.anbui.yum.presentation.recipe.TITLE_HEIGHT
 
 @ExperimentalFoundationApi
 @Composable
-fun TitleItem( recipe: Recipe, pagerState: PagerState, onTabChange: (Int) -> Unit) {
+fun TitleItem(
+    modifier: Modifier = Modifier,
+    recipe: Recipe,
+    pagerState: PagerState,
+    onTabChange: (Int) -> Unit,
+) {
 //    val scrollValueDp = with(LocalDensity.current) { scrollValue.toDp() }
 //    val alpha = (IMAGE_HEIGHT - scrollValueDp).coerceAtLeast(0.dp) * 2 / IMAGE_HEIGHT
     Box(
@@ -41,9 +46,10 @@ fun TitleItem( recipe: Recipe, pagerState: PagerState, onTabChange: (Int) -> Uni
 
             // recipe info
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp)
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
 //                    .alpha(alpha)
-                ,
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Column(

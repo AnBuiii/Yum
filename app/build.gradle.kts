@@ -1,10 +1,10 @@
 @Suppress("DSL_SCOPE_VIOLATION")
 plugins {
     kotlin("android")
-    kotlin("kapt")
     alias(libs.plugins.android.application)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.serialization)
+    kotlin("kapt")
 }
 android {
     namespace = "com.anbui.yum"
@@ -64,7 +64,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.testManifest)
     androidTestImplementation(libs.androidx.compose.ui.test)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.compose.material)
+//    implementation(libs.androidx.compose.material)
 
     //test
     testImplementation(libs.junit4)
