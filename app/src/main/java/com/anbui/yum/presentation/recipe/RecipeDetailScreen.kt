@@ -12,6 +12,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.anbui.yum.presentation.recipe.component.BodyItem
@@ -41,6 +42,8 @@ fun RecipeDetailScreen(
     BottomSheetScaffold(
 
         sheetPeekHeight = 500.dp,
+        sheetShape = RectangleShape,
+        sheetDragHandle = {},
         sheetContent = {
             TitleItem(
                 recipe = uiState.recipe,

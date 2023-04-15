@@ -3,7 +3,8 @@ package com.anbui.yum.presentation.recipe
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
-import com.anbui.yum.data.model.Recipe
+import com.anbui.yum.data.remote.recipe.toRecipe
+import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.data.remote.service.RecipeService
 import com.anbui.yum.data.remote.service.ReviewService
 import com.anbui.yum.presentation.YumViewModel
@@ -25,7 +26,7 @@ class RecipeDetailViewModel @Inject constructor(
         viewModelScope.launch {
             try {
                 uiState.value = uiState.value.copy(
-                    recipe = recipeService.getRecipe(recipeId)!!,
+                    recipe = recipeService.getRecipe(recipeId)!!.toRecipe(),
                     currentNutrition = recipeService.getNutrition(recipeId),
                     review = reviewService.getReviewByRecipe(recipeId),
                 )

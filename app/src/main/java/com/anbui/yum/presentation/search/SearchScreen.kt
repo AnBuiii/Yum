@@ -177,9 +177,9 @@ private fun SearchField(
                         )
                     }
             },
-            colors = TextFieldDefaults.outlinedTextFieldColors(
+            colors = OutlinedTextFieldDefaults.colors(
                 focusedBorderColor = Color.Transparent,
-                unfocusedBorderColor = Color.Transparent
+                unfocusedBorderColor = Color.Transparent,
             ),
             singleLine = true,
             keyboardOptions = KeyboardOptions(

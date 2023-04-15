@@ -23,7 +23,7 @@ import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.anbui.yum.R
-import com.anbui.yum.data.model.Recipe
+import com.anbui.yum.domain.model.Recipe
 
 @ExperimentalMaterial3Api
 @Composable

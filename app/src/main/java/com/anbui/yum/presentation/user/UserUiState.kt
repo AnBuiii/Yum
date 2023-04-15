@@ -1,6 +1,6 @@
 package com.anbui.yum.presentation.user
 
-import com.anbui.yum.data.model.UserInfo
+import com.anbui.yum.domain.model.UserInfo
 
 data class UserUiState(
     val userInfo : UserInfo = UserInfo(),

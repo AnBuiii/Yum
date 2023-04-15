@@ -1,6 +1,6 @@
 package com.anbui.yum.data.remote.service
 
-import com.anbui.yum.data.model.User
+import com.anbui.yum.domain.model.User
 
 interface UserService {
     val currentUserId: String?

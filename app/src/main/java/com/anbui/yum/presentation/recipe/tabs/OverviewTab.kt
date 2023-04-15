@@ -19,7 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.anbui.yum.data.model.Recipe
+import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.presentation.recipe.component.OverviewListItem
 import com.anbui.yum.presentation.recipe.component.RecipeExpandableText
 import com.anbui.yum.presentation.recipe.component.RelatedRecipes

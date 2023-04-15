@@ -4,6 +4,13 @@ package com.anbui.yum.di
 import android.app.Application
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.paging.ExperimentalPagingApi
+import androidx.paging.Pager
+import androidx.paging.PagingConfig
+import androidx.room.Room
+import com.anbui.yum.data.local.YumDatabase
+import com.anbui.yum.data.local.recipe.RecipeEntity
+import com.anbui.yum.data.remote.RecipeRemoteMediator
 import com.anbui.yum.data.remote.implement.RecipeServiceImpl
 import com.anbui.yum.data.remote.implement.ReviewServiceImpl
 import com.anbui.yum.data.remote.implement.UserInfoServiceImpl
@@ -15,6 +22,7 @@ import com.anbui.yum.data.remote.service.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
+import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import io.ktor.client.*
 import io.ktor.client.engine.cio.*
@@ -50,6 +58,16 @@ object AppModule {
 
     @Provides
     @Singleton
+    fun provideYumDatabase(@ApplicationContext context: Context): YumDatabase {
+        return Room.databaseBuilder(
+            context,
+            YumDatabase::class.java,
+            "Yum.db"
+        ).build()
+    }
+
+    @Provides
+    @Singleton
     fun provideSharedPref(app: Application): SharedPreferences {
         return app.getSharedPreferences("prefs", Context.MODE_PRIVATE)
     }
@@ -76,6 +94,22 @@ object AppModule {
     @Singleton
     fun provideReviewService(client: HttpClient): ReviewService{
         return ReviewServiceImpl(client)
+    }
+
+    @OptIn(ExperimentalPagingApi::class)
+    @Provides
+    @Singleton
+    fun provideBeerPager(yumDb: YumDatabase, beerApi: RecipeService): Pager<Int, RecipeEntity> {
+        return Pager(
+            config = PagingConfig(pageSize = 5),
+            remoteMediator = RecipeRemoteMediator(
+                yumDb = yumDb,
+                recipeService = beerApi
+            ),
+            pagingSourceFactory = {
+                yumDb.recipeDao.pagingSource()
+            }
+        )
     }
 
 

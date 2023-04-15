@@ -3,7 +3,7 @@ package com.anbui.yum.data.remote.implement
 import android.content.SharedPreferences
 import android.util.Log
 import com.anbui.yum.common.util.Constants.BASE_URL
-import com.anbui.yum.data.model.UserInfo
+import com.anbui.yum.domain.model.UserInfo
 import com.anbui.yum.data.remote.service.UserInfoService
 import io.ktor.client.*
 import io.ktor.client.call.*

@@ -2,7 +2,7 @@ package com.anbui.yum.data.remote.implement
 
 import android.util.Log
 import com.anbui.yum.common.util.Constants.BASE_URL
-import com.anbui.yum.data.model.Review
+import com.anbui.yum.domain.model.Review
 import com.anbui.yum.data.remote.service.ReviewService
 import io.ktor.client.*
 import io.ktor.client.call.*

@@ -1,12 +1,13 @@
 package com.anbui.yum.data.remote.service
 
-import com.anbui.yum.data.model.Nutrition
-import com.anbui.yum.data.model.Recipe
+import com.anbui.yum.data.remote.recipe.RecipeDto
+import com.anbui.yum.domain.model.Nutrition
 
 interface RecipeService{
 
-    suspend fun getRecipe(recipeId: String) : Recipe?
-    suspend fun getAllRecipe() : List<Recipe>
+    suspend fun getRecipe(recipeId: String) : RecipeDto?
+    suspend fun getRecipes(page: Int, pageCount: Int) : List<RecipeDto>
+    suspend fun getAllRecipe() : List<RecipeDto>
     suspend fun getNutrition(recipeId: String): Nutrition
 
 }

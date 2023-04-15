@@ -2,13 +2,14 @@
 androidGradlePlugin = "8.0.0"
 androidxCore = "1.9.0"
 androidxComposeBom = "2023.04.00"
-androidxLifecycle = "2.6.0"
+androidxLifecycle = "2.6.1"
 androidxSplashscreen = "1.0.0"
 androidxActivity = "1.7.0"
 androidxComposeMaterial3 = "1.1.0-beta02"
 androidxNavigation = "2.5.3"
 androidxHiltNavigationCompose = "1.0.0"
-androidxRoom = "2.5.0"
+androidxRoom = "2.5.1"
+androidxPaging = "3.1.1"
 hilt = "2.45"
 accompanists = "0.30.0"
 kotlinxCoroutines = "1.6.4"
@@ -18,7 +19,8 @@ junit4 = "4.13.2"
 androidxEspresso = "3.5.1"
 androidxTestExt = "1.1.5"
 coil = "2.2.2"
-hm = "1.4.0"
+paingCompose = "1.0.0-alpha18"
+
 
 
 
@@ -36,13 +38,14 @@ androidx-compose-ui-testManifest = { group = "androidx.compose.ui", name = "ui-t
 androidx-compose-ui-tooling = { group = "androidx.compose.ui", name = "ui-tooling" }
 androidx-compose-ui-unit = { group = "androidx.compose.ui", name = "ui-unit" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "androidxComposeMaterial3" }
-#androidx-compose-material = { group = "androidx.compose.material", name = "material", version.ref = "androidxComposeMaterial" }
 androidx-navigation-compose = { group = "androidx.navigation", name = "navigation-compose", version.ref = "androidxNavigation" }
 androidx-splash-screen = { group = "androidx.core", name = "core-splashscreen", version.ref = "androidxSplashscreen" }
 androidx-room-runtime = { group = "androidx.room", name = "room-runtime", version.ref = "androidxRoom" }
 androidx-room-compiler = { group = "androidx.room", name = "room-compiler", version.ref = "androidxRoom" }
 androidx-room-ktx = { group = "androidx.room", name = "room-ktx", version.ref = "androidxRoom" }
 androidx-room-paging = { group = "androidx.room", name = "room-paging", version.ref = "androidxRoom" }
+androidx-paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "androidxPaging" }
+androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paingCompose" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }

@@ -3,9 +3,9 @@ package com.anbui.yum.presentation.recipe
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
-import com.anbui.yum.data.model.Nutrition
-import com.anbui.yum.data.model.Recipe
-import com.anbui.yum.data.model.Review
+import com.anbui.yum.domain.model.Nutrition
+import com.anbui.yum.domain.model.Recipe
+import com.anbui.yum.domain.model.Review
 
 
 @OptIn(ExperimentalFoundationApi::class)

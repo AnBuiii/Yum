@@ -30,7 +30,7 @@ import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anbui.yum.R
-import com.anbui.yum.data.model.Recipe
+import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.ui.theme.YumBlack
 import com.anbui.yum.ui.theme.YumGreen
 import com.anbui.yum.ui.theme.YumOrange

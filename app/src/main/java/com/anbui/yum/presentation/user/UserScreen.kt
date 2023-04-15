@@ -29,7 +29,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.anbui.yum.R
 import com.anbui.yum.common.component.YumSurface
-import com.anbui.yum.data.model.UserInfo
+import com.anbui.yum.domain.model.UserInfo
 import com.anbui.yum.ui.theme.YumGreen
 
 

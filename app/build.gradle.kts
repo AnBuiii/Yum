@@ -98,16 +98,15 @@ dependencies {
 //    implementation("ch.qos.logback:logback-classic:1.3.0")
 
     // room
-    implementation(libs.androidx.room.runtime)
     kapt(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
 
+    // Paging
+    implementation(libs.androidx.paging)
+    implementation(libs.androidx.paging.compose)
+//    implementation "androidx.paging:paging-compose:1.0.0-alpha18"
+
     // coil
     implementation(libs.coil.kt.compose)
-
-
-
-
-
 }

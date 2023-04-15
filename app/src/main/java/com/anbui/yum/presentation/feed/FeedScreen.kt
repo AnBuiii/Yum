@@ -24,7 +24,7 @@ import com.anbui.yum.R
 import com.anbui.yum.common.component.YumRecipeCard
 import com.anbui.yum.common.component.YumSurface
 import com.anbui.yum.common.component.YumTabRow
-import com.anbui.yum.data.model.Recipe
+import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.ui.theme.YumOrange
 
 

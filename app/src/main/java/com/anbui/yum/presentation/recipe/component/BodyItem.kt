@@ -12,9 +12,9 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.anbui.yum.data.model.Nutrition
-import com.anbui.yum.data.model.Recipe
-import com.anbui.yum.data.model.Review
+import com.anbui.yum.domain.model.Nutrition
+import com.anbui.yum.domain.model.Recipe
+import com.anbui.yum.domain.model.Review
 import com.anbui.yum.presentation.recipe.tabs.DirectionTab
 import com.anbui.yum.presentation.recipe.tabs.IngredientTab
 import com.anbui.yum.presentation.recipe.tabs.NutritionTab

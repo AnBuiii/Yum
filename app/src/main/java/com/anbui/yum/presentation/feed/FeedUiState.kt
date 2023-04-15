@@ -1,6 +1,6 @@
 package com.anbui.yum.presentation.feed
 
-import com.anbui.yum.data.model.Recipe
+import com.anbui.yum.domain.model.Recipe
 
 data class FeedUiState(
     val tabState: Int = 2,

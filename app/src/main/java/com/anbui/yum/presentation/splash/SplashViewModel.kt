@@ -5,7 +5,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.anbui.yum.FEED_SCREEN
 import com.anbui.yum.SPLASH_SCREEN
-import com.anbui.yum.data.model.User
+import com.anbui.yum.domain.model.User
 import com.anbui.yum.data.remote.service.UserInfoService
 import com.anbui.yum.data.remote.service.UserService
 import com.anbui.yum.presentation.YumViewModel

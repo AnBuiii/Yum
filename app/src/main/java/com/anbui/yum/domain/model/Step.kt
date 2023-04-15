@@ -1,4 +1,4 @@
-package com.anbui.yum.data.model
+package com.anbui.yum.domain.model
 
 import kotlinx.serialization.Serializable
 

@@ -8,7 +8,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import coil.compose.AsyncImage
-import com.anbui.yum.data.model.Recipe
+import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.presentation.recipe.IMAGE_HEIGHT
 
 @Composable

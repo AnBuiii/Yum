@@ -4,8 +4,10 @@ package com.anbui.yum.presentation.feed
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import androidx.paging.Pager
 import com.anbui.yum.RECIPE_DETAIL_SCREEN
-import com.anbui.yum.RECIPE_ID
+import com.anbui.yum.data.local.recipe.RecipeEntity
+import com.anbui.yum.data.remote.recipe.toRecipe
 import com.anbui.yum.data.remote.service.RecipeService
 import com.anbui.yum.presentation.YumViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -15,21 +17,25 @@ import javax.inject.Inject
 @HiltViewModel
 class FeedViewModel @Inject constructor(
     private val recipeService: RecipeService,
+    private val pager: Pager<Int, RecipeEntity>
 ) : YumViewModel() {
 
     val uiState = mutableStateOf(FeedUiState())
 
     init {
         getFeedRecipes()
+
     }
+
     private fun getFeedRecipes() {
         viewModelScope.launch {
-            uiState.value = uiState.value.copy(recipes = recipeService.getAllRecipe())
+            uiState.value =
+                uiState.value.copy(recipes = recipeService.getAllRecipe().map { it.toRecipe() })
             Log.d("Recipe", uiState.value.recipes.toString())
         }
     }
 
-    fun onRecipeTap(openScreen: (String) -> Unit, recipeId: String){
+    fun onRecipeTap(openScreen: (String) -> Unit, recipeId: String) {
         openScreen("$RECIPE_DETAIL_SCREEN/$recipeId")
     }
 

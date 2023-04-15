@@ -4,7 +4,7 @@ import android.content.SharedPreferences
 import android.util.Log
 import com.anbui.yum.common.util.Constants.SIGN_IN_URL
 import com.anbui.yum.common.util.Constants.SIGN_UP_URL
-import com.anbui.yum.data.model.User
+import com.anbui.yum.domain.model.User
 import com.anbui.yum.data.remote.service.UserService
 import io.ktor.client.*
 import io.ktor.client.call.*

@@ -16,7 +16,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.anbui.yum.data.model.Review
+import com.anbui.yum.domain.model.Review
 import com.anbui.yum.presentation.recipe.component.ReviewItem
 import com.anbui.yum.presentation.recipe.component.TabTopBar
 import com.anbui.yum.ui.theme.YumGreen
