@@ -11,11 +11,11 @@ import androidx.room.Room
 import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.local.recipe.RecipeEntity
 import com.anbui.yum.data.remote.RecipeRemoteMediator
-import com.anbui.yum.data.remote.implement.RecipeServiceImpl
+import com.anbui.yum.data.remote.recipe.RecipeServiceImpl
 import com.anbui.yum.data.remote.implement.ReviewServiceImpl
 import com.anbui.yum.data.remote.implement.UserInfoServiceImpl
 import com.anbui.yum.data.remote.implement.UserServiceImpl
-import com.anbui.yum.data.remote.service.RecipeService
+import com.anbui.yum.data.remote.recipe.RecipeService
 import com.anbui.yum.data.remote.service.ReviewService
 import com.anbui.yum.data.remote.service.UserInfoService
 import com.anbui.yum.data.remote.service.UserService
@@ -46,10 +46,11 @@ object AppModule {
             }
             install(ContentNegotiation) {
                 json(
-                    Json{
+                    Json {
                         prettyPrint = true
                         isLenient = true
-                    }
+                        ignoreUnknownKeys = true
+                    },
                 )
             }
 
@@ -62,9 +63,14 @@ object AppModule {
         return Room.databaseBuilder(
             context,
             YumDatabase::class.java,
-            "Yum.db"
+            "Yum.db",
         ).build()
     }
+
+
+
+
+
 
     @Provides
     @Singleton
@@ -86,31 +92,33 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRecipeService(client: HttpClient): RecipeService{
+    fun provideRecipeService(client: HttpClient): RecipeService {
         return RecipeServiceImpl(client)
     }
 
     @Provides
     @Singleton
-    fun provideReviewService(client: HttpClient): ReviewService{
+    fun provideReviewService(client: HttpClient): ReviewService {
         return ReviewServiceImpl(client)
     }
 
     @OptIn(ExperimentalPagingApi::class)
     @Provides
     @Singleton
-    fun provideBeerPager(yumDb: YumDatabase, beerApi: RecipeService): Pager<Int, RecipeEntity> {
+    fun provideRecipePager(yumDb: YumDatabase, recipeService: RecipeService): Pager<Int, RecipeEntity> {
         return Pager(
             config = PagingConfig(pageSize = 5),
             remoteMediator = RecipeRemoteMediator(
                 yumDb = yumDb,
-                recipeService = beerApi
+                recipeService = recipeService,
             ),
             pagingSourceFactory = {
                 yumDb.recipeDao.pagingSource()
-            }
+            },
         )
     }
+
+
 
 
 //    @Provides

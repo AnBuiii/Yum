@@ -22,7 +22,7 @@ const val SIGNUP_SCREEN = "SignupScreen"
 const val SIGNIN_SCREEN = "SignInScreen"
 
 
-const val RECIPE_ID = "recipeId"
+const val RECIPE_ID = "id"
 const val RECIPE_DEFAULT_ID = "64228ff38bfb4c5001ed75b7"
 const val RECIPE_ID_ARG = "?$RECIPE_ID = {$RECIPE_ID}"
 

@@ -1,27 +1,20 @@
-package com.anbui.yum.data.remote.implement
+package com.anbui.yum.data.remote.recipe
 
 import android.util.Log
 import com.anbui.yum.common.util.Constants.BASE_URL
 import com.anbui.yum.data.remote.recipe.RecipeDto
+import com.anbui.yum.data.remote.recipe.RecipeService
 import com.anbui.yum.domain.model.Nutrition
-import com.anbui.yum.domain.model.Recipe
-import com.anbui.yum.data.remote.service.RecipeService
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
 
 class RecipeServiceImpl(
     private val client: HttpClient,
 ) : RecipeService {
     override suspend fun getAllRecipe(): List<RecipeDto> {
         return try {
-            val a: List<RecipeDto> = client.get("$BASE_URL/recipe"){
-                url{
-                    parameters.append("page", "3")
-                    parameters.append("per_page", "5")
-
-                }
-            }.body()
+            val a: List<RecipeDto> = client.get("$BASE_URL/recipe").body()
             Log.d("hm", a.toString())
             a
         } catch (e: Exception) {
@@ -31,20 +24,24 @@ class RecipeServiceImpl(
     }
 
     override suspend fun getRecipes(page: Int, pageCount: Int): List<RecipeDto> {
-        return try {
-            val a: List<RecipeDto> = client.get("$BASE_URL/recipe"){
-                url{
+            val a: List<RecipeDto> = client.get("$BASE_URL/recipe") {
+                url {
                     parameters.append("page", page.toString())
                     parameters.append("per_page", pageCount.toString())
 
                 }
             }.body()
             Log.d("hm", a.toString())
-            a
-        } catch (e: Exception) {
-            Log.d("Recipe service get all recipe error", e.toString())
-            listOf()
-        }
+            return a
+//        }
+//        catch (e: Exception) {
+//            Log.d("Recipe service get all recipe error", e.toString())
+//            listOf()
+//        }
+    }
+
+    override suspend fun getAllRecipeSize(): Int {
+        return client.get("$BASE_URL/recipe/size").body()
     }
 
     override suspend fun getNutrition(recipeId: String): Nutrition {

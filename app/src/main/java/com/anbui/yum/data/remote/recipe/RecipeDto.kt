@@ -22,32 +22,6 @@ data class RecipeDto(
     val id: String = "",
 )
 
-fun RecipeDto.toRecipe(): Recipe {
-    return Recipe(
-        title = title,
-        subTitle = subTitle,
-        note = note,
-        ratings = ratings,
-        servings = servings,
-        caloriesPerServing = caloriesPerServing,
-        totalTimeInMinute = totalTimeInMinute,
-        imageUrl = imageUrl,
-        ingredients = ingredients,
-        steps = steps,
-        id = id,
-        userId = userId,
-    )
-}
 
-fun RecipeDto.toRecipeEntity(): RecipeEntity {
-    return RecipeEntity(
-        title,
-        subTitle,
-        note,
-        ratings,
-        servings,
-        caloriesPerServing,
-        totalTimeInMinute,
-        imageUrl,
-    )
-}
+
+

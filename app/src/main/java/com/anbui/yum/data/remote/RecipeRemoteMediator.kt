@@ -7,8 +7,8 @@ import androidx.paging.RemoteMediator
 import androidx.room.withTransaction
 import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.local.recipe.RecipeEntity
-import com.anbui.yum.data.remote.recipe.toRecipeEntity
-import com.anbui.yum.data.remote.service.RecipeService
+import com.anbui.yum.data.mappers.toRecipeEntity
+import com.anbui.yum.data.remote.recipe.RecipeService
 import java.io.IOException
 
 @OptIn(ExperimentalPagingApi::class)
@@ -30,14 +30,14 @@ class RecipeRemoteMediator(
                 LoadType.APPEND -> {
                     val lastItem = state.lastItemOrNull()
                     if(lastItem == null) {
-                        1
+                        return MediatorResult.Success(endOfPaginationReached = true)
                     } else {
-                        (lastItem.id / state.config.pageSize) + 1
+                        (yumDb.recipeDao.size() / state.config.pageSize) + 1
                     }
                 }
             }
 
-            val beers = recipeService.getRecipes(
+            val recipes = recipeService.getRecipes(
                 page = loadKey,
                 pageCount = state.config.pageSize
             )
@@ -46,12 +46,12 @@ class RecipeRemoteMediator(
                 if(loadType == LoadType.REFRESH) {
                     yumDb.recipeDao.clearAll()
                 }
-                val beerEntities = beers.map { it.toRecipeEntity() }
-                yumDb.recipeDao.upsertAll(beerEntities)
+                val recipeEntities = recipes.map { it.toRecipeEntity() }
+                yumDb.recipeDao.upsertAll(recipeEntities)
             }
 
             MediatorResult.Success(
-                endOfPaginationReached = beers.isEmpty()
+                endOfPaginationReached = recipes.size < state.config.pageSize
             )
         } catch(e: IOException) {
             MediatorResult.Error(e)

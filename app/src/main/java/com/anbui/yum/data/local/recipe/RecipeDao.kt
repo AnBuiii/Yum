@@ -16,4 +16,7 @@ interface RecipeDao {
 
     @Query("DELETE FROM recipeentity")
     suspend fun clearAll()
+
+    @Query("SELECT COUNT(*) FROM recipeentity")
+    suspend fun size(): Int
 }

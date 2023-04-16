@@ -64,7 +64,7 @@ fun YumApp() {
             ) { paddingValues ->
                 NavHost(
                     navController = appState.navController,
-//                    startDestination = "$RECIPE_DETAIL_SCREEN/{recipeId}",
+//                    startDestination = "$RECIPE_DETAIL_SCREEN/{id}",
                     startDestination = "$SPLASH_SCREEN",
                     modifier = Modifier.padding(paddingValues),
                 ) {

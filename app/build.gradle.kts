@@ -59,12 +59,12 @@ dependencies {
     implementation(libs.androidx.activity.compose)
     implementation(libs.androidx.compose.ui)
     implementation(libs.androidx.compose.ui.util)
-//    implementation(libs.androidx.compose.ui.unit)
+    implementation(libs.androidx.compose.material3)
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.testManifest)
     androidTestImplementation(libs.androidx.compose.ui.test)
-    implementation(libs.androidx.compose.material3)
+
 //    implementation(libs.androidx.compose.material)
 
     //test
@@ -105,7 +105,6 @@ dependencies {
     // Paging
     implementation(libs.androidx.paging)
     implementation(libs.androidx.paging.compose)
-//    implementation "androidx.paging:paging-compose:1.0.0-alpha18"
 
     // coil
     implementation(libs.coil.kt.compose)
