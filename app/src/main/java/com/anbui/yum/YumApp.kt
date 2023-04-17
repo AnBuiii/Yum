@@ -24,6 +24,7 @@ import com.anbui.yum.common.component.YumBottomBar
 import com.anbui.yum.common.component.YumSurface
 import com.anbui.yum.common.snackbar.SnackbarManager
 import com.anbui.yum.presentation.cart.CartScreen
+import com.anbui.yum.presentation.collection.CollectionScreen
 import com.anbui.yum.presentation.feed.FeedScreen
 import com.anbui.yum.presentation.recipe.RecipeDetailScreen
 import com.anbui.yum.presentation.search.SearchScreen
@@ -64,8 +65,7 @@ fun YumApp() {
             ) { paddingValues ->
                 NavHost(
                     navController = appState.navController,
-//                    startDestination = "$RECIPE_DETAIL_SCREEN/{id}",
-                    startDestination = "$SPLASH_SCREEN",
+                    startDestination = SPLASH_SCREEN,
                     modifier = Modifier.padding(paddingValues),
                 ) {
                     yumGraph(appState)
@@ -104,24 +104,13 @@ private fun resources(): Resources {
 @ExperimentalAnimationApi
 fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     composable(SPLASH_SCREEN) {
-        Log.d("TAB LOG", appState.currentRoute!!)
         SplashScreen(
             openAndPopUp = { route, popup ->
                 appState.navigateAndPopUp(route, popup)
             },
         )
-
     }
-    composable("test") {
 
-    }
-//    navigation(
-//        route = HOME_SCREEN,
-//        startDestination = HomeScreenSection.FEED.route,
-//    ) {
-//
-//
-//    }
     composable(HomeScreenSection.FEED.route) {
         FeedScreen(
             onRecipeTap = { route ->
@@ -132,33 +121,30 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
         Log.d("TAB LOG", appState.currentRoute!!)
 
     }
+
     composable(HomeScreenSection.SEARCH.route) {
         SearchScreen(onRecipeClick = {})
-        Log.d("TAB LOG", appState.currentRoute!!)
-
     }
+
     composable(HomeScreenSection.CART.route) {
         CartScreen(onRecipeTap = {})
     }
+
     composable(HomeScreenSection.USER.route) {
         UserScreen(
             onOpenScreen = { route -> appState.navigate(route) },
             restartApp = { route -> appState.clearAndNavigate(route) },
         )
-        Log.d("TAB LOG", appState.currentRoute!!)
-
     }
+
     composable(SIGNIN_SCREEN) {
         SignInScreen(openAndPopUp = appState::navigateAndPopUp)
-        Log.d("TAB LOG", appState.currentRoute!!)
-
     }
+
     composable(SIGNUP_SCREEN) {
         SignUpScreen(
             openAndPopUp = appState::navigateAndPopUp,
         )
-        Log.d("TAB LOG", appState.currentRoute!!)
-
     }
 
     composable(
@@ -173,6 +159,17 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
             popUp = { appState.popUp() },
             recipeId = it.arguments?.getString(RECIPE_ID) ?: RECIPE_DEFAULT_ID,
         )
+    }
+
+    composable(
+        route = "$COLLECTION_SCREEN/{id}",
+        arguments = listOf(
+            navArgument("id") {
+                defaultValue = RECIPE_DEFAULT_ID
+            },
+        ),
+    ){
+        CollectionScreen()
     }
 }
 

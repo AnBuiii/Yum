@@ -28,6 +28,8 @@ class FeedViewModel @Inject constructor(
         getFeedRecipes()
     }
 
+
+
     val recipePagingFlow = pager
         .flow
         .map {pagingData ->
@@ -35,7 +37,9 @@ class FeedViewModel @Inject constructor(
                 it.toRecipe()
             }
         }
-        .cachedIn(viewModelScope)
+        .cachedIn(
+            viewModelScope,
+        )
 
     private fun getFeedRecipes() {
 //        viewModelScope.launch {
@@ -60,9 +64,7 @@ class FeedViewModel @Inject constructor(
     private val searchText
         get() = uiState.value.searchText
 
-    fun scrollToTab(index: Int) {
-        uiState.value = uiState.value.copy(tabState = index)
-    }
+
 
 
     fun onSearchTextChange(newValue: String) {

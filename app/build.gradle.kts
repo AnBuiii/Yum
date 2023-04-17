@@ -108,4 +108,6 @@ dependencies {
 
     // coil
     implementation(libs.coil.kt.compose)
+
+    implementation ("com.google.accompanist:accompanist-swiperefresh:0.31.0-alpha")
 }

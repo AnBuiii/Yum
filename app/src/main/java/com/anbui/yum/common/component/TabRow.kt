@@ -8,10 +8,12 @@ import androidx.compose.material3.TabRowDefaults.tabIndicatorOffset
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.anbui.yum.ui.theme.YumGreen
 
 
 @Composable
@@ -31,6 +33,7 @@ fun YumTabRow(
                 Modifier
                     .tabIndicatorOffset(tabPositions[selectedTab])
                     .padding(horizontal = 4.dp),
+                color = YumGreen,
                 height = 3.dp,
             )
 

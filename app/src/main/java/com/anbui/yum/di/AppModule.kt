@@ -68,10 +68,6 @@ object AppModule {
     }
 
 
-
-
-
-
     @Provides
     @Singleton
     fun provideSharedPref(app: Application): SharedPreferences {
@@ -117,9 +113,6 @@ object AppModule {
             },
         )
     }
-
-
-
 
 //    @Provides
 //    @Singleton

@@ -1,18 +1,17 @@
 package com.anbui.yum.presentation.recipe
 
-//import androidx.compose.material.BackdropValue
-//import androidx.compose.material.ExperimentalMaterialApi
-//import androidx.compose.material.rememberBackdropScaffoldState
-//import androidx.compose.material.ExperimentalMaterialApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.anbui.yum.presentation.recipe.component.BodyItem
@@ -39,6 +38,8 @@ fun RecipeDetailScreen(
     val pagerState = rememberPagerState()
     val coroutineScope = rememberCoroutineScope()
 
+
+
     BottomSheetScaffold(
 
         sheetPeekHeight = 500.dp,
@@ -46,6 +47,7 @@ fun RecipeDetailScreen(
         sheetDragHandle = {},
         sheetContent = {
             TitleItem(
+//                modifier = Modifier.pul
                 recipe = uiState.recipe,
                 pagerState = pagerState,
                 onTabChange = {

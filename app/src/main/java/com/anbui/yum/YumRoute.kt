@@ -20,6 +20,7 @@ const val USER_SCREEN = "UserScreen"
 const val RECIPE_DETAIL_SCREEN = "RecipeScreen"
 const val SIGNUP_SCREEN = "SignupScreen"
 const val SIGNIN_SCREEN = "SignInScreen"
+const val COLLECTION_SCREEN = "CollectionScreen"
 
 
 const val RECIPE_ID = "id"
