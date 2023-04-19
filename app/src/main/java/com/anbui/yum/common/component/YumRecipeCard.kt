@@ -33,7 +33,7 @@ fun YumRecipeCard(
 ) {
     Box(
         modifier = Modifier
-            .aspectRatio(1f)
+            .aspectRatio(1.15f)
             .fillMaxWidth()
             .clickable { onTap() },
     ) {

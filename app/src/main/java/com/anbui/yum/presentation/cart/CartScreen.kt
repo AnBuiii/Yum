@@ -1,44 +1,37 @@
 package com.anbui.yum.presentation.cart
 
-import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
+import android.util.Log
+import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.ModalBottomSheet
-import androidx.compose.material3.SheetState
-import androidx.compose.material3.Text
-import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.anbui.yum.common.component.YumDivider
 import com.anbui.yum.common.component.YumSurface
-import com.anbui.yum.common.component.YumTabRow
-import kotlinx.coroutines.CoroutineScope
+import com.anbui.yum.domain.model.ShoppingList
+import com.anbui.yum.presentation.cart.components.CartBottomSheet
+import com.anbui.yum.presentation.cart.components.CartTopBar
+import com.anbui.yum.presentation.cart.tabs.PantryTab
+import com.anbui.yum.presentation.cart.tabs.PlanTab
+import com.anbui.yum.presentation.cart.tabs.ShopTab
 import kotlinx.coroutines.launch
 
 
 val cartTabList = listOf("Plan", "Shop", "Pantry")
 
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalMaterial3Api
 @Composable
 fun CartScreen(
@@ -47,166 +40,56 @@ fun CartScreen(
     viewModel: CartViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState
-    YumSurface(modifier.fillMaxSize()) {
+    val pagerState = rememberPagerState()
+    val coroutineScope = rememberCoroutineScope()
+
+    YumSurface(
+        modifier.fillMaxSize(),
+        color = Color.White,
+    ) {
         CartBottomSheet(
             isOpen = uiState.isBottomSheetOpen,
-            onChangeOpenBottomSheet = viewModel::onChangeBottomSheet
+            onChangeOpenBottomSheet = viewModel::onChangeBottomSheet,
         )
-        Box(
-            modifier = Modifier.fillMaxSize()
+        // main screen
+        Column(
+            modifier = Modifier.fillMaxSize(),
         ) {
-            // main screen
-            Column(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                CartTopBar(
-                    selectedTab = uiState.tabState,
-                    onTabChange = viewModel::onCartTabChange,
-                    onMoreTap = {
-                        viewModel.onChangeBottomSheet(true)
-                    }
-                )
-                YumDivider(thickness = 2.dp)
-                CartUnderTopBar()
-
-            }
-
-            // search appear
-
-
-        }
-    }
-}
-
-@Composable
-private fun CartTopBar(
-    modifier: Modifier = Modifier,
-    selectedTab: Int,
-    onTabChange: (Int) -> Unit = {},
-    onMoreTap: () -> Unit = {},
-) {
-
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        YumTabRow(
-            selectedTab = selectedTab,
-            onTabChange = onTabChange,
-            tabList = cartTabList,
-            modifier = Modifier.width(300.dp),
-            textSize = 18.sp
-        )
-        IconButton(onClick = onMoreTap) {
-            Icon(
-                imageVector = Icons.Default.MoreVert,
-                contentDescription = "",
-                modifier = Modifier.size(26.dp)
+            CartTopBar(
+                selectedTab = pagerState.currentPage,
+                onTabChange = {
+                    coroutineScope.launch { pagerState.animateScrollToPage(it) }
+                },
+                onMoreTap = { viewModel.onChangeBottomSheet(true) },
             )
-        }
+            YumDivider(thickness = 3.dp)
 
-    }
-}
+            HorizontalPager(
+                pageCount = 3,
+                state = pagerState,
+            ) { index ->
+                when (index) {
+                    0 -> PlanTab()
+                    1 -> ShopTab(
+                        hmItems = uiState.hmItems,
+                        onCheck = { id ->
+                            viewModel.remove(id)
+                        },
+                    )
 
-@ExperimentalMaterial3Api
-@Composable
-private fun CartBottomSheet(
-    isOpen: Boolean = false,
-    onChangeOpenBottomSheet: (Boolean) -> Unit = {},
-    modalBottomSheetState: SheetState = rememberModalBottomSheetState(),
-    coroutineScope: CoroutineScope = rememberCoroutineScope(),
-) {
-    fun closeBottomSheet() {
-        coroutineScope.launch { modalBottomSheetState.hide() }
-            .invokeOnCompletion {
-                if (!modalBottomSheetState.isVisible) {
-                    onChangeOpenBottomSheet(false)
+                    2 -> PantryTab()
                 }
             }
-    }
-    if (isOpen) {
-        ModalBottomSheet(
-            onDismissRequest = { onChangeOpenBottomSheet(false) },
-            sheetState = modalBottomSheetState,
-        ) {
-            Column(
-                modifier = Modifier
-                    .padding(start = 32.dp, end = 32.dp, bottom = 16.dp),
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
-//                verticalArrangement = Arrangement.spacedBy(32.dp)
-            ) {
-                BottomBarItem(
-                    imageVector = Icons.Default.Email,
-                    text = "Email",
-                    onTap = {
-                        closeBottomSheet()
-                    }
-                )
-                BottomBarItem(
-                    imageVector = Icons.Default.Email,
-                    text = "Email",
-                    onTap = {
-                        closeBottomSheet()
-                    }
-                )
-                BottomBarItem(
-                    imageVector = Icons.Default.Email,
-                    text = "Email",
-                    onTap = {
-                        closeBottomSheet()
-                    }
-                )
-            }
+//            CartUnderTopBar()
+
         }
+
+        // search appear
     }
 }
 
-@Composable
-fun BottomBarItem(
-    modifier: Modifier = Modifier,
-    imageVector: ImageVector,
-    text: String,
-    onTap: () -> Unit = {},
-) {
-    Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { onTap() }
-    ) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 32.dp, vertical = 16.dp)
-                .align(Alignment.CenterStart),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Icon(imageVector = imageVector, contentDescription = null)
-            Text(text, fontSize = 16.sp)
-        }
-    }
-}
 
-@Composable
-private fun CartUnderTopBar(
-    modifier: Modifier = Modifier,
-) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(16.dp),
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.SpaceBetween
-    ) {
-        Row(
-            modifier = Modifier.clickable { },
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            Icon(imageVector = Icons.Default.AddCircle, contentDescription = "")
-            Text("Add to Shopping List")
-        }
-    }
-}
+
+
+
+

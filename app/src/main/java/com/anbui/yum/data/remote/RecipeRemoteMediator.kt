@@ -29,11 +29,6 @@ class RecipeRemoteMediator(
                     val remoteKeys = getRemoteKeyClosestToCurrentPosition(state)
 
                     remoteKeys?.nextPage?.minus(1) ?: 1
-                    Log.d("asd", remoteKeys.toString())
-                    remoteKeys
-
-
-                    1
                 }
 
                 LoadType.PREPEND -> {

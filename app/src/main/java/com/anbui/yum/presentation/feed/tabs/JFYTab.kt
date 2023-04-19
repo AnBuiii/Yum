@@ -5,10 +5,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.paging.LoadState
@@ -26,24 +29,33 @@ fun JFYTab(
     modifier: Modifier = Modifier,
     recipes: LazyPagingItems<Recipe>,
     onTap: (String) -> Unit = {},
+    onReload: () -> Unit,
 ) {
-    val swipeRefreshState = rememberSwipeRefreshState(false)
+    var isRefreshing by remember {
+        mutableStateOf(false)
+    }
+    val swipeRefreshState = rememberSwipeRefreshState(isRefreshing = isRefreshing)
+
     val state = rememberLazyListState()
     Column {
 //        item {
         SuggestionCard()
 //        }
-        if (recipes.loadState.refresh is LoadState.Loading) {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.CenterHorizontally),
-            )
-        }
-        SwipeRefresh(state = swipeRefreshState, onRefresh = { }) {
+//        if (recipes.loadState.refresh is LoadState.Loading) {
+//            CircularProgressIndicator(
+//                modifier = Modifier.align(Alignment.CenterHorizontally),
+//            )
+//        }
+        SwipeRefresh(
+            state = swipeRefreshState,
+            onRefresh = {
+                recipes.refresh()
+            },
+        ) {
             LazyColumn(
                 state = state,
                 modifier = Modifier
-                    .fillMaxSize()
-                    .background(Color(232, 233, 235)),
+                    .fillMaxSize(),
             ) {
                 items(
                     recipes,
@@ -63,6 +75,11 @@ fun JFYTab(
 //                }
 
             }
+        }
+
+        LaunchedEffect(recipes.loadState.refresh) {
+            isRefreshing = recipes.loadState.refresh is LoadState.Loading
+
         }
     }
 

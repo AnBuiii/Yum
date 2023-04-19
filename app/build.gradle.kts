@@ -29,6 +29,7 @@ android {
             )
         }
     }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
@@ -109,5 +110,6 @@ dependencies {
     // coil
     implementation(libs.coil.kt.compose)
 
-    implementation ("com.google.accompanist:accompanist-swiperefresh:0.31.0-alpha")
+    implementation("com.google.accompanist:accompanist-swiperefresh:0.31.0-alpha")
+    implementation("androidx.compose.material:material:1.3.1")
 }

@@ -19,4 +19,8 @@ class CartViewModel @Inject constructor(
         uiState.value = uiState.value.copy(isBottomSheetOpen = value)
     }
 
+    fun remove(id: String){
+        uiState.value = uiState.value.copy(hmItems = uiState.value.hmItems.filterNot { it.id == id })
+    }
+
 }

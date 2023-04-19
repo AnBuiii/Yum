@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -46,6 +47,7 @@ fun YumApp() {
             color = MaterialTheme.colorScheme.background,
         ) {
             Scaffold(
+                modifier = Modifier,
                 topBar = {
 
                 }, //TODO
@@ -114,9 +116,11 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     composable(HomeScreenSection.FEED.route) {
         FeedScreen(
             onRecipeTap = { route ->
-                Log.d("Recipe route", route)
                 appState.navigate(route)
             },
+            onCollectionTab = {id ->
+                appState.navigate("$COLLECTION_SCREEN/$id")
+            }
         )
         Log.d("TAB LOG", appState.currentRoute!!)
 
