@@ -111,5 +111,5 @@ dependencies {
     implementation(libs.coil.kt.compose)
 
     implementation("com.google.accompanist:accompanist-swiperefresh:0.31.0-alpha")
-    implementation("androidx.compose.material:material:1.3.1")
+//    implementation("androidx.compose.material:material:1.3.1")
 }

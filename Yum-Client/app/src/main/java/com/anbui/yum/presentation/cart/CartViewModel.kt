@@ -23,4 +23,8 @@ class CartViewModel @Inject constructor(
         uiState.value = uiState.value.copy(hmItems = uiState.value.hmItems.filterNot { it.id == id })
     }
 
+    fun reload() {
+        uiState.value = uiState.value
+    }
+
 }
