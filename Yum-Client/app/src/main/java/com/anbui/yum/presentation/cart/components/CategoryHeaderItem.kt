@@ -7,8 +7,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowDropDown
-import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.icons.filled.KeyboardArrowUp
 import androidx.compose.material3.Icon
@@ -41,7 +39,7 @@ fun CategoryHeaderItem(
             .fillMaxWidth()
             .background(Color.White)
             .clickable { onTab() }
-            .padding(16.dp),
+            .padding(horizontal = 32.dp, vertical = 24.dp),
     ) {
         Text(
             text = buildAnnotatedString {
@@ -51,7 +49,7 @@ fun CategoryHeaderItem(
                 }
             },
             fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
+            fontSize = 16.sp,
             color = YumBlack,
 
             )
@@ -59,7 +57,7 @@ fun CategoryHeaderItem(
         Icon(
             if (isCollapsed) Icons.Default.KeyboardArrowDown else Icons.Default.KeyboardArrowUp,
             contentDescription = null,
-            tint = YumGreen
+            tint = YumGreen,
         )
 
     }

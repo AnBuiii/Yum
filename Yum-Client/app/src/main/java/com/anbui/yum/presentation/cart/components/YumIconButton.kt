@@ -40,7 +40,7 @@ fun YumIconButton(
         ),
     ) {
         Icon(
-            Icons.Default.Edit,
+            icon,
             "",
             modifier = Modifier.size(iconSize),
             tint = YumGreen,

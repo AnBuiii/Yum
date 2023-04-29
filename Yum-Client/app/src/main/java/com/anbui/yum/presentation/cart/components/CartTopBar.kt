@@ -28,15 +28,17 @@ fun CartTopBar(
     Row(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
+            .padding(horizontal = 16.dp, vertical = 24.dp),
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         YumTabRow(
             selectedTab = selectedTab,
             onTabChange = onTabChange,
             tabList = cartTabList,
-            modifier = Modifier.width(300.dp),
-            textSize = 18.sp,
+            modifier = Modifier.width(250.dp),
+            textSize = 21.sp,
+            height = 6.dp,
+            indicatorHeight = 4.dp
         )
         IconButton(onClick = onMoreTap) {
             Icon(

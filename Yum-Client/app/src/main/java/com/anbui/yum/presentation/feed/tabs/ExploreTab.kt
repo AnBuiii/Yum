@@ -15,7 +15,6 @@ fun ExploreTab(
         columns = GridCells.Fixed(2),
     ) {
         items(10) { item ->
-
             CollectionItem(
                 onTap =  onCollectionTab
             )

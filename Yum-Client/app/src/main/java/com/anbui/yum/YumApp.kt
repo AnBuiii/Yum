@@ -99,7 +99,6 @@ private fun resources(): Resources {
     return LocalContext.current.resources
 }
 
-
 // app graph
 @ExperimentalMaterial3Api
 @ExperimentalFoundationApi

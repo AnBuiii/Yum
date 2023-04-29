@@ -3,12 +3,9 @@ package com.anbui.yum.presentation.cart
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.ModalBottomSheet
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -30,7 +27,11 @@ import com.anbui.yum.presentation.cart.tabs.ShopTab
 import kotlinx.coroutines.launch
 
 
-val cartTabList = listOf("Plan", "Shop", "Pantry")
+val cartTabList = listOf(
+    "Plan",
+    "Shop",
+    "Pantry",
+)
 
 @OptIn(ExperimentalFoundationApi::class)
 @ExperimentalMaterial3Api
@@ -81,7 +82,10 @@ fun CartScreen(
                 },
                 onMoreTap = { viewModel.onChangeBottomSheet(true) },
             )
-            YumDivider(thickness = 3.dp)
+            YumDivider(
+                thickness = 1.dp,
+                color = Color.Black.copy(0.1f),
+            )
 
             HorizontalPager(
                 pageCount = 3,
