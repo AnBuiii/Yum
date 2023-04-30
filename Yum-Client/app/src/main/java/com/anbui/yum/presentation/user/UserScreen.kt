@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.*
@@ -50,7 +51,6 @@ private val TitleHeight = 300.dp
 //private val HzPadding = Modifier.padding(horizontal = 24.dp)
 
 
-
 @ExperimentalAnimationApi
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -68,15 +68,22 @@ fun UserScreen(
         if (uiState.userInfo.userId.isBlank()) {
             AnonymousSection(
                 onSignIn = { viewModel.onSignInTap(onOpenScreen) },
-                onSignUp = { viewModel.onSignUpTap(onOpenScreen) }
+                onSignUp = { viewModel.onSignUpTap(onOpenScreen) },
             )
 
         } else {
             Box(modifier = Modifier.fillMaxSize()) {
-                Title(scroll.value, uiState.userInfo)
+                Title(
+                    scroll.value,
+                    uiState.userInfo,
+                )
                 Header()
                 Body(scroll)
-                HeaderItem(scroll.value, uiState.userInfo)
+                HeaderItem(
+                    scroll.value,
+                    uiState.userInfo,
+                    {viewModel.onSignOutClick(restartApp)}
+                )
 
             }
         }
@@ -84,7 +91,11 @@ fun UserScreen(
 }
 
 @Composable
-fun HeaderItem(scrollValue: Int, userInfo: UserInfo) {
+fun HeaderItem(
+    scrollValue: Int,
+    userInfo: UserInfo,
+    logout: () -> Unit = {},
+) {
     val bodyScrollValueToShowText = with(LocalDensity.current) { TitleHeight.toPx() }
     Box(
         modifier = Modifier
@@ -95,27 +106,41 @@ fun HeaderItem(scrollValue: Int, userInfo: UserInfo) {
             visible = scrollValue >= bodyScrollValueToShowText.toInt(),
             enter = fadeIn(initialAlpha = 0.2f),
             exit = fadeOut(),
-            modifier = Modifier.align(Alignment.TopStart)
+            modifier = Modifier.align(Alignment.TopStart),
         ) {
             Text(
-                userInfo.name, modifier = Modifier.padding(16.dp),
+                userInfo.name,
+                modifier = Modifier.padding(16.dp),
                 fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold
+                fontWeight = FontWeight.SemiBold,
             )
         }
 
         Row(
             horizontalArrangement = Arrangement.spacedBy(16.dp),
-            modifier = Modifier.align(Alignment.TopEnd)
+            modifier = Modifier.align(Alignment.TopEnd),
         ) {
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.Settings, contentDescription = "")
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "",
+                )
             }
             IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.Settings, contentDescription = "")
+                Icon(
+                    imageVector = Icons.Default.Settings,
+                    contentDescription = "",
+                )
             }
-            IconButton(onClick = { /*TODO*/ }) {
-                Icon(imageVector = Icons.Default.Settings, contentDescription = "")
+            IconButton(
+                onClick = {
+                    logout()
+                },
+            ) {
+                Icon(
+                    imageVector = Icons.Default.Lock,
+                    contentDescription = "",
+                )
             }
         }
     }
@@ -130,37 +155,42 @@ private fun AnonymousSection(
     onSignUp: () -> Unit = {},
 ) {
     Box(
-        modifier = modifier
-            .fillMaxSize()
+        modifier = modifier.fillMaxSize(),
     ) {
         Column(
             modifier.align(Alignment.Center),
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp)
+            verticalArrangement = Arrangement.spacedBy(8.dp),
         ) {
             ElevatedAssistChip(
-                modifier = Modifier.size(height = 48.dp, width = 200.dp),
+                modifier = Modifier.size(
+                    height = 48.dp,
+                    width = 200.dp,
+                ),
                 onClick = onSignIn,
                 label = { Text("Sign In") },
                 leadingIcon = {
                     Icon(
                         Icons.Filled.Person,
                         contentDescription = "",
-                        Modifier.size(AssistChipDefaults.IconSize)
+                        Modifier.size(AssistChipDefaults.IconSize),
                     )
-                }
+                },
             )
             ElevatedAssistChip(
-                modifier = Modifier.size(height = 48.dp, width = 200.dp),
+                modifier = Modifier.size(
+                    height = 48.dp,
+                    width = 200.dp,
+                ),
                 onClick = onSignUp,
                 label = { Text("Sign Up") },
                 leadingIcon = {
                     Icon(
                         painterResource(id = R.drawable.baseline_person_add_24),
                         contentDescription = "Localized description",
-                        Modifier.size(AssistChipDefaults.IconSize)
+                        Modifier.size(AssistChipDefaults.IconSize),
                     )
-                }
+                },
             )
         }
     }
@@ -169,7 +199,7 @@ private fun AnonymousSection(
 @Composable
 private fun Title(
     scrollValue: Int,
-    userInfo: UserInfo
+    userInfo: UserInfo,
 ) {
     val maxOffset = with(LocalDensity.current) { TopBarHeight.toPx() }
     val minOffset = with(LocalDensity.current) { (TopBarHeight - TitleHeight).toPx() }
@@ -179,12 +209,15 @@ private fun Title(
             .fillMaxWidth()
             .offset {
                 val offset = (maxOffset - scrollValue / 2).coerceAtLeast(minOffset)
-                IntOffset(x = 0, y = offset.toInt())
+                IntOffset(
+                    x = 0,
+                    y = offset.toInt(),
+                )
             },
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.spacedBy(
             space = 16.dp,
-            alignment = Alignment.CenterVertically
+            alignment = Alignment.CenterVertically,
         ),
     ) {
         Image(
@@ -193,16 +226,16 @@ private fun Title(
             modifier = Modifier
                 .size(120.dp)
                 .clip(CircleShape),
-            contentScale = ContentScale.Crop
+            contentScale = ContentScale.Crop,
         )
         Text(
             text = userInfo.name,
             textAlign = TextAlign.Center,
-            fontWeight = FontWeight.SemiBold
+            fontWeight = FontWeight.SemiBold,
         )
         Text(
             text = userInfo.title,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
     }
 }
@@ -214,7 +247,7 @@ private fun Header() {
         modifier = Modifier
             .height(TopBarHeight)
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background)
+            .background(MaterialTheme.colorScheme.background),
     )
 }
 
@@ -226,9 +259,9 @@ private fun Body(
     Column(
         modifier = Modifier
             .verticalScroll(scroll)
-            .fillMaxWidth()
+            .fillMaxWidth(),
 
-    ) {
+        ) {
         Spacer(Modifier.height(TitleHeight + TopBarHeight))
 
         Row(
@@ -238,30 +271,45 @@ private fun Body(
                 .padding(vertical = 8.dp)
                 .clickable { },
             horizontalArrangement = Arrangement.End,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Text("View by", color = Color.White.copy(alpha = 0.7f), fontSize = 12.sp)
+            Text(
+                "View by",
+                color = Color.White.copy(alpha = 0.7f),
+                fontSize = 12.sp,
+            )
             Spacer(modifier = Modifier.width(8.dp))
-            Text("Your collection", color = YumGreen, fontSize = 12.sp)
+            Text(
+                "Your collection",
+                color = YumGreen,
+                fontSize = 12.sp,
+            )
             Icon(
                 imageVector = Icons.Default.ArrowDropDown,
                 contentDescription = "",
-                tint = YumGreen
+                tint = YumGreen,
             )
         }
 
 
-        listOf("All Yum", "Break fast", "Desserts", "Dinners", "Drinks", "Sides").forEach {
+        listOf(
+            "All Yum",
+            "Break fast",
+            "Desserts",
+            "Dinners",
+            "Drinks",
+            "Sides",
+        ).forEach {
             Box(
                 modifier = Modifier
                     .aspectRatio(2.5f)
-                    .fillMaxWidth()
+                    .fillMaxWidth(),
             ) {
                 Image(
                     painter = painterResource(id = R.drawable.food_1),
                     contentDescription = "",
                     modifier = Modifier.fillMaxSize(),
-                    contentScale = ContentScale.Crop
+                    contentScale = ContentScale.Crop,
                 )
                 Row(
                     modifier = Modifier
@@ -271,26 +319,34 @@ private fun Body(
                                 colors = listOf(
                                     Color.Transparent,
                                     Color.Black.copy(alpha = 0.4f),
-                                    Color.Black.copy(alpha = 0.6f)
-                                )
-                            )
+                                    Color.Black.copy(alpha = 0.6f),
+                                ),
+                            ),
                         )
                         .padding(horizontal = 16.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
+                    verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
                         it,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = Color.White
+                        color = Color.White,
                     )
                     Column(
                         horizontalAlignment = Alignment.CenterHorizontally,
-                        verticalArrangement = Arrangement.spacedBy(4.dp)
+                        verticalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
-                        Text("1", color = Color.White, fontSize = 18.sp)
-                        Text("RECIPES", color = Color.White.copy(alpha = 0.7f), fontSize = 14.sp)
+                        Text(
+                            "1",
+                            color = Color.White,
+                            fontSize = 18.sp,
+                        )
+                        Text(
+                            "RECIPES",
+                            color = Color.White.copy(alpha = 0.7f),
+                            fontSize = 14.sp,
+                        )
                     }
                 }
             }

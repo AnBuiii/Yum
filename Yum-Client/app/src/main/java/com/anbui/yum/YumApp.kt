@@ -5,7 +5,6 @@ import android.util.Log
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
-import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
@@ -88,8 +87,18 @@ fun rememberYumAppState(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
     snackbarManager: SnackbarManager = SnackbarManager,
     resources: Resources = resources(),
-) = remember(navController, coroutineScope, snackbarManager) {
-    YumAppState(navController, snackbarHostState, snackbarManager, resources, coroutineScope)
+) = remember(
+    navController,
+    coroutineScope,
+    snackbarManager,
+) {
+    YumAppState(
+        navController,
+        snackbarHostState,
+        snackbarManager,
+        resources,
+        coroutineScope,
+    )
 }
 
 @Composable
@@ -107,7 +116,10 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     composable(SPLASH_SCREEN) {
         SplashScreen(
             openAndPopUp = { route, popup ->
-                appState.navigateAndPopUp(route, popup)
+                appState.navigateAndPopUp(
+                    route,
+                    popup,
+                )
             },
         )
     }
@@ -117,11 +129,14 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
             onRecipeTap = { route ->
                 appState.navigate(route)
             },
-            onCollectionTab = {id ->
+            onCollectionTab = { id ->
                 appState.navigate("$COLLECTION_SCREEN/$id")
-            }
+            },
         )
-        Log.d("TAB LOG", appState.currentRoute!!)
+        Log.d(
+            "TAB LOG",
+            appState.currentRoute!!,
+        )
 
     }
 
@@ -171,7 +186,7 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
                 defaultValue = RECIPE_DEFAULT_ID
             },
         ),
-    ){
+    ) {
         CollectionScreen()
     }
 }

@@ -1,12 +1,11 @@
-package com.anbui.yum.data.remote.implement
+package com.anbui.yum.data.remote.review
 
 import android.util.Log
 import com.anbui.yum.common.util.Constants.BASE_URL
 import com.anbui.yum.domain.model.Review
-import com.anbui.yum.data.remote.service.ReviewService
-import io.ktor.client.*
-import io.ktor.client.call.*
-import io.ktor.client.request.*
+import io.ktor.client.HttpClient
+import io.ktor.client.call.body
+import io.ktor.client.request.get
 
 class ReviewServiceImpl(
     private val client: HttpClient,

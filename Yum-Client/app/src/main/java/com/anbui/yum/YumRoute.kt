@@ -32,10 +32,26 @@ enum class HomeScreenSection(
     val icon: ImageVector,
     val route: String,
 ) {
-    FEED(AppText.home_feed, Icons.Outlined.Home, FEED_SCREEN),
-    SEARCH(AppText.home_search, Icons.Outlined.Search, SEARCH_SCREEN),
-    CART(AppText.home_cart, Icons.Outlined.ShoppingCart, CART_SCREEN),
-    USER(AppText.home_user, Icons.Outlined.AccountCircle, USER_SCREEN),
+    FEED(
+        AppText.home_feed,
+        Icons.Outlined.Home,
+        FEED_SCREEN,
+    ),
+    SEARCH(
+        AppText.home_search,
+        Icons.Outlined.Search,
+        SEARCH_SCREEN,
+    ),
+    CART(
+        AppText.home_cart,
+        Icons.Outlined.ShoppingCart,
+        CART_SCREEN,
+    ),
+    USER(
+        AppText.home_user,
+        Icons.Outlined.AccountCircle,
+        USER_SCREEN,
+    ),
 }
 
 

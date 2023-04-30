@@ -1,4 +1,4 @@
-package com.anbui.yum.data.remote.service
+package com.anbui.yum.data.remote.review
 
 import com.anbui.yum.domain.model.Review
 

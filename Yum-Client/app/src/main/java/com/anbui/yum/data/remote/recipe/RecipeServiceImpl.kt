@@ -2,8 +2,6 @@ package com.anbui.yum.data.remote.recipe
 
 import android.util.Log
 import com.anbui.yum.common.util.Constants.BASE_URL
-import com.anbui.yum.data.remote.recipe.RecipeDto
-import com.anbui.yum.data.remote.recipe.RecipeService
 import com.anbui.yum.domain.model.Nutrition
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
@@ -15,24 +13,39 @@ class RecipeServiceImpl(
     override suspend fun getAllRecipe(): List<RecipeDto> {
         return try {
             val a: List<RecipeDto> = client.get("$BASE_URL/recipe").body()
-            Log.d("hm", a.toString())
+            Log.d(
+                "hm",
+                a.toString(),
+            )
             a
         } catch (e: Exception) {
-            Log.d("Recipe service get all recipe error", e.toString())
+            Log.d(
+                "Recipe service get all recipe error",
+                e.toString(),
+            )
             listOf()
         }
     }
 
     override suspend fun getRecipes(page: Int, pageCount: Int): List<RecipeDto> {
-            val a: List<RecipeDto> = client.get("$BASE_URL/recipe") {
-                url {
-                    parameters.append("page", page.toString())
-                    parameters.append("per_page", pageCount.toString())
+        val a: List<RecipeDto> = client.get("$BASE_URL/recipe") {
+            url {
+                parameters.append(
+                    "page",
+                    page.toString(),
+                )
+                parameters.append(
+                    "per_page",
+                    pageCount.toString(),
+                )
 
-                }
-            }.body()
-            Log.d("hm", a.toString())
-            return a
+            }
+        }.body()
+        Log.d(
+            "hm",
+            a.toString(),
+        )
+        return a
 //        }
 //        catch (e: Exception) {
 //            Log.d("Recipe service get all recipe error", e.toString())
@@ -48,7 +61,10 @@ class RecipeServiceImpl(
         return try {
             client.get("$BASE_URL/recipe/$recipeId/nutrition").body()
         } catch (e: Exception) {
-            Log.d("Recipe service get recipe error", e.toString())
+            Log.d(
+                "Recipe service get recipe error",
+                e.toString(),
+            )
             Nutrition()
         }
     }
@@ -57,7 +73,10 @@ class RecipeServiceImpl(
         return try {
             client.get("$BASE_URL/recipe/$recipeId").body()
         } catch (e: Exception) {
-            Log.d("Recipe service get recipe error", e.toString())
+            Log.d(
+                "Recipe service get recipe error",
+                e.toString(),
+            )
             null
         }
     }

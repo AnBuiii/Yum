@@ -8,10 +8,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 
 @Composable
-fun PlanTab(){
+fun PlanTab() {
     Box(
-        modifier = Modifier.fillMaxSize()
-    ){
-        Text("Under constructor", modifier = Modifier.align(Alignment.Center))
+        modifier = Modifier.fillMaxSize(),
+    ) {
+        Text(
+            "Under constructor",
+            modifier = Modifier
+                .align(Alignment.Center),
+        )
     }
 }

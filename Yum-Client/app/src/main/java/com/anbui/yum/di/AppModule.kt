@@ -11,14 +11,14 @@ import androidx.room.Room
 import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.local.recipe.RecipeEntity
 import com.anbui.yum.data.remote.RecipeRemoteMediator
-import com.anbui.yum.data.remote.recipe.RecipeServiceImpl
-import com.anbui.yum.data.remote.implement.ReviewServiceImpl
-import com.anbui.yum.data.remote.implement.UserInfoServiceImpl
-import com.anbui.yum.data.remote.implement.UserServiceImpl
+import com.anbui.yum.data.remote.auth.UserService
+import com.anbui.yum.data.remote.auth.UserServiceImpl
 import com.anbui.yum.data.remote.recipe.RecipeService
-import com.anbui.yum.data.remote.service.ReviewService
-import com.anbui.yum.data.remote.service.UserInfoService
-import com.anbui.yum.data.remote.service.UserService
+import com.anbui.yum.data.remote.recipe.RecipeServiceImpl
+import com.anbui.yum.data.remote.review.ReviewService
+import com.anbui.yum.data.remote.review.ReviewServiceImpl
+import com.anbui.yum.data.remote.user_info.UserInfoService
+import com.anbui.yum.data.remote.user_info.UserInfoServiceImpl
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -71,19 +71,29 @@ object AppModule {
     @Provides
     @Singleton
     fun provideSharedPref(app: Application): SharedPreferences {
-        return app.getSharedPreferences("prefs", Context.MODE_PRIVATE)
+        return app.getSharedPreferences(
+            "prefs",
+            Context.MODE_PRIVATE,
+        )
     }
 
     @Provides
     @Singleton
-    fun provideUserService(client: HttpClient, prefs: SharedPreferences): UserService {
-        return UserServiceImpl(prefs, client)
+    fun provideUserService(client: HttpClient, yumDb: YumDatabase): UserService {
+        return UserServiceImpl(
+            client,
+//            yumDb,
+
+            )
     }
 
     @Provides
     @Singleton
-    fun provideUserInfoService(client: HttpClient, prefs: SharedPreferences): UserInfoService {
-        return UserInfoServiceImpl(prefs, client)
+    fun provideUserInfoService(client: HttpClient, yumDb: YumDatabase): UserInfoService {
+        return UserInfoServiceImpl(
+//            yumDb,
+            client,
+        )
     }
 
     @Provides
@@ -101,7 +111,10 @@ object AppModule {
     @OptIn(ExperimentalPagingApi::class)
     @Provides
     @Singleton
-    fun provideRecipePager(yumDb: YumDatabase, recipeService: RecipeService): Pager<Int, RecipeEntity> {
+    fun provideRecipePager(
+        yumDb: YumDatabase,
+        recipeService: RecipeService,
+    ): Pager<Int, RecipeEntity> {
         return Pager(
             config = PagingConfig(pageSize = 5),
             remoteMediator = RecipeRemoteMediator(

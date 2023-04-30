@@ -1,11 +1,12 @@
 [versions]
-androidGradlePlugin = "8.0.0"
+accompanistSwiperefreshVersion = "0.31.0-alpha"
+androidGradlePlugin = "8.1.0-beta01"
 androidxCore = "1.9.0"
-androidxComposeBom = "2023.04.00"
+androidxComposeBom = "2023.04.01"
 androidxLifecycle = "2.6.1"
 androidxSplashscreen = "1.0.0"
 androidxActivity = "1.7.0"
-androidxComposeMaterial3 = "1.1.0-beta02"
+androidxComposeMaterial3 = "1.1.0-rc01"
 androidxNavigation = "2.5.3"
 androidxHiltNavigationCompose = "1.0.0"
 androidxRoom = "2.5.1"
@@ -20,6 +21,7 @@ androidxEspresso = "3.5.1"
 androidxTestExt = "1.1.5"
 coil = "2.2.2"
 paingCompose = "1.0.0-alpha18"
+ksp = "1.8.10-1.0.9"
 
 
 
@@ -47,6 +49,7 @@ androidx-room-paging = { group = "androidx.room", name = "room-paging", version.
 androidx-paging = { group = "androidx.paging", name = "paging-runtime", version.ref = "androidxPaging" }
 androidx-paging-compose = { group = "androidx.paging", name = "paging-compose", version.ref = "paingCompose" }
 androidx-hilt-navigation-compose = { group = "androidx.hilt", name = "hilt-navigation-compose", version.ref = "androidxHiltNavigationCompose" }
+google-accompanist-swiperefresh = { module = "com.google.accompanist:accompanist-swiperefresh", version.ref = "accompanistSwiperefreshVersion" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
 accompanist-systemuicontroller = { group = "com.google.accompanist", name = "accompanist-systemuicontroller", version.ref = "accompanists" }
@@ -68,3 +71,4 @@ android-library = { id = "com.android.library", version.ref = "androidGradlePlug
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }

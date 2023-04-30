@@ -4,9 +4,9 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.anbui.yum.data.mappers.toRecipe
-import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.data.remote.recipe.RecipeService
-import com.anbui.yum.data.remote.service.ReviewService
+import com.anbui.yum.data.remote.review.ReviewService
+import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.presentation.YumViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

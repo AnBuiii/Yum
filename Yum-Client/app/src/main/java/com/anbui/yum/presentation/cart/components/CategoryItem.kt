@@ -81,6 +81,7 @@ fun CategoryItem(
                 modifier = Modifier
                     .weight(1f)
                     .fillMaxHeight(),
+
             )
             YumIconButton(
                 onClick = onDelete,
@@ -112,7 +113,7 @@ fun CategoryItem(
             supportingContent = {
                 Text(
                     shoppingList.recipeName,
-                    color = Color.Black.copy(0.7f),
+                    color = Color.Black.copy(0.5f),
                     fontSize = 14.sp,
                 )
             },
@@ -128,7 +129,7 @@ fun CategoryItem(
                     Icon(
                         imageVector = Icons.Default.MoreVert,
                         contentDescription = "",
-                        tint = YumBlack
+                        tint = YumBlack,
                     )
                 }
             },

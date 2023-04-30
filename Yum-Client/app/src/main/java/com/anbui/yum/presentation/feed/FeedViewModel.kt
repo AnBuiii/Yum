@@ -19,7 +19,6 @@ import javax.inject.Inject
 class FeedViewModel @Inject constructor(
     private val recipeService: RecipeService,
     private val pager: Pager<Int, RecipeEntity>,
-//    pager: Pager<Int, BeerEntity>
 ) : ViewModel() {
 
     val uiState = mutableStateOf(FeedUiState())

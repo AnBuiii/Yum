@@ -4,6 +4,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.serialization)
+//    alias(libs.plugins.ksp)
     kotlin("kapt")
 }
 android {
@@ -16,6 +17,7 @@ android {
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"
+
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
     }
@@ -43,7 +45,7 @@ android {
     buildFeatures {
         compose = true
     }
-    packagingOptions {
+    packaging {
         resources {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
         }
@@ -64,9 +66,8 @@ dependencies {
     implementation(libs.androidx.compose.ui.tooling.preview)
     debugImplementation(libs.androidx.compose.ui.tooling)
     debugImplementation(libs.androidx.compose.ui.testManifest)
+    androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test)
-
-//    implementation(libs.androidx.compose.material)
 
     //test
     testImplementation(libs.junit4)
@@ -110,6 +111,5 @@ dependencies {
     // coil
     implementation(libs.coil.kt.compose)
 
-    implementation("com.google.accompanist:accompanist-swiperefresh:0.31.0-alpha")
-//    implementation("androidx.compose.material:material:1.3.1")
+    implementation(libs.google.accompanist.swiperefresh)
 }

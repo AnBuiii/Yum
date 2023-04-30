@@ -1,13 +1,13 @@
 package com.anbui.yum.presentation.splash
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.anbui.yum.FEED_SCREEN
 import com.anbui.yum.SPLASH_SCREEN
-import com.anbui.yum.domain.model.User
-import com.anbui.yum.data.remote.service.UserInfoService
-import com.anbui.yum.data.remote.service.UserService
+import com.anbui.yum.data.local.YumDatabase
+import com.anbui.yum.data.local.user.UserEntity
+import com.anbui.yum.data.remote.auth.AuthRequestDto
+import com.anbui.yum.data.remote.auth.UserService
 import com.anbui.yum.presentation.YumViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -16,21 +16,31 @@ import javax.inject.Inject
 @HiltViewModel
 class SplashViewModel @Inject constructor(
     private val userService: UserService,
+    private val yumDatabase: YumDatabase,
 //    private val userInfoService: UserInfoService,
 ) : YumViewModel() {
 
     val showError = mutableStateOf(false)
 
     init {
-        val user = User("builehoaian", "builehoaian")
         viewModelScope.launch {
-            userService.signIn(user)
+            val a = userService.signIn(
+                auth = AuthRequestDto(
+                    username = "builehoaian",
+                    password = "builehoaian",
+                ),
+            )
+            yumDatabase.userDao.upsertAll(UserEntity(userId = a))
+
         }
 
     }
 
     fun onAppStart(openAndPopUp: (String, String) -> Unit) {
         showError.value = false
+//        if(userService.currentUserId() != null){
+//
+//        }
 //        if (!accountService.hasUser)
 //            launchCatching(snackbar = false) {
 //                try {
@@ -48,6 +58,9 @@ class SplashViewModel @Inject constructor(
 //            launchCatching { recipeService.save(it) }
 //        }
 
-        openAndPopUp(FEED_SCREEN, SPLASH_SCREEN)
+        openAndPopUp(
+            FEED_SCREEN,
+            SPLASH_SCREEN,
+        )
     }
 }

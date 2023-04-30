@@ -4,8 +4,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.anbui.yum.SIGNIN_SCREEN
 import com.anbui.yum.SIGNUP_SCREEN
-import com.anbui.yum.SPLASH_SCREEN
-import com.anbui.yum.data.remote.service.UserInfoService
+import com.anbui.yum.data.local.YumDatabase
+import com.anbui.yum.data.mappers.toUserInfo
+import com.anbui.yum.data.remote.user_info.UserInfoService
 import com.anbui.yum.presentation.YumViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -13,25 +14,30 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserViewModel @Inject constructor(
-    userInfoService: UserInfoService
+    private val userInfoService: UserInfoService,
+    private val yumDatabase: YumDatabase,
+//    val userService: UserService,
 
-) : YumViewModel() {
+    ) : YumViewModel() {
     val uiState = mutableStateOf(UserUiState())
-
     init {
         viewModelScope.launch {
-            uiState.value = uiState.value.copy(userInfo = userInfoService.getCurrentUserInfo())
+            val hm = yumDatabase.userDao.getCurrentUser().firstOrNull()?.userId
+            if(hm != null){
+                uiState.value = uiState.value.copy(userInfo = userInfoService.getUserInfo(hm)!!.toUserInfo())
+            }
         }
 
     }
 
     fun onSignOutClick(restartApp: (String) -> Unit) {
         launchCatching {
-            restartApp(SPLASH_SCREEN)
+//            userInfoService.
+//            restartApp(SPLASH_SCREEN)
+
 
         }
     }
-
 
 
     fun onSignInTap(openScreen: (String) -> Unit) = openScreen(SIGNIN_SCREEN)
