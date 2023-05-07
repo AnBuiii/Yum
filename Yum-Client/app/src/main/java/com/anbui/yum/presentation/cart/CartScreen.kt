@@ -95,9 +95,8 @@ fun CartScreen(
                     0 -> PlanTab()
                     1 -> ShopTab(
                         hmItems = uiState.hmItems,
-                        onCheck = { id ->
-                            viewModel.remove(id)
-                        },
+                        onCheck = viewModel::check,
+                        onRemove = viewModel::remove,
                     )
 
                     2 -> PantryTab()

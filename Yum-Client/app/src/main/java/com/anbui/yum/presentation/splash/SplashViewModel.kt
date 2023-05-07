@@ -24,6 +24,7 @@ class SplashViewModel @Inject constructor(
 
     init {
         viewModelScope.launch {
+            yumDatabase.userDao.clearUser()
             val a = userService.signIn(
                 auth = AuthRequestDto(
                     username = "builehoaian",
@@ -31,7 +32,6 @@ class SplashViewModel @Inject constructor(
                 ),
             )
             yumDatabase.userDao.upsertAll(UserEntity(userId = a))
-
         }
 
     }

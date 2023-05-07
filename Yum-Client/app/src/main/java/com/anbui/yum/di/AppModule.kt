@@ -1,9 +1,7 @@
 package com.anbui.yum.di
 
 //import io.ktor.client.engine.android.*
-import android.app.Application
 import android.content.Context
-import android.content.SharedPreferences
 import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
@@ -67,33 +65,16 @@ object AppModule {
         ).build()
     }
 
-
     @Provides
     @Singleton
-    fun provideSharedPref(app: Application): SharedPreferences {
-        return app.getSharedPreferences(
-            "prefs",
-            Context.MODE_PRIVATE,
-        )
+    fun provideUserService(client: HttpClient): UserService {
+        return UserServiceImpl(client)
     }
 
     @Provides
     @Singleton
-    fun provideUserService(client: HttpClient, yumDb: YumDatabase): UserService {
-        return UserServiceImpl(
-            client,
-//            yumDb,
-
-            )
-    }
-
-    @Provides
-    @Singleton
-    fun provideUserInfoService(client: HttpClient, yumDb: YumDatabase): UserInfoService {
-        return UserInfoServiceImpl(
-//            yumDb,
-            client,
-        )
+    fun provideUserInfoService(client: HttpClient): UserInfoService {
+        return UserInfoServiceImpl(client)
     }
 
     @Provides

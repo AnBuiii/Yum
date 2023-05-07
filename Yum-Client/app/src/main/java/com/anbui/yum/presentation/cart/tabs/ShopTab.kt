@@ -1,7 +1,9 @@
 package com.anbui.yum.presentation.cart.tabs
 
+import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -10,15 +12,20 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
+import androidx.compose.runtime.mutableStateMapOf
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -26,12 +33,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anbui.yum.R
+import com.anbui.yum.common.component.SwipeableState
 import com.anbui.yum.common.component.YumDivider
 import com.anbui.yum.domain.model.ShoppingList
 import com.anbui.yum.presentation.cart.components.CategoryHeaderItem
 import com.anbui.yum.presentation.cart.components.CategoryItem
 import com.anbui.yum.presentation.cart.components.YumIconButton
 import com.anbui.yum.ui.theme.YumGreen
+import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -40,14 +49,53 @@ fun ShopTab(
     modifier: Modifier = Modifier,
     hmItems: List<ShoppingList>,
     onCheck: (String) -> Unit,
+    onRemove: (String) -> Unit,
 ) {
 
     val coroutineScope = rememberCoroutineScope()
     val groupedItems = hmItems.groupBy { it.categoriesName }
     val collapseStates = remember { mutableStateListOf(*Array(groupedItems.size) { false }) }
+    var isDoingSomething by remember { mutableStateOf("") }
+    val swipeStates = remember {
+        mutableStateMapOf<String, SwipeableState<Int>>(
+            *(hmItems).map { shoppingList ->
+                Pair(
+                    shoppingList.id,
+                    SwipeableState(
+                        0,
+                        confirmStateChange = { newValue ->
+                            if (newValue == 0) {
+                                isDoingSomething = ""
+                                true
+                            } else {
+                                if (isDoingSomething != "") false
+                                else {
+                                    isDoingSomething = shoppingList.id
+                                    true
+                                }
+                            }
 
 
-    Column {
+                        },
+                    ),
+                )
+            }.toTypedArray(),
+            )
+    }
+
+
+    Column(
+        modifier = Modifier.clickable(
+            indication = null,
+            interactionSource = remember { MutableInteractionSource() },
+
+            ) {
+            coroutineScope.launch {
+                swipeStates[isDoingSomething]?.animateTo(0)
+                isDoingSomething = ""
+            }
+        },
+    ) {
         Row(
             modifier = modifier
                 .fillMaxWidth()
@@ -86,9 +134,7 @@ fun ShopTab(
                     icon = Icons.Default.Menu,
                     modifier = Modifier,
                     iconSize = 22.dp,
-
-
-                    )
+                )
                 YumDivider(
                     thickness = 24.dp,
                     modifier = Modifier.width(1.dp),
@@ -102,7 +148,8 @@ fun ShopTab(
             }
         }
         YumDivider()
-        LazyColumn {
+        val listState = rememberLazyListState()
+        LazyColumn(state = listState) {
             groupedItems.toList().forEachIndexed { idx, (categories, items) ->
                 stickyHeader(key = categories) {
                     CategoryHeaderItem(
@@ -122,9 +169,21 @@ fun ShopTab(
                     ) { item ->
                         CategoryItem(
                             shoppingList = item,
-                            onCheck = { /*TODO*/ },
+                            onCheck = { onCheck(item.id) },
                             onEdit = { /*TODO*/ },
-                            onDelete = { },
+                            onRemove = {
+                                onRemove(item.id)
+                                swipeStates.remove(item.id)
+                                isDoingSomething = ""
+                            },
+                            onSwipe = {
+                                isDoingSomething = item.id
+                                Log.d(
+                                    "Swipe",
+                                    isDoingSomething,
+                                )
+                            },
+                            swipeStateHm = swipeStates[item.id]!!,
                         )
                     }
                 }

@@ -43,14 +43,21 @@ fun CartBottomSheet(
     }
     if (isOpen) {
         ModalBottomSheet(
-            onDismissRequest = { onChangeOpenBottomSheet(false) },
+            onDismissRequest = {
+                onChangeOpenBottomSheet(false)
+
+            },
             sheetState = modalBottomSheetState,
         ) {
             Column(
                 modifier = Modifier
-                    .padding(start = 32.dp, end = 32.dp, bottom = 16.dp),
+                    .padding(
+                        start = 32.dp,
+                        end = 32.dp,
+                        bottom = 16.dp,
+                    ),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center
+                verticalArrangement = Arrangement.Center,
 //                verticalArrangement = Arrangement.spacedBy(32.dp)
             ) {
                 BottomBarItem(
@@ -58,21 +65,21 @@ fun CartBottomSheet(
                     text = "Email",
                     onTap = {
                         closeBottomSheet()
-                    }
+                    },
                 )
                 BottomBarItem(
                     imageVector = Icons.Default.Email,
                     text = "Email",
                     onTap = {
                         closeBottomSheet()
-                    }
+                    },
                 )
                 BottomBarItem(
                     imageVector = Icons.Default.Email,
                     text = "Email",
                     onTap = {
                         closeBottomSheet()
-                    }
+                    },
                 )
             }
         }
@@ -89,18 +96,27 @@ fun BottomBarItem(
     Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { onTap() }
+            .clickable { onTap() },
     ) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 32.dp, vertical = 16.dp)
+                .padding(
+                    horizontal = 32.dp,
+                    vertical = 16.dp,
+                )
                 .align(Alignment.CenterStart),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(16.dp)
+            horizontalArrangement = Arrangement.spacedBy(16.dp),
         ) {
-            Icon(imageVector = imageVector, contentDescription = null)
-            Text(text, fontSize = 16.sp)
+            Icon(
+                imageVector = imageVector,
+                contentDescription = null,
+            )
+            Text(
+                text,
+                fontSize = 16.sp,
+            )
         }
     }
 }

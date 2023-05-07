@@ -151,7 +151,7 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     composable(HomeScreenSection.USER.route) {
         UserScreen(
             onOpenScreen = { route -> appState.navigate(route) },
-            restartApp = { route -> appState.clearAndNavigate(route) },
+            restartApp = appState::restartNavigate,
         )
     }
 

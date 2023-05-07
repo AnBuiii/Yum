@@ -30,6 +30,12 @@ class UserViewModel @Inject constructor(
 
     }
 
+    fun logout() {
+        viewModelScope.launch {
+            yumDatabase.userDao.clearUser()
+        }
+    }
+
     fun onSignOutClick(restartApp: (String) -> Unit) {
         launchCatching {
 //            userInfoService.
@@ -42,5 +48,6 @@ class UserViewModel @Inject constructor(
 
     fun onSignInTap(openScreen: (String) -> Unit) = openScreen(SIGNIN_SCREEN)
     fun onSignUpTap(openScreen: (String) -> Unit) = openScreen(SIGNUP_SCREEN)
+
 
 }

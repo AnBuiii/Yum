@@ -10,35 +10,35 @@ data class CartUiState(
             id = "1",
             amount = 1,
             foodName = "Pepper",
-            recipeName = "Weeknight beef",
+            recipeName = "Weeknight beef1",
             categoriesName = "Baking & Cooking",
         ),
         ShoppingList(
             id = "2",
             amount = 1,
             foodName = "Pepper",
-            recipeName = "Weeknight beef",
+            recipeName = "Weeknight beef2",
             categoriesName = "Baking & Cooking",
         ),
         ShoppingList(
             id = "3",
             amount = 1,
             foodName = "Pepper",
-            recipeName = "Weeknight beef",
+            recipeName = "Weeknight beef3",
             categoriesName = "Baking & Cooking",
         ),
         ShoppingList(
             id = "4",
             amount = 1,
             foodName = "Pepper",
-            recipeName = "Weeknight beef",
+            recipeName = "Weeknight beef4",
             categoriesName = "Baking & Cooking",
         ),
         ShoppingList(
             id = "5",
             amount = 1,
             foodName = "Pepper",
-            recipeName = "Weeknight beef",
+            recipeName = "Weeknight beef5",
             categoriesName = "Baking & Cooking",
         ),
         ShoppingList(
@@ -52,7 +52,7 @@ data class CartUiState(
             id = "7",
             amount = 1,
             foodName = "Pepper",
-            recipeName = "Weeknight beef",
+            recipeName = "Weeknight beef6",
             categoriesName = "Baking & Cooking",
         ),
         ShoppingList(
@@ -245,5 +245,5 @@ data class CartUiState(
             categoriesName = "Breakfast",
         ),
 
-        )
+        ),
 )

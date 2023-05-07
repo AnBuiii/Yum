@@ -25,12 +25,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.style.TextDecoration
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anbui.yum.R
 import com.anbui.yum.common.component.FractionalThreshold
-import com.anbui.yum.common.component.rememberSwipeableState
+import com.anbui.yum.common.component.SwipeableState
 import com.anbui.yum.common.component.swipeable
 import com.anbui.yum.domain.model.ShoppingList
 import com.anbui.yum.ui.theme.YumBlack
@@ -43,11 +45,21 @@ fun CategoryItem(
     shoppingList: ShoppingList,
     onCheck: () -> Unit,
     onEdit: () -> Unit,
-    onDelete: () -> Unit,
+    onRemove: () -> Unit,
+    onSwipe: () -> Unit = {},
+    onSwipeBack: () -> Unit = {},
+    swipeStateHm: SwipeableState<Int>,
 ) {
 
     val boxSize = 150.dp
-    val swipeState = rememberSwipeableState(initialValue = 0)
+//    val swipeState = rememberSwipeableState(
+//        initialValue = 0,
+//        confirmStateChange = {
+//            if (it == 1) onSwipe()
+//            else onSwipeBack()
+//            true
+//        },
+//    )
     val pxSize = with(LocalDensity.current) { boxSize.toPx() }
     val anchor = mapOf(
         0f to 0,
@@ -59,7 +71,7 @@ fun CategoryItem(
             .height(64.dp)
             .background(Color.LightGray.copy(alpha = 0.2f))
             .swipeable(
-                state = swipeState,
+                state = swipeStateHm,
                 anchors = anchor,
                 thresholds = { _, _ ->
                     FractionalThreshold(0.5f)
@@ -82,9 +94,9 @@ fun CategoryItem(
                     .weight(1f)
                     .fillMaxHeight(),
 
-            )
+                )
             YumIconButton(
-                onClick = onDelete,
+                onClick = onRemove,
                 text = "DELETE",
                 icon = R.drawable.remove_circle,
                 modifier = Modifier
@@ -99,12 +111,13 @@ fun CategoryItem(
                     "1 pinch chili flakes",
                     color = Color.Black.copy(0.7f),
                     fontSize = 14.sp,
+                    style = TextStyle(textDecoration = if (shoppingList.isChecked) TextDecoration.LineThrough else TextDecoration.None),
                 )
             },
             leadingContent = {
                 IconButton(onClick = onCheck) {
                     Icon(
-                        painter = painterResource(id = R.drawable.unchecked),
+                        painter = if (!shoppingList.isChecked) painterResource(id = R.drawable.unchecked) else painterResource(id = R.drawable.checked),
                         contentDescription = "",
                         tint = YumBlack,
                     )
@@ -120,12 +133,12 @@ fun CategoryItem(
             modifier = Modifier
                 .offset {
                     IntOffset(
-                        swipeState.offset.value.roundToInt(),
+                        swipeStateHm.offset.value.roundToInt(),
                         0,
                     )
                 },
             trailingContent = {
-                IconButton(onClick = onCheck) {
+                IconButton(onClick = {}) {
                     Icon(
                         imageVector = Icons.Default.MoreVert,
                         contentDescription = "",

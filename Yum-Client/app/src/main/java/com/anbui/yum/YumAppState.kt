@@ -59,6 +59,15 @@ class YumAppState(
 
     }
 
+    fun restartNavigate(){
+        navController.navigate(SPLASH_SCREEN){
+            launchSingleTop = true
+            popUpTo(0){
+                inclusive = true
+            }
+        }
+    }
+
     fun navigateToBottomBarRoute(route: String) {
         if (route != currentRoute) {
             navController.navigate(route) {

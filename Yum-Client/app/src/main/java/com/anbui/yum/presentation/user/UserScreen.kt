@@ -57,7 +57,7 @@ private val TitleHeight = 300.dp
 fun UserScreen(
     modifier: Modifier = Modifier,
     onOpenScreen: (String) -> Unit = {},
-    restartApp: (String) -> Unit = {},
+    restartApp: () -> Unit = {},
     viewModel: UserViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState
@@ -80,9 +80,12 @@ fun UserScreen(
                 Header()
                 Body(scroll)
                 HeaderItem(
-                    scroll.value,
-                    uiState.userInfo,
-                    {viewModel.onSignOutClick(restartApp)}
+                    scrollValue = scroll.value,
+                    userInfo = uiState.userInfo,
+                    logout = {
+                        viewModel.logout()
+                        restartApp()
+                    },
                 )
 
             }
