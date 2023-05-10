@@ -24,7 +24,6 @@ import com.anbui.yum.presentation.cart.components.CartTopBar
 import com.anbui.yum.presentation.cart.tabs.PantryTab
 import com.anbui.yum.presentation.cart.tabs.PlanTab
 import com.anbui.yum.presentation.cart.tabs.ShopTab
-import kotlinx.coroutines.launch
 
 
 val cartTabList = listOf(
@@ -75,13 +74,7 @@ fun CartScreen(
         Column(
             modifier = Modifier.fillMaxSize(),
         ) {
-            CartTopBar(
-                selectedTab = pagerState.currentPage,
-                onTabChange = {
-                    coroutineScope.launch { pagerState.animateScrollToPage(it) }
-                },
-                onMoreTap = { viewModel.onChangeBottomSheet(true) },
-            )
+            CartTopBar(onMoreTap = { viewModel.onChangeBottomSheet(true) }, pagerState = pagerState)
             YumDivider(
                 thickness = 1.dp,
                 color = Color.Black.copy(0.1f),

@@ -37,7 +37,7 @@ android {
         targetCompatibility = JavaVersion.VERSION_17
     }
     composeOptions {
-        kotlinCompilerExtensionVersion = "1.4.4"
+        kotlinCompilerExtensionVersion = "1.4.7"
     }
     kotlinOptions {
         jvmTarget = "17"
@@ -68,6 +68,7 @@ dependencies {
     debugImplementation(libs.androidx.compose.ui.testManifest)
     androidTestImplementation(platform(libs.androidx.compose.bom))
     androidTestImplementation(libs.androidx.compose.ui.test)
+//    implementation("androidx.compose.material:material:1.4.3")
 
     //test
     testImplementation(libs.junit4)
@@ -110,6 +111,4 @@ dependencies {
 
     // coil
     implementation(libs.coil.kt.compose)
-
-    implementation(libs.google.accompanist.swiperefresh)
 }

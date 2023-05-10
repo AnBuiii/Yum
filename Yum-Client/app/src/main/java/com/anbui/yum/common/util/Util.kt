@@ -4,7 +4,7 @@ object Constants {
 
 
     //    const val BASE_URL = "http://172.30.161.151:8080"
-    const val BASE_URL = "http://192.168.137.1:8080"
+    const val BASE_URL = "http://192.168.0.113:8080"
 //    const val BASE_URL = "http://192.168.1.63:8080"
 
     const val UNSPLASH_DATABASE = "unsplash_database"

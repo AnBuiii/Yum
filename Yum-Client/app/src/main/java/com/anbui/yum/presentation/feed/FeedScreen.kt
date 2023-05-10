@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.pager.HorizontalPager
+import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -47,12 +48,19 @@ import com.anbui.yum.presentation.feed.tabs.ExploreTab
 import com.anbui.yum.presentation.feed.tabs.JFYTab
 import com.anbui.yum.presentation.feed.tabs.ProTab
 import com.anbui.yum.ui.theme.YumOrange
-import kotlinx.coroutines.launch
 
 
-val tabList = listOf("Just for you", "Explore", "Pro")
+val tabList = listOf(
+    "Just for you",
+    "Explore",
+    "Pro",
+)
 val cardString =
-    listOf("Make a Meal Plan", "Learn from the Pros", "Browse Articles for Inspiration")
+    listOf(
+        "Make a Meal Plan",
+        "Learn from the Pros",
+        "Browse Articles for Inspiration",
+    )
 
 @OptIn(ExperimentalFoundationApi::class)
 @ExperimentalMaterial3Api
@@ -75,20 +83,18 @@ fun FeedScreen(
 
     YumSurface(
         modifier = modifier,
-        color = Color.White
+        color = Color.White,
     ) {
         Column {
 
             FeedTopBar(
-                selectedTab = pagerState.currentPage,
-                onTabChange = {
-                    coroutineScope.launch { pagerState.animateScrollToPage(it) }
-                },
+                pagerState = pagerState,
             )
 //            JFYTab(
 //                recipes = recipes,
 //                onTap = { viewModel.onRecipeTap(onRecipeTap, it) },
 //            )
+
 
 
             HorizontalPager(
@@ -100,12 +106,18 @@ fun FeedScreen(
                 when (index) {
                     0 -> JFYTab(
                         recipes = recipes,
-                        onTap = { viewModel.onRecipeTap(onRecipeTap, it) }
+                        onTap = {
+                            viewModel.onRecipeTap(
+                                onRecipeTap,
+                                it,
+                            )
+                        },
                     ) { recipes.refresh() }
 
                     1 -> ExploreTab(
-                        onCollectionTab = onCollectionTab
+                        onCollectionTab = onCollectionTab,
                     )
+
                     2 -> ProTab()
                 }
             }
@@ -174,16 +186,15 @@ fun SuggestionCard() {
 
 }
 
+@OptIn(ExperimentalFoundationApi::class)
 @ExperimentalMaterial3Api
 @Composable
 private fun FeedTopBar(
     modifier: Modifier = Modifier,
-    selectedTab: Int,
-    onTabChange: (Int) -> Unit,
+    pagerState: PagerState,
 ) {
     Row(
-        modifier = modifier
-            .fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
     ) {
@@ -200,10 +211,9 @@ private fun FeedTopBar(
         }
 
         YumTabRow(
-            selectedTab = selectedTab,
-            onTabChange = onTabChange,
-            tabList = tabList,
             modifier = Modifier.weight(2f),
+            tabList = tabList,
+            pagerState = pagerState,
         )
     }
 }
