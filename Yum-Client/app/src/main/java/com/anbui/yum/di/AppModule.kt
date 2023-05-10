@@ -11,6 +11,8 @@ import com.anbui.yum.data.local.recipe.RecipeEntity
 import com.anbui.yum.data.remote.RecipeRemoteMediator
 import com.anbui.yum.data.remote.auth.UserService
 import com.anbui.yum.data.remote.auth.UserServiceImpl
+import com.anbui.yum.data.remote.ingredient.IngredientService
+import com.anbui.yum.data.remote.ingredient.IngredientServiceImpl
 import com.anbui.yum.data.remote.recipe.RecipeService
 import com.anbui.yum.data.remote.recipe.RecipeServiceImpl
 import com.anbui.yum.data.remote.review.ReviewService
@@ -89,6 +91,12 @@ object AppModule {
         return ReviewServiceImpl(client)
     }
 
+    @Provides
+    @Singleton
+    fun provideIngredientService(client: HttpClient): IngredientService {
+        return IngredientServiceImpl(client)
+    }
+
     @OptIn(ExperimentalPagingApi::class)
     @Provides
     @Singleton
@@ -107,6 +115,7 @@ object AppModule {
             },
         )
     }
+
 
 //    @Provides
 //    @Singleton

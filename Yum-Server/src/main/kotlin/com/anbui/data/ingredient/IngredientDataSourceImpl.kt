@@ -19,8 +19,8 @@ class IngredientDataSourceImpl(db: CoroutineDatabase) : IngredientDataSource {
         return ingredients.findOne(Ingredient::id eq id)
     }
 
-    override suspend fun search(query: String): List<Ingredient> {
-        return ingredients.find(Ingredient::name regex "(?i)$query").limit(10).toList()
+    override suspend fun search(query: String): List<String> {
+        return ingredients.find(Ingredient::name regex "(?i)$query").limit(10).toList().map { it.name }
     }
 
     override suspend fun insertIngredients(newIngredients: List<Ingredient>): Boolean {
