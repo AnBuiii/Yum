@@ -9,8 +9,8 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.ingredientRoute(
-    ingredientDataSource: IngredientDataSource
-){
+    ingredientDataSource: IngredientDataSource,
+) {
 
     route("ingredient") {
         // create
@@ -23,8 +23,9 @@ fun Route.ingredientRoute(
                 application.log.error("Fail to insert new ingredient")
             }
         }
-        get{
-            try{
+
+        get {
+            try {
                 val ingredients = ingredientDataSource.getAllIngredient()
                 call.respond(ingredients)
             } catch (e: Exception) {
@@ -32,8 +33,8 @@ fun Route.ingredientRoute(
             }
         }
 
-        route("{id}"){
-            get{
+        route("{id}") {
+            get {
                 val id = call.parameters["id"]
                 try {
                     val ingredient = ingredientDataSource.getIngredient(id!!)
@@ -43,6 +44,26 @@ fun Route.ingredientRoute(
                 }
             }
 
+        }
+
+        post("/many") {
+            val request = call.receive<List<Ingredient>>()
+            try {
+                val ingredient = ingredientDataSource.insertIngredients(request)
+                call.respond(ingredient)
+            } catch (e: Exception) {
+                application.log.error("Fail to insert many ingredient")
+            }
+        }
+
+        get("search") {
+            val query = call.request.queryParameters["q"] ?: ""
+            try {
+                val ingredients = ingredientDataSource.search(query)
+                call.respond(ingredients)
+            } catch (e: Exception) {
+                application.log.error("Fail to search many ingredient")
+            }
         }
 
 //         read
