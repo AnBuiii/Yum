@@ -15,6 +15,7 @@ import kotlinx.coroutines.flow.debounce
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -38,15 +39,17 @@ class SearchViewModel @Inject constructor(
 
     private val _persons = MutableStateFlow(listOf<String>())
     var persons = searchText
-        .debounce(500L)
+        .debounce(100)
         .onEach { _isSearching.update { true } }
-        .combine(_persons) { text, persons ->
-            if(text.isBlank()) {
-                persons
-            } else {
-                delay(500)
-                ingredientService.search(searchText.value)
-            }
+
+//        .transform {
+//            ingredientService.search(searchText.value)
+//        }
+        .combine(_persons) { _, _ ->
+//            delay(100)
+            ingredientService.search(searchText.value)
+
+
         }
         .onEach { _isSearching.update { false } }
         .stateIn(
