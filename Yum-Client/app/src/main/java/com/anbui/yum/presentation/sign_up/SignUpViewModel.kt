@@ -5,15 +5,11 @@ import com.anbui.yum.common.ext.isValidEmail
 import com.anbui.yum.common.ext.isValidPassword
 import com.anbui.yum.common.ext.passwordMatches
 import com.anbui.yum.common.snackbar.SnackbarManager
-
 import com.anbui.yum.presentation.YumViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import com.anbui.yum.R.string as AppText
 
 
-@HiltViewModel
-class SignUpViewModel @Inject constructor(
+class SignUpViewModel(
 
 ) : YumViewModel() {
     val uiState = mutableStateOf(SignUpUiState())

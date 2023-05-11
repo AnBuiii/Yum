@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
-import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -15,8 +14,8 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import kotlinx.coroutines.delay
+import org.koin.androidx.compose.getViewModel
 import com.anbui.yum.R.string as AppText
 
 private const val SPLASH_TIMEOUT = 1000L
@@ -25,7 +24,7 @@ private const val SPLASH_TIMEOUT = 1000L
 fun SplashScreen(
     openAndPopUp: (String, String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SplashViewModel = hiltViewModel(),
+    viewModel: SplashViewModel = getViewModel(),
 ) {
     Column(
         modifier =

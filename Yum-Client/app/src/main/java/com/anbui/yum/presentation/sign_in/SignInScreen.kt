@@ -11,22 +11,22 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.anbui.yum.common.ext.fieldModifier
+import org.koin.androidx.compose.getViewModel
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SignInScreen(
     modifier: Modifier = Modifier,
-    viewModel: SignInViewModel = hiltViewModel(),
     openAndPopUp: (String, String) -> Unit,
+    viewModel: SignInViewModel = getViewModel(),
 ) {
 
     val uiState by viewModel.uiState
     Column(
         modifier = Modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         OutlinedTextField(
             value = uiState.email,
@@ -34,7 +34,12 @@ fun SignInScreen(
             modifier = Modifier.fieldModifier(),
             placeholder = { Text("Email") },
             singleLine = true,
-            leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Email,
+                    contentDescription = "Email",
+                )
+            },
         )
 
         //password
@@ -44,9 +49,14 @@ fun SignInScreen(
             modifier = Modifier.fieldModifier(),
             placeholder = { Text("Password") },
             singleLine = true,
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Email") }
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Lock,
+                    contentDescription = "Email",
+                )
+            },
 
-        )
+            )
 
         Button(onClick = { viewModel.onSignInClick(openAndPopUp) }) {
 

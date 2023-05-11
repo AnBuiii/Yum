@@ -38,7 +38,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import com.anbui.yum.R
@@ -48,6 +47,7 @@ import com.anbui.yum.presentation.feed.tabs.ExploreTab
 import com.anbui.yum.presentation.feed.tabs.JFYTab
 import com.anbui.yum.presentation.feed.tabs.ProTab
 import com.anbui.yum.ui.theme.YumOrange
+import org.koin.androidx.compose.getViewModel
 
 
 val tabList = listOf(
@@ -69,7 +69,7 @@ fun FeedScreen(
     modifier: Modifier = Modifier,
     onRecipeTap: (String) -> Unit = {},
     onCollectionTab: (String) -> Unit = {},
-    viewModel: FeedViewModel = hiltViewModel(),
+    viewModel: FeedViewModel = getViewModel(),
 ) {
 
     val uiState by viewModel.uiState

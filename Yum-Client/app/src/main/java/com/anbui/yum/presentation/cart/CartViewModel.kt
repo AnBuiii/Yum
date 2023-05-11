@@ -3,11 +3,9 @@ package com.anbui.yum.presentation.cart
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import com.anbui.yum.presentation.YumViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 
-@HiltViewModel
-class CartViewModel @Inject constructor(
+
+class CartViewModel (
 
 ) : YumViewModel() {
     val uiState = mutableStateOf(CartUiState())

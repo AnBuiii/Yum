@@ -16,7 +16,6 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.anbui.yum.common.component.YumDivider
 import com.anbui.yum.common.component.YumSurface
 import com.anbui.yum.presentation.cart.components.CartBottomSheet
@@ -24,6 +23,7 @@ import com.anbui.yum.presentation.cart.components.CartTopBar
 import com.anbui.yum.presentation.cart.tabs.PantryTab
 import com.anbui.yum.presentation.cart.tabs.PlanTab
 import com.anbui.yum.presentation.cart.tabs.ShopTab
+import org.koin.androidx.compose.getViewModel
 
 
 val cartTabList = listOf(
@@ -38,7 +38,7 @@ val cartTabList = listOf(
 fun CartScreen(
     onRecipeTap: (String) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: CartViewModel = hiltViewModel(),
+    viewModel: CartViewModel = getViewModel(),
 ) {
     val uiState by viewModel.uiState
     val pagerState = rememberPagerState()

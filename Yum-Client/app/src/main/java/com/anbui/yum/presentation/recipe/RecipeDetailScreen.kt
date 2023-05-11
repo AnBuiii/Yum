@@ -4,20 +4,17 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.rememberCoroutineScope
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.modifier.modifierLocalConsumer
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.anbui.yum.presentation.recipe.component.BodyItem
 import com.anbui.yum.presentation.recipe.component.ImageItem
 import com.anbui.yum.presentation.recipe.component.TitleItem
 import kotlinx.coroutines.launch
+import org.koin.androidx.compose.getViewModel
 
 
 internal val TITLE_HEIGHT = 180.dp
@@ -31,7 +28,7 @@ fun RecipeDetailScreen(
     popUp: () -> Unit,
     recipeId: String,
     openScreen: (String) -> Unit = {},
-    viewModel: RecipeDetailViewModel = hiltViewModel(),
+    viewModel: RecipeDetailViewModel = getViewModel(),
 ) {
 
     val uiState by viewModel.uiState

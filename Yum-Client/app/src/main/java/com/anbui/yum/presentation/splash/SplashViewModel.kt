@@ -9,12 +9,10 @@ import com.anbui.yum.data.local.user.UserEntity
 import com.anbui.yum.data.remote.auth.AuthRequestDto
 import com.anbui.yum.data.remote.auth.UserService
 import com.anbui.yum.presentation.YumViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class SplashViewModel @Inject constructor(
+
+class SplashViewModel(
     private val userService: UserService,
     private val yumDatabase: YumDatabase,
 //    private val userInfoService: UserInfoService,

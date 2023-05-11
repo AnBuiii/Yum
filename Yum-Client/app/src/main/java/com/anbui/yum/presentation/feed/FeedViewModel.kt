@@ -11,12 +11,10 @@ import com.anbui.yum.RECIPE_DETAIL_SCREEN
 import com.anbui.yum.data.local.recipe.RecipeEntity
 import com.anbui.yum.data.mappers.toRecipe
 import com.anbui.yum.data.remote.recipe.RecipeService
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.map
-import javax.inject.Inject
 
-@HiltViewModel
-class FeedViewModel @Inject constructor(
+
+class FeedViewModel(
     private val recipeService: RecipeService,
     private val pager: Pager<Int, RecipeEntity>,
 ) : ViewModel() {
@@ -25,7 +23,7 @@ class FeedViewModel @Inject constructor(
 
     val recipePagingFlow = pager
         .flow
-        .map {pagingData ->
+        .map { pagingData ->
             pagingData.map {
                 it.toRecipe()
             }
@@ -33,8 +31,6 @@ class FeedViewModel @Inject constructor(
         .cachedIn(
             viewModelScope,
         )
-
-
 
 
     fun onRecipeTap(openScreen: (String) -> Unit, recipeId: String) {

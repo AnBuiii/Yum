@@ -4,17 +4,11 @@ import androidx.compose.runtime.mutableStateOf
 import com.anbui.yum.common.ext.isValidEmail
 import com.anbui.yum.common.ext.isValidPassword
 import com.anbui.yum.common.snackbar.SnackbarManager
-
 import com.anbui.yum.presentation.YumViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
 import com.anbui.yum.R.string as AppText
 
 
-@HiltViewModel
-class SignInViewModel @Inject constructor(
-
-) : YumViewModel() {
+class SignInViewModel() : YumViewModel() {
     var uiState = mutableStateOf(SignInUiState())
     private val email
         get() = uiState.value.email

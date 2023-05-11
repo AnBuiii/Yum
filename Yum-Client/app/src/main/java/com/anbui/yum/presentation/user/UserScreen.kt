@@ -27,11 +27,11 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.anbui.yum.R
 import com.anbui.yum.common.component.YumSurface
 import com.anbui.yum.domain.model.UserInfo
 import com.anbui.yum.ui.theme.YumGreen
+import org.koin.androidx.compose.getViewModel
 
 
 private val TopBarHeight = 56.dp
@@ -52,13 +52,12 @@ private val TitleHeight = 300.dp
 
 
 @ExperimentalAnimationApi
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun UserScreen(
     modifier: Modifier = Modifier,
     onOpenScreen: (String) -> Unit = {},
     restartApp: () -> Unit = {},
-    viewModel: UserViewModel = hiltViewModel(),
+    viewModel: UserViewModel = getViewModel(),
 ) {
     val uiState by viewModel.uiState
     var showWarningDialog by remember { mutableStateOf(false) }

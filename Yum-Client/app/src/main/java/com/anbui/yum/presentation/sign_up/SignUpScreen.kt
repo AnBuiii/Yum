@@ -1,26 +1,31 @@
 package com.anbui.yum.presentation.sign_up
 
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.anbui.yum.common.ext.buttonModifier
 import com.anbui.yum.common.ext.fieldModifier
+import org.koin.androidx.compose.getViewModel
 import com.anbui.yum.R.string as AppText
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun SignUpScreen(
     modifier: Modifier = Modifier,
     openAndPopUp: (String, String) -> Unit,
-    viewModel: SignUpViewModel = hiltViewModel(),
+    viewModel: SignUpViewModel = getViewModel(),
 ) {
 
     val uiState by viewModel.uiState
@@ -39,7 +44,12 @@ fun SignUpScreen(
             modifier = Modifier.fieldModifier(),
             placeholder = { Text("Email") },
             singleLine = true,
-            leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") },
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Email,
+                    contentDescription = "Email",
+                )
+            },
         )
 
         //password
@@ -49,9 +59,14 @@ fun SignUpScreen(
             modifier = Modifier.fieldModifier(),
             placeholder = { Text("Password") },
             singleLine = true,
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Email") }
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Lock,
+                    contentDescription = "Email",
+                )
+            },
 
-        )
+            )
 
         //repeat password
         OutlinedTextField(
@@ -60,13 +75,18 @@ fun SignUpScreen(
             modifier = Modifier.fieldModifier(),
             placeholder = { Text("Repeat Password") },
             singleLine = true,
-            leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Email") }
+            leadingIcon = {
+                Icon(
+                    imageVector = Icons.Default.Lock,
+                    contentDescription = "Email",
+                )
+            },
 
-        )
+            )
 
         Button(
             onClick = { viewModel.onSignUp(openAndPopUp) },
-            modifier = Modifier.buttonModifier()
+            modifier = Modifier.buttonModifier(),
         ) {
             Text(text = stringResource(id = AppText.sign_up))
         }

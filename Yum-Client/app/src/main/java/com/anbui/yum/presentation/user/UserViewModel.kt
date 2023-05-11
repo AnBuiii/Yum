@@ -8,23 +8,22 @@ import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.mappers.toUserInfo
 import com.anbui.yum.data.remote.user_info.UserInfoService
 import com.anbui.yum.presentation.YumViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
-@HiltViewModel
-class UserViewModel @Inject constructor(
+
+class UserViewModel(
     private val userInfoService: UserInfoService,
     private val yumDatabase: YumDatabase,
 //    val userService: UserService,
-
-    ) : YumViewModel() {
+) : YumViewModel() {
     val uiState = mutableStateOf(UserUiState())
+
     init {
         viewModelScope.launch {
             val hm = yumDatabase.userDao.getCurrentUser().firstOrNull()?.userId
-            if(hm != null){
-                uiState.value = uiState.value.copy(userInfo = userInfoService.getUserInfo(hm)!!.toUserInfo())
+            if (hm != null) {
+                uiState.value =
+                    uiState.value.copy(userInfo = userInfoService.getUserInfo(hm)!!.toUserInfo())
             }
         }
 

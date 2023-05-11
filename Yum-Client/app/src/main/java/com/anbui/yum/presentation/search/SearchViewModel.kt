@@ -4,25 +4,18 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.anbui.yum.data.remote.ingredient.IngredientService
 import com.anbui.yum.presentation.YumViewModel
-import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.flow.combine
 import kotlinx.coroutines.flow.debounce
-import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.flow.transform
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
-@HiltViewModel
-class SearchViewModel @Inject constructor(
+class SearchViewModel(
     private val ingredientService: IngredientService,
 ) : YumViewModel() {
 
@@ -34,7 +27,6 @@ class SearchViewModel @Inject constructor(
 
     private val _isSearching = MutableStateFlow(false)
     val isSearching = _isSearching.asStateFlow()
-
 
 
     private val _persons = MutableStateFlow(listOf<String>())
@@ -55,7 +47,7 @@ class SearchViewModel @Inject constructor(
         .stateIn(
             viewModelScope,
             SharingStarted.WhileSubscribed(5000),
-            _persons.value
+            _persons.value,
         )
 
     fun onSearchTextChange(text: String) {
@@ -68,11 +60,12 @@ class SearchViewModel @Inject constructor(
         }
     }
 
-    suspend fun search(){
+    suspend fun search() {
         uiState.value = uiState.value.copy(
             searchedTexts = ingredientService.search(uiState.value.searchText),
         )
     }
+
     fun onSearchTextChangehm(newValue: String) {
         uiState.value = uiState.value.copy(
             searchText = newValue,

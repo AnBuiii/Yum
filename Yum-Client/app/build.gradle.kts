@@ -2,10 +2,10 @@
 plugins {
     kotlin("android")
     alias(libs.plugins.android.application)
-    alias(libs.plugins.hilt)
+//    alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.ksp)
-    kotlin("kapt")
+//    kotlin("kapt")
 }
 
 android {
@@ -51,9 +51,9 @@ android {
             excludes.add("/META-INF/{AL2.0,LGPL2.1}")
         }
     }
-    kapt {
-        correctErrorTypes = true
-    }
+//    kapt {
+//        correctErrorTypes = true
+//    }
 }
 
 dependencies {
@@ -84,10 +84,10 @@ dependencies {
     //navigation
     implementation(libs.androidx.navigation.compose)
 
-    //dagger - hilt
-    implementation(libs.hilt.android)
-    kapt(libs.hilt.compiler)
-    implementation(libs.androidx.hilt.navigation.compose)
+//      dagger - hilt
+//    implementation(libs.hilt.android)
+//    kapt(libs.hilt.compiler)
+//    implementation(libs.androidx.hilt.navigation.compose)
 
     //coroutine
     implementation(libs.kotlinx.coroutines.android)

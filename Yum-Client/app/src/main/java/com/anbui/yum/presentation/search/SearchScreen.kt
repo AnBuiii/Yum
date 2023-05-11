@@ -26,7 +26,6 @@ import androidx.compose.material3.SearchBar
 import androidx.compose.material3.SearchBarDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
@@ -42,12 +41,11 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.anbui.yum.common.component.YumRecipeCard
 import com.anbui.yum.common.component.YumSurface
 import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.ui.theme.YumBlack
-import kotlinx.coroutines.delay
+import org.koin.androidx.compose.getViewModel
 
 
 @ExperimentalMaterial3Api
@@ -55,7 +53,7 @@ import kotlinx.coroutines.delay
 fun SearchScreen(
     onRecipeClick: (Long) -> Unit,
     modifier: Modifier = Modifier,
-    viewModel: SearchViewModel = hiltViewModel(),
+    viewModel: SearchViewModel = getViewModel(),
 ) {
 
     val uiState by viewModel.uiState
