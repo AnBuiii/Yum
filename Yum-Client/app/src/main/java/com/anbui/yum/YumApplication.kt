@@ -7,12 +7,12 @@ import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
 
-class YumHiltApp : Application() {
+class YumApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
             androidLogger()
-            androidContext(this@YumHiltApp)
+            androidContext(this@YumApplication)
             modules(appModule)
         }
     }

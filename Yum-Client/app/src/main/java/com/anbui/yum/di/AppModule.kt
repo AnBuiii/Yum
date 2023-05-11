@@ -31,7 +31,9 @@ import io.ktor.client.plugins.logging.*
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
-import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.androidx.viewmodel.dsl.viewModelOf
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 
 
@@ -62,26 +64,6 @@ val appModule = module {
         ).build()
     }
 
-    single<UserService> {
-        UserServiceImpl(get())
-    }
-
-    single<UserInfoService> {
-        UserInfoServiceImpl(get())
-    }
-
-    single<RecipeService> {
-        RecipeServiceImpl(get())
-    }
-
-    single<ReviewService> {
-        ReviewServiceImpl(get())
-    }
-
-    single<IngredientService> {
-        IngredientServiceImpl(get())
-    }
-
     single {
         val yumDb: YumDatabase = get()
         Pager(
@@ -96,51 +78,33 @@ val appModule = module {
         )
     }
 
-    viewModel {
-        CartViewModel()
-    }
+    singleOf(::UserServiceImpl) { bind<UserService>() }
 
-    viewModel {
-        FeedViewModel(
-            recipeService = get(),
-            pager = get(),
-        )
-    }
+    singleOf(::UserInfoServiceImpl) { bind<UserInfoService>() }
 
-    viewModel {
-        RecipeDetailViewModel(
-            recipeService = get(),
-            reviewService = get(),
-        )
-    }
+    singleOf(::RecipeServiceImpl) { bind<RecipeService>() }
 
-    viewModel {
-        SearchViewModel(
-            ingredientService = get(),
-        )
-    }
+    singleOf(::ReviewServiceImpl) { bind<ReviewService>() }
 
-    viewModel {
-        SignInViewModel()
-    }
+    singleOf(::IngredientServiceImpl) { bind<IngredientService>() }
 
-    viewModel {
-        SignUpViewModel()
-    }
+    viewModelOf(::CartViewModel)
 
-    viewModel {
-        SplashViewModel(
-            userService = get(),
-            yumDatabase = get(),
-        )
-    }
+    viewModelOf(::CartViewModel)
 
-    viewModel {
-        UserViewModel(
-            userInfoService = get(),
-            yumDatabase = get(),
-        )
-    }
+    viewModelOf(::FeedViewModel)
+
+    viewModelOf(::RecipeDetailViewModel)
+
+    viewModelOf(::SearchViewModel)
+
+    viewModelOf(::SignInViewModel)
+
+    viewModelOf(::SignUpViewModel)
+
+    viewModelOf(::SplashViewModel)
+
+    viewModelOf(::UserViewModel)
 
 }
 
