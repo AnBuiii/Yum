@@ -157,7 +157,8 @@ fun YumBottomBar(
                         YumGreen
                     } else {
                         YumBlack
-                    }
+                    },
+                    label = ""
                 )
 
                 val text = stringResource(section.title).uppercase(currentLocale)

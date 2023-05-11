@@ -4,9 +4,10 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.hilt)
     alias(libs.plugins.kotlin.serialization)
-//    alias(libs.plugins.ksp)
+    alias(libs.plugins.ksp)
     kotlin("kapt")
 }
+
 android {
     namespace = "com.anbui.yum"
     compileSdk = 33
@@ -101,7 +102,7 @@ dependencies {
 //    implementation("ch.qos.logback:logback-classic:1.3.0")
 
     // room
-    kapt(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)
 
@@ -111,4 +112,7 @@ dependencies {
 
     // coil
     implementation(libs.coil.kt.compose)
+
+    //koin
+    implementation(libs.koin.androidx.compose)
 }

@@ -42,6 +42,7 @@ fun CartBottomSheet(
             }
     }
     if (isOpen) {
+
         ModalBottomSheet(
             onDismissRequest = {
                 onChangeOpenBottomSheet(false)

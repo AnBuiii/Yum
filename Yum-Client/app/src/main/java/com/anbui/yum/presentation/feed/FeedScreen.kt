@@ -95,8 +95,6 @@ fun FeedScreen(
 //                onTap = { viewModel.onRecipeTap(onRecipeTap, it) },
 //            )
 
-
-
             HorizontalPager(
                 pageCount = 3,
                 state = pagerState,

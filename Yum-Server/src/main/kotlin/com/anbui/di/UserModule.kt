@@ -26,7 +26,6 @@ val userModule = module {
             connectionString = "mongodb://localhost:27017/$dbName?retryWrites=true&w=majority",
 
             ).coroutine
-
             .getDatabase(dbName)
 
     }
