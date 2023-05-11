@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Star
@@ -13,17 +14,25 @@ import androidx.compose.material3.FilledTonalButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.anbui.yum.domain.model.Review
+import com.anbui.yum.domain.model.UserInfo
 import com.anbui.yum.presentation.recipe.component.ReviewItem
 import com.anbui.yum.presentation.recipe.component.TabTopBar
 import com.anbui.yum.ui.theme.YumGreen
 
 @Composable
 fun ReviewTab(
-    reviews: List<Review>
+    reviews: List<Review>,
+    getUserInfo: suspend (String) -> UserInfo,
+    openReviewScreen: () -> Unit,
 ) {
     LazyColumn {
         item {
@@ -32,10 +41,17 @@ fun ReviewTab(
                 leading = {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.clickable { },
+                        modifier = Modifier.clickable { openReviewScreen() },
                     ) {
-                        Icon(Icons.Default.Star, contentDescription = "", tint = YumGreen)
-                        Text("Live a review", fontWeight = FontWeight.SemiBold)
+                        Icon(
+                            Icons.Default.Star,
+                            contentDescription = "",
+                            tint = YumGreen,
+                        )
+                        Text(
+                            "Live a review",
+                            fontWeight = FontWeight.SemiBold,
+                        )
                     }
                 },
                 trailing = {
@@ -47,14 +63,29 @@ fun ReviewTab(
                         ),
                     ) {
                         Text("Sort")
-                        Icon(Icons.Default.ArrowDropDown, "")
+                        Icon(
+                            Icons.Default.ArrowDropDown,
+                            "",
+                        )
                     }
                 },
             )
         }
 
-        items(10){
-            ReviewItem()
+        items(reviews) { review ->
+            var a by remember { mutableStateOf(UserInfo()) }
+            LaunchedEffect(true) {
+                a = getUserInfo(review.userId)
+            }
+
+            ReviewItem(
+                text = review.message,
+                userImage = a.imageUrl,
+                star = review.rating.toFloat(),
+                userName = a.name,
+//                navigate = navigate
+            )
         }
+
     }
 }

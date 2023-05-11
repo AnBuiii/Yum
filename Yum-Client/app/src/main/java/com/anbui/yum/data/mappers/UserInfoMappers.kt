@@ -8,6 +8,7 @@ fun UserInfoDto.toUserInfo(): UserInfo {
         userId = userId,
         name = name,
         title = title,
+        imageUrl = imageUrl,
         id = id,
     )
 }

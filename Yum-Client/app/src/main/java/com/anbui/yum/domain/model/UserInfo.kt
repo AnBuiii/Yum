@@ -7,5 +7,6 @@ data class UserInfo(
   val userId: String = "",
   val name: String = "",
   val title: String = "",
+  val imageUrl: String = "",
   val id: String = "",
 )

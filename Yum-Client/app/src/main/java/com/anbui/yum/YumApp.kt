@@ -27,6 +27,7 @@ import com.anbui.yum.presentation.cart.CartScreen
 import com.anbui.yum.presentation.collection.CollectionScreen
 import com.anbui.yum.presentation.feed.FeedScreen
 import com.anbui.yum.presentation.recipe.RecipeDetailScreen
+import com.anbui.yum.presentation.review.ReviewScreen
 import com.anbui.yum.presentation.search.SearchScreen
 import com.anbui.yum.presentation.sign_in.SignInScreen
 import com.anbui.yum.presentation.sign_up.SignUpScreen
@@ -175,6 +176,7 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     ) {
         RecipeDetailScreen(
             popUp = { appState.popUp() },
+            openScreen = appState::navigate,
             recipeId = it.arguments?.getString(RECIPE_ID) ?: RECIPE_DEFAULT_ID,
         )
     }
@@ -188,6 +190,17 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
         ),
     ) {
         CollectionScreen()
+    }
+
+    composable(
+        route = "$REVIEW_SCREEN/{id}",
+        arguments = listOf(
+            navArgument("id") {
+                defaultValue = RECIPE_DEFAULT_ID
+            },
+        ),
+    ){
+        ReviewScreen(recipeId = it.arguments?.getString(RECIPE_ID) ?: RECIPE_DEFAULT_ID,)
     }
 }
 

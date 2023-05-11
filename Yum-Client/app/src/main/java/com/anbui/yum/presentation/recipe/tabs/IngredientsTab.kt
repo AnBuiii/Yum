@@ -19,6 +19,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,14 +39,16 @@ import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.presentation.recipe.component.TabTopBar
 import com.anbui.yum.ui.theme.YumBlack
 import com.anbui.yum.ui.theme.YumGreen
+import kotlinx.coroutines.launch
 
 @Composable
 internal fun IngredientTab(
     recipe: Recipe,
-    getName: (String) -> String,
     ingredient: List<Ingredient>,
+    getIngredientName: suspend (String) -> String
 ) {
     val pagePadding = 24.dp
+    val coroutineScope = rememberCoroutineScope()
     LazyColumn() {
         item {
             TabTopBar(
@@ -72,6 +80,10 @@ internal fun IngredientTab(
 
 
         items(recipe.ingredients ?: listOf()) { detail ->
+            var foodName by remember { mutableStateOf("") }
+            LaunchedEffect(  true){
+                foodName = getIngredientName(detail.ingredientId)
+            }
             Row(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -109,7 +121,7 @@ internal fun IngredientTab(
                                     fontSize = 14.sp,
                                 ),
                             ) {
-                                append(ingredient.firstOrNull { it.id == detail.ingredientId }?.name)
+                                append(foodName)
                             }
                         },
                     )

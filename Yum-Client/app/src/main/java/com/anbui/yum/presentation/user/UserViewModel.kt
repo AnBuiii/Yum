@@ -23,7 +23,9 @@ class UserViewModel(
             val hm = yumDatabase.userDao.getCurrentUser().firstOrNull()?.userId
             if (hm != null) {
                 uiState.value =
-                    uiState.value.copy(userInfo = userInfoService.getUserInfo(hm)!!.toUserInfo())
+                    uiState.value.copy(
+                        userInfo = userInfoService.getUserInfo(hm)!!.toUserInfo(),
+                    )
             }
         }
 

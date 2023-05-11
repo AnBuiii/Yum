@@ -29,7 +29,6 @@ fun Route.userInfoRoute(userInfoDataSource: UserInfoDataSource) {
             }
         }
 
-
         // read
         get("{id}") {
             val id = call.parameters["id"]

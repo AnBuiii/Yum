@@ -6,10 +6,13 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.anbui.yum.data.mappers.toIngredient
 import com.anbui.yum.data.mappers.toRecipe
+import com.anbui.yum.data.mappers.toUserInfo
 import com.anbui.yum.data.remote.ingredient.IngredientService
 import com.anbui.yum.data.remote.recipe.RecipeService
 import com.anbui.yum.data.remote.review.ReviewService
+import com.anbui.yum.data.remote.user_info.UserInfoService
 import com.anbui.yum.domain.model.Recipe
+import com.anbui.yum.domain.model.UserInfo
 import com.anbui.yum.presentation.YumViewModel
 import kotlinx.coroutines.launch
 
@@ -18,6 +21,7 @@ class RecipeDetailViewModel(
     private val recipeService: RecipeService,
     private val reviewService: ReviewService,
     private val ingredientService: IngredientService,
+    private val userInfoService: UserInfoService
 ) : YumViewModel() {
 
     val uiState = mutableStateOf(RecipeDetailUiState())
@@ -47,29 +51,22 @@ class RecipeDetailViewModel(
         }
     }
 
-    fun getIngredientNameById(id: String): String {
-        var name = "b"
-        viewModelScope.launch {
-            name = try {
-
-                val a = ingredientService.getIngredientById(id).name
-                Log.d(
-                    "RecipeDetailViewModel",
-                    a,
-                )
-                a
-            } catch (e: Exception) {
-                Log.d(
-                    "RecipeDetailViewModel",
-                    "ingredient name",
-                )
-                "a"
-            }
-            name = "2"
+    suspend fun getIngredientNameById(id: String): String {
+        return try {
+            ingredientService.getIngredientById(id).name
+        } catch (e: Exception){
+            "unknown"
         }
-
-        return name
     }
+
+    suspend fun getUserInfoById(id: String): UserInfo{
+        return try{
+            userInfoService.getUserInfo(id)?.toUserInfo() ?: UserInfo()
+        } catch (e: Exception){
+            UserInfo()
+        }
+    }
+
 
 
     fun getUser() {

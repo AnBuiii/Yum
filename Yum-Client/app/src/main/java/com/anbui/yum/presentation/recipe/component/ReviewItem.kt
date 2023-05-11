@@ -2,6 +2,7 @@ package com.anbui.yum.presentation.recipe.component
 
 //import androidx.compose.material.Icon
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -28,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
 import coil.compose.AsyncImage
+import com.anbui.yum.REVIEW_SCREEN
 import com.anbui.yum.ui.theme.YumBlack
 import com.anbui.yum.ui.theme.YumGreen
 import com.anbui.yum.ui.theme.normal
@@ -42,6 +44,7 @@ fun ReviewItem(
     star: Float = 4f,
     isLiked: Boolean = false,
     isFlagged: Boolean = false,
+//    navigateToRe: (String) -> Unit,
 ) {
     Column(
         modifier = Modifier
@@ -57,11 +60,12 @@ fun ReviewItem(
             verticalAlignment = Alignment.CenterVertically,
         ) {
             AsyncImage(
-                model = "https://images.unsplash.com/photo-1680399524821-d4e6b225b0ee?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1170&q=80",
+                model = userImage,
                 contentDescription = "",
                 modifier = Modifier
                     .size(64.dp)
-                    .clip(CircleShape),
+                    .clip(CircleShape)
+                    .clickable {  },
                 contentScale = ContentScale.Crop,
             )
             Column(

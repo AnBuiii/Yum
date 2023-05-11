@@ -59,9 +59,10 @@ fun RecipeDetailScreen(
                 nutrition = uiState.currentNutrition,
                 reviews = uiState.review,
                 ingredient = uiState.ingredients,
-                getIngredientName = {id ->
-                    viewModel.getIngredientNameById(id)
-                }
+                getIngredientName = viewModel::getIngredientNameById,
+                getUserInfo = viewModel::getUserInfoById,
+                navigate = openScreen
+
             )
         },
     ) {
