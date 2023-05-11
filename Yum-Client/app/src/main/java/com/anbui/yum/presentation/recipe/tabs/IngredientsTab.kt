@@ -1,13 +1,23 @@
 package com.anbui.yum.presentation.recipe.tabs
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.List
-import androidx.compose.material3.*
+import androidx.compose.material3.Divider
+import androidx.compose.material3.FilledIconButton
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButtonDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -18,6 +28,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.anbui.yum.domain.model.Ingredient
 import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.presentation.recipe.component.TabTopBar
 import com.anbui.yum.ui.theme.YumBlack
@@ -26,6 +37,8 @@ import com.anbui.yum.ui.theme.YumGreen
 @Composable
 internal fun IngredientTab(
     recipe: Recipe,
+    getName: (String) -> String,
+    ingredient: List<Ingredient>,
 ) {
     val pagePadding = 24.dp
     LazyColumn() {
@@ -37,8 +50,15 @@ internal fun IngredientTab(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         modifier = Modifier.clickable { },
                     ) {
-                        Icon(Icons.Default.List, contentDescription = "", tint = YumGreen)
-                        Text("Add All to Shopping List", fontWeight = FontWeight.SemiBold)
+                        Icon(
+                            Icons.Default.List,
+                            contentDescription = "",
+                            tint = YumGreen,
+                        )
+                        Text(
+                            "Add All to Shopping List",
+                            fontWeight = FontWeight.SemiBold,
+                        )
                     }
                 },
                 trailing = {},
@@ -53,7 +73,12 @@ internal fun IngredientTab(
 
         items(recipe.ingredients ?: listOf()) { detail ->
             Row(
-                modifier = Modifier.fillMaxWidth().padding(horizontal = 24.dp, vertical = 16.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        horizontal = 24.dp,
+                        vertical = 16.dp,
+                    ),
                 verticalAlignment = Alignment.Top,
             ) {
                 FilledIconButton(
@@ -78,8 +103,13 @@ internal fun IngredientTab(
                             withStyle(SpanStyle(fontSize = 14.sp)) {
                                 append("${detail.amount} ${detail.unit} ")
                             }
-                            withStyle(SpanStyle(fontWeight = FontWeight.SemiBold, fontSize = 14.sp)) {
-                                append(detail.ingredientId)
+                            withStyle(
+                                SpanStyle(
+                                    fontWeight = FontWeight.SemiBold,
+                                    fontSize = 14.sp,
+                                ),
+                            ) {
+                                append(ingredient.firstOrNull { it.id == detail.ingredientId }?.name)
                             }
                         },
                     )

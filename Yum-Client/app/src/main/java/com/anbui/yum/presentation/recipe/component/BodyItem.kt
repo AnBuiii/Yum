@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import com.anbui.yum.domain.model.Ingredient
 import com.anbui.yum.domain.model.Nutrition
 import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.domain.model.Review
@@ -28,6 +29,8 @@ fun BodyItem(
     recipe: Recipe,
     nutrition: Nutrition,
     reviews: List<Review>,
+    getIngredientName: (String) -> String,
+    ingredient: List<Ingredient>
 //    state: BottomSheetScaffoldState
 
 ) {
@@ -46,7 +49,7 @@ fun BodyItem(
             ) { index ->
             when (index) {
                 0 -> OverviewTab(recipe)
-                1 -> IngredientTab(recipe)
+                1 -> IngredientTab(recipe, getIngredientName, ingredient)
                 2 -> DirectionTab(recipe)
                 3 -> NutritionTab(nutrition)
                 4 -> ReviewTab(reviews)

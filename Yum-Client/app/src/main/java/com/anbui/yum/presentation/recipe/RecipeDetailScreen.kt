@@ -58,6 +58,10 @@ fun RecipeDetailScreen(
                 recipe = uiState.recipe,
                 nutrition = uiState.currentNutrition,
                 reviews = uiState.review,
+                ingredient = uiState.ingredients,
+                getIngredientName = {id ->
+                    viewModel.getIngredientNameById(id)
+                }
             )
         },
     ) {

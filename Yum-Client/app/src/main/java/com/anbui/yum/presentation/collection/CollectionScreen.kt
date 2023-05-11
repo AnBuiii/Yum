@@ -44,9 +44,6 @@ val recipes = listOf(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun CollectionScreen() {
-
-
-
     Column {
         Box(
             modifier = Modifier

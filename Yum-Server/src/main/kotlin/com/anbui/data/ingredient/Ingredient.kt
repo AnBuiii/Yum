@@ -15,5 +15,6 @@ data class Ingredient(
     val potassium: Int = 0,
     val calcium: Int = 0,
     val iron: Int = 0,
+    val tag: String = "",
     @BsonId val id: String = ObjectId().toString(),
 )

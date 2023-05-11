@@ -24,7 +24,19 @@ class IngredientServiceImpl(
         }
     }
 
+    override suspend fun getIngredientById(id: String): IngredientDto {
+        return try {
+            val respond = client.get("${BASE_URL}/ingredient/$id").body<IngredientDto>()
+            respond
+        } catch (e: Exception) {
+            IngredientDto(
+                id = id,
+                name = "Unknown",
+            )
+        }
+    }
 }
+
 
 private val suggestions = listOf(
     "egg",
