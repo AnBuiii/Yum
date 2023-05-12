@@ -33,7 +33,7 @@ fun Route.userRoute(userDataSource: UserDataSource, userInfoDataSource: UserInfo
         try {
             val user = userDataSource.getUserByUsername(request.username) ?: return@post
             if (user.password != request.password) return@post
-            call.respond(HttpStatusCode.OK,user.id)
+            call.respond(HttpStatusCode.OK, user.id)
         } catch (e: Exception) {
             application.log.error("Fail to sign in")
         }

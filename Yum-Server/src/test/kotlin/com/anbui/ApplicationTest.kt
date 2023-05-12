@@ -6,6 +6,7 @@ import io.ktor.server.testing.*
 import kotlin.test.*
 import io.ktor.http.*
 import com.anbui.plugins.*
+import io.ktor.client.call.body
 
 class ApplicationTest {
     @Test

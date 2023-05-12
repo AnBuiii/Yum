@@ -6,5 +6,6 @@ interface ReviewService{
 
     suspend fun getReview(id: String) : Review?
     suspend fun getReviewByRecipe(recipeId: String): List<Review>
+    suspend fun submitReview(review: Review): Boolean
 
 }

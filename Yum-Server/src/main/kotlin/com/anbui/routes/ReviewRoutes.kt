@@ -9,8 +9,8 @@ import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
 fun Route.reviewRoute(
-    reviewDataSource: ReviewDataSource
-){
+    reviewDataSource: ReviewDataSource,
+) {
 
     route("review") {
         // create
@@ -23,8 +23,8 @@ fun Route.reviewRoute(
                 application.log.error("Fail to insert new review")
             }
         }
-        get{
-            try{
+        get {
+            try {
                 val reviews = reviewDataSource.getAllReview()
                 call.respond(reviews)
             } catch (e: Exception) {
@@ -41,7 +41,7 @@ fun Route.reviewRoute(
                 application.log.error("Fail to get review")
             }
         }
-        get("recipe/{id}"){
+        get("recipe/{id}") {
             val id = call.parameters["id"]
             try {
                 val reviews = reviewDataSource.getReviewByRecipe(id!!)

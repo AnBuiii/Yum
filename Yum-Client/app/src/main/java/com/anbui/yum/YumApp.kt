@@ -199,8 +199,11 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
                 defaultValue = RECIPE_DEFAULT_ID
             },
         ),
-    ){
-        ReviewScreen(recipeId = it.arguments?.getString(RECIPE_ID) ?: RECIPE_DEFAULT_ID,)
+    ) {
+        ReviewScreen(
+            recipeId = it.arguments?.getString(RECIPE_ID) ?: RECIPE_DEFAULT_ID,
+            onBack = appState::popUp,
+        )
     }
 }
 

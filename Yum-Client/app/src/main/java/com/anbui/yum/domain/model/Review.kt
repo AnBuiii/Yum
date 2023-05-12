@@ -9,5 +9,5 @@ data class Review(
     val rating: Int = 0,
     val userId: String = "",
     val recipeId: String = "",
-    val id: String? = null,
+    val id: String = "",
 )

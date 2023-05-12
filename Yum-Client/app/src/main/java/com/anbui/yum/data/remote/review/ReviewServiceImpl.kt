@@ -6,6 +6,10 @@ import com.anbui.yum.domain.model.Review
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.post
+import io.ktor.client.request.setBody
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 
 class ReviewServiceImpl(
     private val client: HttpClient,
@@ -14,7 +18,10 @@ class ReviewServiceImpl(
         return try {
             client.get("$BASE_URL/review/$id").body()
         } catch (e: Exception) {
-            Log.d("Review service get recipe error", e.toString())
+            Log.d(
+                "Review service get recipe error",
+                e.toString(),
+            )
             null
         }
     }
@@ -23,10 +30,28 @@ class ReviewServiceImpl(
         return try {
             client.get("$BASE_URL/review/recipe/$recipeId").body()
         } catch (e: Exception) {
-            Log.d("Review service get recipe error", e.toString())
+            Log.d(
+                "Review service get recipe error",
+                e.toString(),
+            )
             listOf()
         }
 
+    }
+
+    override suspend fun submitReview(review: Review): Boolean {
+        return try {
+            client.post("$BASE_URL/review") {
+                contentType(ContentType.Application.Json)
+                setBody(review)
+            }.body()
+        } catch (e: Exception) {
+            Log.d(
+                "Submit review fail",
+                e.toString(),
+            )
+            false
+        }
     }
 
 }

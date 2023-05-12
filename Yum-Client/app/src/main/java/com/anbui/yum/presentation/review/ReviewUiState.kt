@@ -6,6 +6,6 @@ import com.anbui.yum.domain.model.UserInfo
 data class ReviewUiState(
     val userInfo: UserInfo = UserInfo(),
     val recipe: Recipe = Recipe(),
-    val rating: Int = 1,
+    val rating: Float = 1f,
     val comment: String = "",
 )

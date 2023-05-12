@@ -20,8 +20,8 @@ fun Route.userInfoRoute(userInfoDataSource: UserInfoDataSource) {
                 application.log.error("Fail to insert new user info")
             }
         }
-        get{
-            try{
+        get {
+            try {
                 val userInfos = userInfoDataSource.getAllUserInfo()
                 call.respond(userInfos)
             } catch (e: Exception) {
@@ -41,7 +41,7 @@ fun Route.userInfoRoute(userInfoDataSource: UserInfoDataSource) {
         }
 
         //update
-        put("{id}"){
+        put("{id}") {
             val id = call.parameters["id"]
             val request = call.receive<UserInfo>()
             try {

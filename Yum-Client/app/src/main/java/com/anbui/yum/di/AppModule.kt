@@ -29,6 +29,9 @@ import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
+import io.ktor.client.utils.EmptyContent.contentType
+import io.ktor.http.ContentType
+import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
@@ -47,6 +50,7 @@ val appModule = module {
             }
             install(ContentNegotiation) {
                 json(
+//                    contentType(ContentType.Application.Json)
                     Json {
                         prettyPrint = true
                         isLenient = true

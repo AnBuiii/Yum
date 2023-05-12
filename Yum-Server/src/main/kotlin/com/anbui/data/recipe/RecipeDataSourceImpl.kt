@@ -3,6 +3,7 @@ package com.anbui.data.recipe;
 import com.anbui.data.ingredient.Ingredient
 import org.litote.kmongo.coroutine.CoroutineDatabase;
 import org.litote.kmongo.eq
+import org.litote.kmongo.regex
 
 class RecipeDataSourceImpl(db: CoroutineDatabase) : RecipeDataSource {
 
@@ -24,6 +25,10 @@ class RecipeDataSourceImpl(db: CoroutineDatabase) : RecipeDataSource {
 
         }
         TODO()
+    }
+
+    override suspend fun search(query: String): List<Recipe> {
+        return recipes.find(Recipe::title regex "(?i)$query").limit(10).toList()
     }
 
     override suspend fun insertRecipe(recipe: Recipe): Boolean {

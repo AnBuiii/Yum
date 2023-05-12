@@ -46,9 +46,20 @@ fun Route.recipeRoute(
             }
         }
 
-        get("size"){
+        get("size") {
             val recipes = recipeDataSource.getRecipes()
             call.respond(recipes.size)
+        }
+
+        get("search") {
+            val query = call.request.queryParameters["q"] ?: ""
+            try {
+                val recipe = recipeDataSource.search(query)
+                print(recipe)
+                call.respond(recipe)
+            } catch (e: Exception) {
+                application.log.error("Fail to search many recipe")
+            }
         }
 
         route("{id}") {
@@ -82,7 +93,7 @@ fun Route.recipeRoute(
                                 potassium = nutrition.potassium + ingredient.potassium * detail.amount / recipe.servings,
                                 calcium = nutrition.calcium + ingredient.calcium * detail.amount / recipe.servings,
                                 iron = nutrition.iron + ingredient.iron * detail.amount / recipe.servings,
-                                calories = nutrition.caloriesFromFat + nutrition.caloriesFromCarbs + nutrition.caloriesFromProtein
+                                calories = nutrition.caloriesFromFat + nutrition.caloriesFromCarbs + nutrition.caloriesFromProtein,
                             )
                     }
                     call.respond(nutrition)

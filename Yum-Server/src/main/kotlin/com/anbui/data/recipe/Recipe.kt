@@ -18,6 +18,5 @@ data class Recipe(
     val ingredients: List<IngredientDetail>? = null,
     val steps: List<String>?,
     val userId: String,
-
     @BsonId val id: String = ObjectId().toString(),
 )

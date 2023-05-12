@@ -18,7 +18,7 @@ fun Application.configureRouting(
 ) {
     val userDataSource by inject<UserDataSource>()
     val userInfoDataSource by inject<UserInfoDataSource>()
-    val recipeDataSource by inject<RecipeDataSource> ()
+    val recipeDataSource by inject<RecipeDataSource>()
     val ingredientDataSource by inject<IngredientDataSource>()
     val reviewDataSource by inject<ReviewDataSource>()
 
@@ -27,7 +27,7 @@ fun Application.configureRouting(
             call.respondText("Hello World!")
         }
         // auth route
-        userRoute(userDataSource,userInfoDataSource)
+        userRoute(userDataSource, userInfoDataSource)
         // userInfoRoute
         userInfoRoute(userInfoDataSource)
         recipeRoute(recipeDataSource, ingredientDataSource)

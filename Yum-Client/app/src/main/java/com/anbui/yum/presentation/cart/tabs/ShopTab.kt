@@ -80,7 +80,7 @@ fun ShopTab(
                     ),
                 )
             }.toTypedArray(),
-            )
+        )
     }
 
 
