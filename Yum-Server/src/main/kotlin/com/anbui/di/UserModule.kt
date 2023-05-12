@@ -6,13 +6,16 @@ import com.anbui.data.recipe.RecipeDataSource
 import com.anbui.data.recipe.RecipeDataSourceImpl
 import com.anbui.data.review.ReviewDataSource
 import com.anbui.data.review.ReviewDataSourceImpl
+import com.anbui.data.shoping_list.ShoppingItemDataSource
+import com.anbui.data.shoping_list.ShoppingItemDataSourceImpl
 import com.anbui.data.user.UserDataSource
 import com.anbui.data.user.UserDatasourceImpl
 import com.anbui.data.user_info.UserInfoDataSource
 import com.anbui.data.user_info.UserInfoDataSourceImpl
 import com.anbui.security.token.JwtTokenImpl
-import com.anbui.security.token.TokenConfig
 import com.anbui.security.token.TokenService
+import org.koin.core.module.dsl.bind
+import org.koin.core.module.dsl.singleOf
 import org.koin.dsl.module
 import org.litote.kmongo.coroutine.coroutine
 import org.litote.kmongo.reactivestreams.KMongo
@@ -29,6 +32,9 @@ val userModule = module {
             .getDatabase(dbName)
 
     }
+
+    singleOf(::ShoppingItemDataSourceImpl) { bind<ShoppingItemDataSource>() }
+
     single<UserDataSource> {
         UserDatasourceImpl(get())
     }
@@ -41,7 +47,7 @@ val userModule = module {
     single<IngredientDataSource> {
         IngredientDataSourceImpl(get())
     }
-    single<ReviewDataSource>{
+    single<ReviewDataSource> {
         ReviewDataSourceImpl(get())
     }
     single<TokenService> {

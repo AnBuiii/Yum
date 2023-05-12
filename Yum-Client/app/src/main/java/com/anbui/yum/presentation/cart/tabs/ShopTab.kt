@@ -7,6 +7,7 @@ import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
@@ -48,7 +49,7 @@ import kotlinx.coroutines.launch
 fun ShopTab(
     modifier: Modifier = Modifier,
     hmItems: List<ShoppingList>,
-    onCheck: (String) -> Unit,
+    onCheck: (String, Boolean) -> Unit,
     onRemove: (String) -> Unit,
 ) {
 
@@ -88,13 +89,14 @@ fun ShopTab(
         modifier = Modifier.clickable(
             indication = null,
             interactionSource = remember { MutableInteractionSource() },
-
-            ) {
+        ) {
             coroutineScope.launch {
                 swipeStates[isDoingSomething]?.animateTo(0)
                 isDoingSomething = ""
             }
-        },
+        }
+            .fillMaxSize()
+        ,
     ) {
         Row(
             modifier = modifier
@@ -169,7 +171,7 @@ fun ShopTab(
                     ) { item ->
                         CategoryItem(
                             shoppingList = item,
-                            onCheck = { onCheck(item.id) },
+                            onCheck = { onCheck(item.id, !item.isChecked) },
                             onEdit = { /*TODO*/ },
                             onRemove = {
                                 onRemove(item.id)

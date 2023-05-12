@@ -5,8 +5,11 @@ import org.bson.codecs.pojo.annotations.BsonId
 import org.bson.types.ObjectId
 
 @Serializable
-data class ShoppingList(
+data class ShoppingItem(
     val userId: String = "",
-    val foodId: String = "",
+    val ingredientId: String = "",
+    val recipeId: String? = "",
+    val amount: Double = 0.0,
+    val isChecked: Boolean = false,
     @BsonId val id: String = ObjectId().toString()
 )

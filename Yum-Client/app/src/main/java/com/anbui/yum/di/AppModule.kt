@@ -14,6 +14,8 @@ import com.anbui.yum.data.remote.recipe.RecipeService
 import com.anbui.yum.data.remote.recipe.RecipeServiceImpl
 import com.anbui.yum.data.remote.review.ReviewService
 import com.anbui.yum.data.remote.review.ReviewServiceImpl
+import com.anbui.yum.data.remote.shopping_list.ShoppingService
+import com.anbui.yum.data.remote.shopping_list.ShoppingServiceImpl
 import com.anbui.yum.data.remote.user_info.UserInfoService
 import com.anbui.yum.data.remote.user_info.UserInfoServiceImpl
 import com.anbui.yum.presentation.cart.CartViewModel
@@ -29,9 +31,6 @@ import io.ktor.client.*
 import io.ktor.client.engine.cio.*
 import io.ktor.client.plugins.contentnegotiation.*
 import io.ktor.client.plugins.logging.*
-import io.ktor.client.utils.EmptyContent.contentType
-import io.ktor.http.ContentType
-import io.ktor.http.contentType
 import io.ktor.serialization.kotlinx.json.*
 import kotlinx.serialization.json.Json
 import org.koin.android.ext.koin.androidContext
@@ -93,7 +92,7 @@ val appModule = module {
 
     singleOf(::IngredientServiceImpl) { bind<IngredientService>() }
 
-    viewModelOf(::CartViewModel)
+    singleOf(::ShoppingServiceImpl) { bind<ShoppingService>() }
 
     viewModelOf(::CartViewModel)
 

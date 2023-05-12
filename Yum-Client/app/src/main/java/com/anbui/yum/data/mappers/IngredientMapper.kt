@@ -5,15 +5,16 @@ import com.anbui.yum.domain.model.Ingredient
 
 fun IngredientDto.toIngredient() : Ingredient{
     return Ingredient(
-        name,
-        protein,
-        carb,
-        fat,
-        cholesterol,
-        sodium,
-        potassium,
-        calcium,
-        iron,
-        id,
+        name = name,
+        protein = protein,
+        carb = carb,
+        fat = fat,
+        cholesterol = cholesterol,
+        sodium = sodium,
+        potassium = potassium,
+        calcium = calcium,
+        iron = iron,
+        tag = tag,
+        id = id,
     )
 }

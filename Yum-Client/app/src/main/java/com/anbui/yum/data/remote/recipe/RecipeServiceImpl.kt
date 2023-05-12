@@ -57,6 +57,21 @@ class RecipeServiceImpl(
         return client.get("$BASE_URL/recipe/size").body()
     }
 
+    override suspend fun search(query: String): List<RecipeDto> {
+        return try {
+            client.get("${BASE_URL}/recipe/search") {
+                url {
+                    parameters.append(
+                        "q",
+                        query,
+                    )
+                }
+            }.body()
+        } catch (e: Exception) {
+            listOf()
+        }
+    }
+
     override suspend fun getNutrition(recipeId: String): Nutrition {
         return try {
             client.get("$BASE_URL/recipe/$recipeId/nutrition").body()
@@ -69,7 +84,7 @@ class RecipeServiceImpl(
         }
     }
 
-    override suspend fun getRecipe(recipeId: String): RecipeDto? {
+    override suspend fun getRecipe(recipeId: String): RecipeDto {
         return try {
             client.get("$BASE_URL/recipe/$recipeId").body()
         } catch (e: Exception) {
@@ -77,7 +92,7 @@ class RecipeServiceImpl(
                 "Recipe service get recipe error",
                 e.toString(),
             )
-            null
+            RecipeDto()
         }
     }
 

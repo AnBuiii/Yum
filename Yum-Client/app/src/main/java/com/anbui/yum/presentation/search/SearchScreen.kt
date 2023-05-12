@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -61,6 +62,7 @@ fun SearchScreen(
     var active by rememberSaveable { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
+
     val searchText by viewModel.searchText.collectAsState()
     val persons by viewModel.persons.collectAsState()
     val isSearching by viewModel.isSearching.collectAsState()
@@ -88,7 +90,7 @@ fun SearchScreen(
                     active = it
                     if (!active) focusManager.clearFocus()
                 },
-                placeholder = { Text("Hinted search textz") },
+                placeholder = { Text("Search for recipe") },
                 leadingIcon = {
                     Icon(
                         Icons.Default.Search,
@@ -96,7 +98,7 @@ fun SearchScreen(
                     )
                 },
                 trailingIcon = {
-                    if (active && uiState.searchText.isNotEmpty()) {
+                    if (active && searchText.isNotEmpty()) {
                         IconButton(
                             onClick = {
                                 viewModel.onSearchTextChange("")
@@ -134,7 +136,7 @@ fun SearchScreen(
                         ListItem(
                             headlineContent = {
                                 Text(
-                                    suggestion,
+                                    suggestion.title,
                                     style = TextStyle(fontWeight = FontWeight.SemiBold),
                                     color = YumBlack.copy(0.7f),
                                 )
@@ -142,7 +144,7 @@ fun SearchScreen(
                             modifier = Modifier.clickable {
 //                                text = resultText
                                 closeSearchBar()
-                                viewModel.onSearchTextChange(suggestion)
+                                viewModel.onSearchTextChange(suggestion.title)
                             },
                             colors = ListItemDefaults.colors(
                                 containerColor = if (idx % 2 != 0) Color.White
@@ -153,12 +155,12 @@ fun SearchScreen(
                 }
             }
             Column(modifier = Modifier.fillMaxSize()) {
-                FilterSection()
+                FilterSection(resultSize = persons.size)
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    items(12) {
-                        YumRecipeCard(recipe = Recipe())
+                    items(persons) {
+                        YumRecipeCard(recipe = it)
                     }
                 }
             }
@@ -183,6 +185,7 @@ fun SearchScreen(
 @Composable
 private fun FilterSection(
     modifier: Modifier = Modifier,
+    resultSize : Int = 0,
 ) {
     Row(
         modifier = modifier
@@ -196,7 +199,7 @@ private fun FilterSection(
         verticalAlignment = Alignment.CenterVertically,
     ) {
         Text(
-            "10 RESULT",
+            "$resultSize RESULT",
             color = Color.White,
             fontSize = 12.sp,
         )

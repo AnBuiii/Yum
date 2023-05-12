@@ -22,7 +22,7 @@ class ReviewServiceImpl(
                 "Review service get recipe error",
                 e.toString(),
             )
-            null
+            Review()
         }
     }
 

@@ -6,8 +6,6 @@ import com.anbui.data.review.ReviewDataSource
 import com.anbui.data.user.UserDataSource
 import com.anbui.data.user_info.UserInfoDataSource
 import com.anbui.routes.*
-import com.anbui.security.token.TokenConfig
-import com.anbui.security.token.TokenService
 import io.ktor.server.routing.*
 import io.ktor.server.response.*
 import io.ktor.server.application.*
@@ -22,16 +20,17 @@ fun Application.configureRouting(
     val ingredientDataSource by inject<IngredientDataSource>()
     val reviewDataSource by inject<ReviewDataSource>()
 
+
     routing {
         get("/") {
             call.respondText("Hello World!")
         }
         // auth route
         userRoute(userDataSource, userInfoDataSource)
-        // userInfoRoute
         userInfoRoute(userInfoDataSource)
         recipeRoute(recipeDataSource, ingredientDataSource)
         ingredientRoute(ingredientDataSource)
         reviewRoute(reviewDataSource)
+        shoppingRoute()
     }
 }

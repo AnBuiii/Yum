@@ -2,8 +2,12 @@ package com.anbui.yum.presentation.search
 
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.anbui.yum.data.mappers.toRecipe
 import com.anbui.yum.data.remote.ingredient.IngredientService
+import com.anbui.yum.data.remote.recipe.RecipeService
+import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.presentation.YumViewModel
+import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -16,7 +20,7 @@ import kotlinx.coroutines.launch
 
 
 class SearchViewModel(
-    private val ingredientService: IngredientService,
+    private val recipeService: RecipeService
 ) : YumViewModel() {
 
 
@@ -29,19 +33,13 @@ class SearchViewModel(
     val isSearching = _isSearching.asStateFlow()
 
 
-    private val _persons = MutableStateFlow(listOf<String>())
+    private val _persons = MutableStateFlow(listOf<Recipe>())
+    @OptIn(FlowPreview::class)
     var persons = searchText
         .debounce(100)
         .onEach { _isSearching.update { true } }
-
-//        .transform {
-//            ingredientService.search(searchText.value)
-//        }
         .combine(_persons) { _, _ ->
-//            delay(100)
-            ingredientService.search(searchText.value)
-
-
+            recipeService.search(searchText.value).map { it.toRecipe() }
         }
         .onEach { _isSearching.update { false } }
         .stateIn(
@@ -53,36 +51,4 @@ class SearchViewModel(
     fun onSearchTextChange(text: String) {
         _searchText.value = text
     }
-
-    init {
-        viewModelScope.launch {
-            ingredientService.search("a")
-        }
-    }
-
-    suspend fun search() {
-        uiState.value = uiState.value.copy(
-            searchedTexts = ingredientService.search(uiState.value.searchText),
-        )
-    }
-
-    fun onSearchTextChangehm(newValue: String) {
-        uiState.value = uiState.value.copy(
-            searchText = newValue,
-        )
-    }
-
-    fun onSearchTextFocusChange(newValue: Boolean) {
-        uiState.value = uiState.value.copy(isSearchFocused = newValue)
-    }
-
-    fun onClearSearchText() {
-        uiState.value = uiState.value.copy(searchText = "")
-    }
-
-    fun onSearchStatusChange(newValue: Boolean) {
-        uiState.value = uiState.value.copy(isSearching = newValue)
-    }
-
-
 }
