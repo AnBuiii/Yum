@@ -9,6 +9,7 @@ import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -45,6 +46,8 @@ fun CartScreen(
     val pagerState = rememberPagerState()
     val cartScreenBottomSheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
+
+//    val a by viewModel.shoppingList.collectAsState()
 
     var hm by remember { mutableStateOf(false) }
 
@@ -89,6 +92,7 @@ fun CartScreen(
                     0 -> PlanTab()
                     1 -> ShopTab(
                         hmItems = uiState.hmItems,
+//                        hmItems = a,
                         onCheck = viewModel::check,
                         onRemove = viewModel::remove,
                     )

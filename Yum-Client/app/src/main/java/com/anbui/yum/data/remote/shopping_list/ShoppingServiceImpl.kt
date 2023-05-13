@@ -5,7 +5,6 @@ import com.anbui.yum.common.util.Constants.BASE_URL
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
-import io.ktor.client.request.post
 import io.ktor.client.request.put
 import io.ktor.client.request.setBody
 import io.ktor.http.ContentType
@@ -24,17 +23,24 @@ class ShoppingServiceImpl(private val client: HttpClient) : ShoppingService {
         }
     }
 
-    override suspend fun changeShoppingItemStatus(id: String, isChecked: Boolean) {
-        try {
+    override suspend fun changeShoppingItemStatus(id: String, isChecked: Boolean): Boolean {
+        return try {
             client.put("$BASE_URL/shopping") {
                 contentType(ContentType.Application.Json)
-                setBody(ShoppingItemDto(id = id, isChecked = isChecked))
+                setBody(
+                    ShoppingItemDto(
+                        id = id,
+                        isChecked = isChecked,
+                    ),
+                )
             }.body()
         } catch (e: Exception) {
             Log.d(
-                "Submit review fail",
+                "Change item status fail",
                 e.toString(),
             )
+            false
+
         }
     }
 }

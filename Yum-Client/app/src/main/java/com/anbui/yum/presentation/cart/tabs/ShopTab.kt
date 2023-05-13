@@ -1,6 +1,5 @@
 package com.anbui.yum.presentation.cart.tabs
 
-import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
@@ -13,16 +12,15 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Edit
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateListOf
-import androidx.compose.runtime.mutableStateMapOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
@@ -34,14 +32,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anbui.yum.R
-import com.anbui.yum.common.component.SwipeableState
 import com.anbui.yum.common.component.YumDivider
 import com.anbui.yum.domain.model.ShoppingList
 import com.anbui.yum.presentation.cart.components.CategoryHeaderItem
 import com.anbui.yum.presentation.cart.components.CategoryItem
 import com.anbui.yum.presentation.cart.components.YumIconButton
 import com.anbui.yum.ui.theme.YumGreen
-import kotlinx.coroutines.launch
 
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -53,50 +49,26 @@ fun ShopTab(
     onRemove: (String) -> Unit,
 ) {
 
+
     val coroutineScope = rememberCoroutineScope()
     val groupedItems = hmItems.groupBy { it.categoriesName }
-    val collapseStates = remember { mutableStateListOf(*Array(groupedItems.size) { false }) }
-    var isDoingSomething by remember { mutableStateOf("") }
-    val swipeStates = remember {
-        mutableStateMapOf<String, SwipeableState<Int>>(
-            *(hmItems).map { shoppingList ->
-                Pair(
-                    shoppingList.id,
-                    SwipeableState(
-                        0,
-                        confirmStateChange = { newValue ->
-                            if (newValue == 0) {
-                                isDoingSomething = ""
-                                true
-                            } else {
-                                if (isDoingSomething != "") false
-                                else {
-                                    isDoingSomething = shoppingList.id
-                                    true
-                                }
-                            }
+    val collapseStates = remember { mutableStateListOf<Boolean>() }
+    var currentRevealed by remember { mutableStateOf("") }
 
-
-                        },
-                    ),
-                )
-            }.toTypedArray(),
-        )
+    LaunchedEffect(hmItems.size) {
+        collapseStates.clear()
+        collapseStates.addAll(List(groupedItems.size) { false })
     }
 
-
     Column(
-        modifier = Modifier.clickable(
-            indication = null,
-            interactionSource = remember { MutableInteractionSource() },
-        ) {
-            coroutineScope.launch {
-                swipeStates[isDoingSomething]?.animateTo(0)
-                isDoingSomething = ""
+        modifier = Modifier
+            .clickable(
+                indication = null,
+                interactionSource = remember { MutableInteractionSource() },
+            ) {
+                currentRevealed = ""
             }
-        }
-            .fillMaxSize()
-        ,
+            .fillMaxSize(),
     ) {
         Row(
             modifier = modifier
@@ -150,48 +122,49 @@ fun ShopTab(
             }
         }
         YumDivider()
-        val listState = rememberLazyListState()
-        LazyColumn(state = listState) {
+        LazyColumn {
             groupedItems.toList().forEachIndexed { idx, (categories, items) ->
                 stickyHeader(key = categories) {
                     CategoryHeaderItem(
                         categoriesName = categories,
                         amount = items.size,
-                        isCollapsed = collapseStates[idx],
+                        isCollapsed = false,
                         onTab = {
                             collapseStates[idx] = !collapseStates[idx]
                         },
 //                        modifier = Modifier.animateItemPlacement()
                     )
                 }
-                if (!collapseStates[idx]) {
+                if (collapseStates.getOrNull(idx) == false) {
                     items(
                         items,
                         key = { it.id },
                     ) { item ->
                         CategoryItem(
                             shoppingList = item,
-                            onCheck = { onCheck(item.id, !item.isChecked) },
-                            onEdit = { /*TODO*/ },
-                            onRemove = {
-                                onRemove(item.id)
-                                swipeStates.remove(item.id)
-                                isDoingSomething = ""
-                            },
-                            onSwipe = {
-                                isDoingSomething = item.id
-                                Log.d(
-                                    "Swipe",
-                                    isDoingSomething,
+                            isReveal = currentRevealed == item.id,
+                            onCheck = {
+                                onCheck(
+                                    item.id,
+                                    !item.isChecked,
                                 )
                             },
-                            swipeStateHm = swipeStates[item.id]!!,
+                            onEdit = { /*TODO*/ },
+                            onRemove = {
+//                                onRemove(item.id)
+//                                swipeStates.remove(item.id)
+//                                isDoingSomething = ""
+                            },
+                            canSwipe = { currentRevealed.isEmpty() || currentRevealed == item.id },
+                            onSwipeComplete = {
+                                if (currentRevealed.isEmpty() || currentRevealed == item.id) {
+                                    currentRevealed = if (it == 1) item.id else ""
+                                }
+                            },
                         )
                     }
                 }
             }
         }
     }
-
-
 }

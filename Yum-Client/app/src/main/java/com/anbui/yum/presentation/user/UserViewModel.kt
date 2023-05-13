@@ -7,6 +7,7 @@ import com.anbui.yum.SIGNUP_SCREEN
 import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.mappers.toUserInfo
 import com.anbui.yum.data.remote.user_info.UserInfoService
+import com.anbui.yum.domain.model.UserInfo
 import com.anbui.yum.presentation.YumViewModel
 import kotlinx.coroutines.launch
 
@@ -24,7 +25,7 @@ class UserViewModel(
             if (hm != null) {
                 uiState.value =
                     uiState.value.copy(
-                        userInfo = userInfoService.getUserInfo(hm)!!.toUserInfo(),
+                        userInfo = userInfoService.getUserInfo(hm)?.toUserInfo() ?: UserInfo(),
                     )
             }
         }

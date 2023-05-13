@@ -9,6 +9,12 @@ import com.anbui.yum.data.remote.recipe.RecipeService
 import com.anbui.yum.data.remote.shopping_list.ShoppingService
 import com.anbui.yum.domain.model.ShoppingList
 import com.anbui.yum.presentation.YumViewModel
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.replay
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 
@@ -19,6 +25,35 @@ class CartViewModel(
     private val yumDatabase: YumDatabase,
 ) : YumViewModel() {
     val uiState = mutableStateOf(CartUiState())
+
+//    val shoppingList: StateFlow<List<ShoppingList>> = flow {
+//        while (true) {
+//            val shoppingList = shoppingService.getShoppingList(
+//                yumDatabase.userDao.getCurrentUser().firstOrNull()?.userId ?: "",
+//            )
+//            emit(
+//                shoppingList.map {
+//                    val b = ingredientService.getIngredientById(it.ingredientId)
+//                    ShoppingList(
+//                        id = it.id,
+//                        amount = it.amount.toInt(),
+//                        foodName = b.name,
+//                        recipeName = recipeService.getRecipe(it.recipeId ?: "").title,
+//                        isChecked = it.isChecked,
+//                        categoriesName = b.tag,
+//                    )
+//                },
+//            )
+//            delay(5000)
+//
+//        }
+//    }
+//        .stateIn(
+//            scope = viewModelScope,
+//            started = SharingStarted.WhileSubscribed(5_000),
+//            initialValue = listOf(),
+//        )
+
     fun getShoppingList() {
         viewModelScope.launch {
             val a = shoppingService.getShoppingList(
@@ -52,7 +87,10 @@ class CartViewModel(
                 id = id,
                 isChecked = value,
             )
+            getShoppingList()
         }
+
+
     }
 
 
