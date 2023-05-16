@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anbui.yum.R
 import com.anbui.yum.common.component.YumDivider
+import com.anbui.yum.common.component.rememberSwipeableState
 import com.anbui.yum.domain.model.ShoppingList
 import com.anbui.yum.presentation.cart.components.CategoryHeaderItem
 import com.anbui.yum.presentation.cart.components.CategoryItem
@@ -141,9 +142,19 @@ fun ShopTab(
                         items,
                         key = { it.id },
                     ) { item ->
+                        val swipeState = rememberSwipeableState(
+                            initialValue = 0,
+                            confirmStateChange = {
+                                currentRevealed = if (it == 0) {
+                                    ""
+                                } else {
+                                    item.id
+                                }
+                                true
+                            },
+                        )
                         CategoryItem(
                             shoppingList = item,
-                            isReveal = currentRevealed == item.id,
                             onCheck = {
                                 onCheck(
                                     item.id,
@@ -152,22 +163,21 @@ fun ShopTab(
                             },
                             onEdit = {
                                 onEdit(item.id)
+                                currentRevealed = ""
                             },
                             onRemove = {
-//                                onRemove(item.id)
-//                                swipeStates.remove(item.id)
-//                                isDoingSomething = ""
-
                             },
-                            canSwipe = { currentRevealed.isEmpty() || currentRevealed == item.id },
-                            onSwipeComplete = {
-                                if (currentRevealed.isEmpty() || currentRevealed == item.id) {
-                                    currentRevealed = if (it == 1) item.id else ""
-                                }
-                            },
+                            swipeState = swipeState,
                         )
-                        
+                        LaunchedEffect(
+                            currentRevealed,
+                        ) {
+                            if (currentRevealed != item.id && swipeState.currentValue == 1) {
+                                swipeState.animateTo(0)
+                            }
+                        }
                     }
+
                 }
             }
         }

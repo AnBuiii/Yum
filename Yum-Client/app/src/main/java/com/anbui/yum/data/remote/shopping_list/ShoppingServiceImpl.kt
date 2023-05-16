@@ -23,15 +23,12 @@ class ShoppingServiceImpl(private val client: HttpClient) : ShoppingService {
         }
     }
 
-    override suspend fun changeShoppingItemStatus(id: String, isChecked: Boolean): Boolean {
+    override suspend fun changeShoppingItemStatus(shoppingItemDto: ShoppingItemDto): Boolean {
         return try {
             client.put("$BASE_URL/shopping") {
                 contentType(ContentType.Application.Json)
                 setBody(
-                    ShoppingItemDto(
-                        id = id,
-                        isChecked = isChecked,
-                    ),
+                    shoppingItemDto
                 )
             }.body()
         } catch (e: Exception) {

@@ -34,8 +34,7 @@ fun Route.shoppingRoute() {
             val request = call.receive<ShoppingItem>()
             try {
                 val respond = shoppingItemDataSource.changeShoppingListItemStatus(
-                    shoppingListItemId = request.id,
-                    isChecked = request.isChecked,
+                    request
                 )
                 call.respond(respond)
             } catch (e: Exception) {

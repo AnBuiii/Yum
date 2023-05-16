@@ -4,5 +4,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface ShoppingService {
     suspend fun getShoppingList(userId: String): List<ShoppingItemDto>
-    suspend fun changeShoppingItemStatus(id : String, isChecked: Boolean) : Boolean
+    suspend fun changeShoppingItemStatus(shoppingItemDto: ShoppingItemDto) : Boolean
 }

@@ -100,6 +100,7 @@ fun CartBottomSheet(
 fun ShoppingItemCartBottomSheet(
     shoppingList: ShoppingList,
     isOpen: Boolean = false,
+    onSave: (Int, String) -> Unit,
     onChangeOpenBottomSheet: (Boolean) -> Unit = {},
     modalBottomSheetState: SheetState = rememberModalBottomSheetState(),
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
@@ -122,6 +123,8 @@ fun ShoppingItemCartBottomSheet(
             dragHandle = {},
             containerColor = Color.White,
         ) {
+            var amount by remember { mutableStateOf(shoppingList.amount) }
+            var unit by remember { mutableStateOf(shoppingList.unit) }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -141,36 +144,40 @@ fun ShoppingItemCartBottomSheet(
                         text = shoppingList.recipeName.uppercase(),
                         color = YumBlack.copy(0.5f),
                         fontSize = 13.sp,
+                        modifier = Modifier.padding(top = 8.dp),
                     )
-                    Text(text = "${shoppingList.amount} ${shoppingList.unit} ${shoppingList.foodName}")
-                    var a by remember {
-                        mutableStateOf(0)
-                    }
-                    var b by remember { mutableStateOf("") }
-                    Row {
+                    Text(
+                        text = "$amount $unit ${shoppingList.foodName}",
+                        color = YumBlack,
+                    )
+                    Row(
+                        modifier = Modifier.padding(vertical = 16.dp),
+                    ) {
                         ListItemPicker(
-                            value = a,
-                            onValueChange = { a = it },
+                            value = amount,
+                            onValueChange = { amount = it },
                             list = (0..10).toList(),
                             modifier = Modifier.weight(1f),
                             dividersColor = YumBlack,
                         )
                         ListItemPicker(
-                            value = b,
-                            onValueChange = { b = it },
-                            list = listOf(
-                                "ok",
-                                "bro",
-                                "hello",
-                                "how",
-                            ),
+                            value = unit,
+                            onValueChange = { unit = it },
+                            list = units,
                             modifier = Modifier.weight(1f),
                             dividersColor = YumBlack,
                         )
                     }
                     Button(
-                        onClick = { /*TODO*/ },
+                        onClick = {
+                            onSave(
+                                amount,
+                                unit,
+                            )
+                            closeBottomSheet()
+                        },
                         colors = ButtonDefaults.buttonColors(containerColor = YumGreen),
+                        modifier = Modifier.fillMaxWidth(),
                     ) {
                         Text(text = "Save")
                     }
@@ -216,3 +223,20 @@ fun BottomBarItem(
         }
     }
 }
+
+private val units = listOf(
+    "unit",
+    "can",
+    "pkg.",
+    "bag",
+    "btl.",
+    "box",
+    "block",
+    "jar",
+    "oz.",
+    "lb.",
+    "cup",
+    "pt.",
+    "qt.",
+    "gal.",
+)

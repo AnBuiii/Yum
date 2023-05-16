@@ -6,6 +6,7 @@ import androidx.lifecycle.viewModelScope
 import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.remote.ingredient.IngredientService
 import com.anbui.yum.data.remote.recipe.RecipeService
+import com.anbui.yum.data.remote.shopping_list.ShoppingItemDto
 import com.anbui.yum.data.remote.shopping_list.ShoppingService
 import com.anbui.yum.domain.model.ShoppingList
 import com.anbui.yum.presentation.YumViewModel
@@ -77,17 +78,42 @@ class CartViewModel(
                 else it
             },
         )
+        val a = uiState.value.hmItems.first { it.id == id }
         viewModelScope.launch {
             shoppingService.changeShoppingItemStatus(
-                id = id,
-                isChecked = value,
+                ShoppingItemDto(
+                    id = id,
+                    amount = a.amount.toDouble(),
+                    unit = a.unit,
+                    isChecked = value,
+                ),
             )
         }
     }
 
-    fun edit(s: String) {
-    }
+    fun changeQuantity(id: String, amountValue: Int, unitValue: String) {
+        uiState.value = uiState.value.copy(
+            hmItems = uiState.value.hmItems.map {
+                if (it.id == id) it.copy(
+                    amount = amountValue,
+                    unit = unitValue,
+                )
+                else it
+            },
+        )
 
+        val a = uiState.value.hmItems.first { it.id == id }
+        viewModelScope.launch {
+            shoppingService.changeShoppingItemStatus(
+                ShoppingItemDto(
+                    id = id,
+                    amount = amountValue.toDouble(),
+                    unit = unitValue,
+                    isChecked = a.isChecked,
+                ),
+            )
+        }
+    }
 
     fun onCartTabChange(index: Int) {
         uiState.value = uiState.value.copy(tabState = index)

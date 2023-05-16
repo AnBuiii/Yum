@@ -63,7 +63,11 @@ fun CartScreen(
         ShoppingItemCartBottomSheet(
             isOpen = uiState.isShoppingItemBottomSheetOpen,
             onChangeOpenBottomSheet = viewModel::onChangeShoppingBottomSheet,
-            shoppingList = uiState.onChangeShoppingList
+            shoppingList = uiState.onChangeShoppingList,
+            onSave = { amount, unit ->
+                viewModel.changeQuantity(uiState.onChangeShoppingList.id, amount, unit)
+            }
+
         )
 //        ModalBottomSheet(
 //            sheetState = cartScreenBottomSheetState,
