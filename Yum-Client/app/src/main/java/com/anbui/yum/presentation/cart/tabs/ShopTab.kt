@@ -46,6 +46,7 @@ fun ShopTab(
     modifier: Modifier = Modifier,
     hmItems: List<ShoppingList>,
     onCheck: (String, Boolean) -> Unit,
+    onEdit: (String) -> Unit,
     onRemove: (String) -> Unit,
 ) {
 
@@ -149,11 +150,14 @@ fun ShopTab(
                                     !item.isChecked,
                                 )
                             },
-                            onEdit = { /*TODO*/ },
+                            onEdit = {
+                                onEdit(item.id)
+                            },
                             onRemove = {
 //                                onRemove(item.id)
 //                                swipeStates.remove(item.id)
 //                                isDoingSomething = ""
+
                             },
                             canSwipe = { currentRevealed.isEmpty() || currentRevealed == item.id },
                             onSwipeComplete = {
@@ -162,6 +166,7 @@ fun ShopTab(
                                 }
                             },
                         )
+                        
                     }
                 }
             }

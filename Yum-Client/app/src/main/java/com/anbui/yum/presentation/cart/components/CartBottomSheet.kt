@@ -9,6 +9,8 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.ModalBottomSheet
@@ -16,12 +18,22 @@ import androidx.compose.material3.SheetState
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.RectangleShape
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.anbui.yum.common.component.ListItemPicker
+import com.anbui.yum.domain.model.ShoppingList
+import com.anbui.yum.ui.theme.YumBlack
+import com.anbui.yum.ui.theme.YumGreen
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -34,29 +46,25 @@ fun CartBottomSheet(
     coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ) {
     fun closeBottomSheet() {
-        coroutineScope.launch { modalBottomSheetState.hide() }
-            .invokeOnCompletion {
-                if (!modalBottomSheetState.isVisible) {
-                    onChangeOpenBottomSheet(false)
-                }
+        coroutineScope.launch { modalBottomSheetState.hide() }.invokeOnCompletion {
+            if (!modalBottomSheetState.isVisible) {
+                onChangeOpenBottomSheet(false)
             }
+        }
     }
     if (isOpen) {
-
         ModalBottomSheet(
             onDismissRequest = {
                 onChangeOpenBottomSheet(false)
-
             },
             sheetState = modalBottomSheetState,
         ) {
             Column(
-                modifier = Modifier
-                    .padding(
-                        start = 32.dp,
-                        end = 32.dp,
-                        bottom = 16.dp,
-                    ),
+                modifier = Modifier.padding(
+                    start = 32.dp,
+                    end = 32.dp,
+                    bottom = 16.dp,
+                ),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
 //                verticalArrangement = Arrangement.spacedBy(32.dp)
@@ -86,6 +94,93 @@ fun CartBottomSheet(
         }
     }
 }
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun ShoppingItemCartBottomSheet(
+    shoppingList: ShoppingList,
+    isOpen: Boolean = false,
+    onChangeOpenBottomSheet: (Boolean) -> Unit = {},
+    modalBottomSheetState: SheetState = rememberModalBottomSheetState(),
+    coroutineScope: CoroutineScope = rememberCoroutineScope(),
+) {
+    fun closeBottomSheet() {
+        coroutineScope.launch { modalBottomSheetState.hide() }.invokeOnCompletion {
+            if (!modalBottomSheetState.isVisible) {
+                onChangeOpenBottomSheet(false)
+            }
+        }
+    }
+    if (isOpen) {
+        ModalBottomSheet(
+            onDismissRequest = {
+                onChangeOpenBottomSheet(false)
+
+            },
+            sheetState = modalBottomSheetState,
+            shape = RectangleShape,
+            dragHandle = {},
+            containerColor = Color.White,
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(
+                        start = 32.dp,
+                        end = 32.dp,
+                        bottom = 16.dp,
+                    ),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+//                verticalArrangement = Arrangement.spacedBy(32.dp)
+            ) {
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                ) {
+                    Text(
+                        text = shoppingList.recipeName.uppercase(),
+                        color = YumBlack.copy(0.5f),
+                        fontSize = 13.sp,
+                    )
+                    Text(text = "${shoppingList.amount} ${shoppingList.unit} ${shoppingList.foodName}")
+                    var a by remember {
+                        mutableStateOf(0)
+                    }
+                    var b by remember { mutableStateOf("") }
+                    Row {
+                        ListItemPicker(
+                            value = a,
+                            onValueChange = { a = it },
+                            list = (0..10).toList(),
+                            modifier = Modifier.weight(1f),
+                            dividersColor = YumBlack,
+                        )
+                        ListItemPicker(
+                            value = b,
+                            onValueChange = { b = it },
+                            list = listOf(
+                                "ok",
+                                "bro",
+                                "hello",
+                                "how",
+                            ),
+                            modifier = Modifier.weight(1f),
+                            dividersColor = YumBlack,
+                        )
+                    }
+                    Button(
+                        onClick = { /*TODO*/ },
+                        colors = ButtonDefaults.buttonColors(containerColor = YumGreen),
+                    ) {
+                        Text(text = "Save")
+                    }
+
+                }
+            }
+        }
+    }
+}
+
 
 @Composable
 fun BottomBarItem(

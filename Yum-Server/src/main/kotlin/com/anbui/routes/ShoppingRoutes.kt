@@ -1,6 +1,5 @@
 package com.anbui.routes
 
-import com.anbui.data.shoping_list.CheckRequest
 import com.anbui.data.shoping_list.ShoppingItem
 import com.anbui.data.shoping_list.ShoppingItemDataSource
 import io.ktor.server.application.*

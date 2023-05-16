@@ -22,6 +22,7 @@ import com.anbui.yum.common.component.YumDivider
 import com.anbui.yum.common.component.YumSurface
 import com.anbui.yum.presentation.cart.components.CartBottomSheet
 import com.anbui.yum.presentation.cart.components.CartTopBar
+import com.anbui.yum.presentation.cart.components.ShoppingItemCartBottomSheet
 import com.anbui.yum.presentation.cart.tabs.PantryTab
 import com.anbui.yum.presentation.cart.tabs.PlanTab
 import com.anbui.yum.presentation.cart.tabs.ShopTab
@@ -59,6 +60,11 @@ fun CartScreen(
             isOpen = uiState.isBottomSheetOpen,
             onChangeOpenBottomSheet = viewModel::onChangeBottomSheet,
         )
+        ShoppingItemCartBottomSheet(
+            isOpen = uiState.isShoppingItemBottomSheetOpen,
+            onChangeOpenBottomSheet = viewModel::onChangeShoppingBottomSheet,
+            shoppingList = uiState.onChangeShoppingList
+        )
 //        ModalBottomSheet(
 //            sheetState = cartScreenBottomSheetState,
 //            onDismissRequest = {
@@ -94,6 +100,7 @@ fun CartScreen(
                         hmItems = uiState.hmItems,
 //                        hmItems = a,
                         onCheck = viewModel::check,
+                        onEdit = viewModel::openBottomSheet,
                         onRemove = viewModel::remove,
                     )
 

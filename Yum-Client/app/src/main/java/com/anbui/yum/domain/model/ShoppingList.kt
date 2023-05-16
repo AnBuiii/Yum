@@ -6,5 +6,6 @@ data class ShoppingList(
     val foodName: String = "",
     val recipeName: String = "",
     val isChecked: Boolean = false,
+    val unit: String = "unit",
     val categoriesName: String = "",
 )

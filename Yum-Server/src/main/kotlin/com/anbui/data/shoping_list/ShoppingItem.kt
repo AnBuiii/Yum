@@ -10,6 +10,7 @@ data class ShoppingItem(
     val ingredientId: String = "",
     val recipeId: String? = "",
     val amount: Double = 0.0,
+    val unit: String = "",
     val isChecked: Boolean = false,
     @BsonId val id: String = ObjectId().toString()
 )

@@ -9,12 +9,6 @@ import com.anbui.yum.data.remote.recipe.RecipeService
 import com.anbui.yum.data.remote.shopping_list.ShoppingService
 import com.anbui.yum.domain.model.ShoppingList
 import com.anbui.yum.presentation.YumViewModel
-import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.flow
-import kotlinx.coroutines.flow.replay
-import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 
@@ -68,6 +62,7 @@ class CartViewModel(
                         foodName = b.name,
                         recipeName = recipeService.getRecipe(it.recipeId ?: "").title,
                         isChecked = it.isChecked,
+                        unit = it.unit,
                         categoriesName = b.tag,
                     )
                 },
@@ -87,10 +82,10 @@ class CartViewModel(
                 id = id,
                 isChecked = value,
             )
-            getShoppingList()
         }
+    }
 
-
+    fun edit(s: String) {
     }
 
 
@@ -101,6 +96,11 @@ class CartViewModel(
     fun onChangeBottomSheet(value: Boolean) {
         uiState.value = uiState.value.copy(isBottomSheetOpen = value)
     }
+
+    fun onChangeShoppingBottomSheet(value: Boolean) {
+        uiState.value = uiState.value.copy(isShoppingItemBottomSheetOpen = value)
+    }
+
 
     fun remove(id: String) {
         Log.d(
@@ -115,5 +115,13 @@ class CartViewModel(
     fun reload() {
         uiState.value = uiState.value
     }
+
+    fun openBottomSheet(id: String) {
+        uiState.value = uiState.value.copy(
+            isShoppingItemBottomSheetOpen = true,
+            onChangeShoppingList = uiState.value.hmItems.first { it.id == id },
+        )
+    }
+
 
 }

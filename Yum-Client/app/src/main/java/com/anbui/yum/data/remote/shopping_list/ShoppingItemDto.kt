@@ -8,6 +8,7 @@ data class ShoppingItemDto(
     val ingredientId: String = "",
     val recipeId: String? = "",
     val amount: Double = 0.0,
+    val unit: String = "unit",
     val isChecked: Boolean = false,
     val id: String = "",
 )
