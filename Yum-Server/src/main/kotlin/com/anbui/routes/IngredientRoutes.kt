@@ -60,7 +60,6 @@ fun Route.ingredientRoute(
             val query = call.request.queryParameters["q"] ?: ""
             try {
                 val ingredients = ingredientDataSource.search(query)
-                print(ingredients)
                 call.respond(ingredients)
             } catch (e: Exception) {
                 application.log.error("Fail to search many ingredient")

@@ -31,7 +31,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anbui.yum.common.component.ListItemPicker
-import com.anbui.yum.domain.model.ShoppingList
+import com.anbui.yum.domain.model.ShoppingItem
 import com.anbui.yum.ui.theme.YumBlack
 import com.anbui.yum.ui.theme.YumGreen
 import kotlinx.coroutines.CoroutineScope
@@ -98,7 +98,7 @@ fun CartBottomSheet(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ShoppingItemCartBottomSheet(
-    shoppingList: ShoppingList,
+    shoppingItem: ShoppingItem,
     isOpen: Boolean = false,
     onSave: (Int, String) -> Unit,
     onChangeOpenBottomSheet: (Boolean) -> Unit = {},
@@ -123,8 +123,8 @@ fun ShoppingItemCartBottomSheet(
             dragHandle = {},
             containerColor = Color.White,
         ) {
-            var amount by remember { mutableStateOf(shoppingList.amount) }
-            var unit by remember { mutableStateOf(shoppingList.unit) }
+            var amount by remember { mutableStateOf(shoppingItem.amount) }
+            var unit by remember { mutableStateOf(shoppingItem.unit) }
             Column(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -141,13 +141,13 @@ fun ShoppingItemCartBottomSheet(
                     horizontalAlignment = Alignment.CenterHorizontally,
                 ) {
                     Text(
-                        text = shoppingList.recipeName.uppercase(),
+                        text = shoppingItem.recipeName.uppercase(),
                         color = YumBlack.copy(0.5f),
                         fontSize = 13.sp,
                         modifier = Modifier.padding(top = 8.dp),
                     )
                     Text(
-                        text = "$amount $unit ${shoppingList.foodName}",
+                        text = "$amount $unit ${shoppingItem.foodName}",
                         color = YumBlack,
                     )
                     Row(

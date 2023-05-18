@@ -8,7 +8,7 @@ import io.ktor.client.request.get
 class IngredientServiceImpl(
     private val client: HttpClient,
 ) : IngredientService {
-    override suspend fun search(query: String): List<String> {
+    override suspend fun search(query: String): List<IngredientDto> {
         return try {
             val respond = client.get("${BASE_URL}/ingredient/search") {
                 url {
@@ -17,10 +17,12 @@ class IngredientServiceImpl(
                         query,
                     )
                 }
-            }.body<List<String>>()
+            }.body<List<IngredientDto>>()
             respond
         } catch (e: Exception) {
-            suggestions
+            listOf(
+                IngredientDto(name = query),
+            )
         }
     }
 

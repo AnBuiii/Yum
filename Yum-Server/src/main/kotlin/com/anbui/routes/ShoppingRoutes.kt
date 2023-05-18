@@ -15,7 +15,20 @@ fun Route.shoppingRoute() {
         post {
             val request = call.receive<ShoppingItem>()
             try {
-                val respond = shoppingItemDataSource.insertShoppingList(request)
+                val shoppingList = shoppingItemDataSource.getShoppingListByUserId(request.userId)
+                val a = shoppingList.firstOrNull { it.ingredient.id == request.ingredientId && it.recipe != null }
+                print(a)
+                val respond = if (a == null) {
+                    shoppingItemDataSource.insertShoppingList(request)
+                } else {
+                    shoppingItemDataSource.changeShoppingListItemStatus(ShoppingItem(
+                        id = a.id,
+                        isChecked = a.isChecked,
+                        amount = a.amount + 1,
+                        unit = a.unit
+
+                    ))
+                }
                 call.respond(respond)
             } catch (e: Exception) {
                 application.log.error("Fail to insert new shopping item")
@@ -34,11 +47,20 @@ fun Route.shoppingRoute() {
             val request = call.receive<ShoppingItem>()
             try {
                 val respond = shoppingItemDataSource.changeShoppingListItemStatus(
-                    request
+                    request,
                 )
                 call.respond(respond)
             } catch (e: Exception) {
                 application.log.error("Fail to update shopping list")
+            }
+        }
+        delete("{id}") {
+            val id = call.parameters["id"]
+            try {
+                val recipe = shoppingItemDataSource.deleteShoppingList(id!!)
+                call.respond(recipe)
+            } catch (e: Exception) {
+                application.log.error("Fail to delete shopping list")
             }
         }
 

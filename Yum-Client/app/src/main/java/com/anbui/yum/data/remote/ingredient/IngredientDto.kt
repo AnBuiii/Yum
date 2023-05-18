@@ -14,5 +14,5 @@ data class IngredientDto(
     val calcium: Int = 0,
     val iron: Int = 0,
     val tag: String = "",
-    val id: String,
+    val id: String = "",
 )

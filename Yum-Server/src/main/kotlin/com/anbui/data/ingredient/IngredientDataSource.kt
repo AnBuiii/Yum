@@ -9,5 +9,5 @@ interface IngredientDataSource {
 
     suspend fun insertIngredients(newIngredients: List<Ingredient>): Boolean
 
-    suspend fun search(query: String): List<String>
+    suspend fun search(query: String): List<Ingredient>
 }

@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -32,9 +33,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anbui.yum.R
+import com.anbui.yum.common.component.PullRefreshIndicator
 import com.anbui.yum.common.component.YumDivider
+import com.anbui.yum.common.component.pullRefresh
+import com.anbui.yum.common.component.rememberPullRefreshState
 import com.anbui.yum.common.component.rememberSwipeableState
-import com.anbui.yum.domain.model.ShoppingList
+import com.anbui.yum.domain.model.ShoppingItem
 import com.anbui.yum.presentation.cart.components.CategoryHeaderItem
 import com.anbui.yum.presentation.cart.components.CategoryItem
 import com.anbui.yum.presentation.cart.components.YumIconButton
@@ -45,9 +49,11 @@ import com.anbui.yum.ui.theme.YumGreen
 @Composable
 fun ShopTab(
     modifier: Modifier = Modifier,
-    hmItems: List<ShoppingList>,
+    hmItems: List<ShoppingItem>,
     onCheck: (String, Boolean) -> Unit,
     onEdit: (String) -> Unit,
+    onAddShoppingList: () -> Unit,
+    onRefresh: () -> Unit,
     onRemove: (String) -> Unit,
 ) {
 
@@ -56,6 +62,10 @@ fun ShopTab(
     val groupedItems = hmItems.groupBy { it.categoriesName }
     val collapseStates = remember { mutableStateListOf<Boolean>() }
     var currentRevealed by remember { mutableStateOf("") }
+
+    var isRefreshing by remember {
+        mutableStateOf(false)
+    }
 
     LaunchedEffect(hmItems.size) {
         collapseStates.clear()
@@ -83,7 +93,7 @@ fun ShopTab(
             horizontalArrangement = Arrangement.SpaceBetween,
         ) {
             Row(
-                modifier = Modifier.clickable { },
+                modifier = Modifier.clickable { onAddShoppingList() },
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -124,62 +134,74 @@ fun ShopTab(
             }
         }
         YumDivider()
-        LazyColumn {
-            groupedItems.toList().forEachIndexed { idx, (categories, items) ->
-                stickyHeader(key = categories) {
-                    CategoryHeaderItem(
-                        categoriesName = categories,
-                        amount = items.size,
-                        isCollapsed = false,
-                        onTab = {
-                            collapseStates[idx] = !collapseStates[idx]
-                        },
-//                        modifier = Modifier.animateItemPlacement()
-                    )
-                }
-                if (collapseStates.getOrNull(idx) == false) {
-                    items(
-                        items,
-                        key = { it.id },
-                    ) { item ->
-                        val swipeState = rememberSwipeableState(
-                            initialValue = 0,
-                            confirmStateChange = {
-                                currentRevealed = if (it == 0) {
-                                    ""
-                                } else {
-                                    item.id
+        val pullRefreshState = rememberPullRefreshState(
+            refreshing = isRefreshing,
+            onRefresh = onRefresh,
+        )
+        Box(modifier = Modifier.pullRefresh(pullRefreshState)) {
+            LazyColumn {
+                groupedItems.toList().forEachIndexed { idx, (categories, items) ->
+                    stickyHeader(key = categories) {
+                        CategoryHeaderItem(
+                            categoriesName = categories,
+                            amount = items.size,
+                            isCollapsed = false,
+                            onTab = {
+                                collapseStates[idx] = !collapseStates[idx]
+                            },
+                            //                        modifier = Modifier.animateItemPlacement()
+                        )
+                    }
+                    if (collapseStates.getOrNull(idx) == false) {
+                        items(
+                            items,
+                            key = { it.id },
+                        ) { item ->
+                            val swipeState = rememberSwipeableState(
+                                initialValue = 0,
+                                confirmStateChange = {
+                                    currentRevealed = if (it == 0) {
+                                        ""
+                                    } else {
+                                        item.id
+                                    }
+                                    true
+                                },
+                            )
+                            CategoryItem(
+                                shoppingItem = item,
+                                onCheck = {
+                                    onCheck(
+                                        item.id,
+                                        !item.isChecked,
+                                    )
+                                },
+                                onEdit = {
+                                    onEdit(item.id)
+                                    currentRevealed = ""
+                                },
+                                onRemove = {
+                                    onRemove(item.id)
+                                },
+                                swipeState = swipeState,
+                            )
+                            LaunchedEffect(
+                                currentRevealed,
+                            ) {
+                                if (currentRevealed != item.id && swipeState.currentValue == 1) {
+                                    swipeState.animateTo(0)
                                 }
-                                true
-                            },
-                        )
-                        CategoryItem(
-                            shoppingList = item,
-                            onCheck = {
-                                onCheck(
-                                    item.id,
-                                    !item.isChecked,
-                                )
-                            },
-                            onEdit = {
-                                onEdit(item.id)
-                                currentRevealed = ""
-                            },
-                            onRemove = {
-                            },
-                            swipeState = swipeState,
-                        )
-                        LaunchedEffect(
-                            currentRevealed,
-                        ) {
-                            if (currentRevealed != item.id && swipeState.currentValue == 1) {
-                                swipeState.animateTo(0)
                             }
                         }
-                    }
 
+                    }
                 }
             }
+            PullRefreshIndicator(
+                refreshing = isRefreshing,
+                state = pullRefreshState,
+                modifier = Modifier.align(Alignment.TopCenter),
+            )
         }
     }
 }

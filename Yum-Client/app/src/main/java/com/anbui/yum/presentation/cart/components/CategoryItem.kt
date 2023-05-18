@@ -34,7 +34,7 @@ import com.anbui.yum.R
 import com.anbui.yum.common.component.FractionalThreshold
 import com.anbui.yum.common.component.SwipeableState
 import com.anbui.yum.common.component.swipeable
-import com.anbui.yum.domain.model.ShoppingList
+import com.anbui.yum.domain.model.ShoppingItem
 import com.anbui.yum.ui.theme.YumBlack
 import kotlin.math.roundToInt
 
@@ -42,7 +42,7 @@ import kotlin.math.roundToInt
 @Composable
 fun CategoryItem(
     modifier: Modifier = Modifier,
-    shoppingList: ShoppingList,
+    shoppingItem: ShoppingItem,
     onCheck: () -> Unit,
     onEdit: () -> Unit,
     onRemove: () -> Unit,
@@ -100,27 +100,30 @@ fun CategoryItem(
         ListItem(
             headlineContent = {
                 Text(
-                    "${shoppingList.amount} ${shoppingList.unit} ${shoppingList.foodName}",
+                    "${shoppingItem.amount} ${shoppingItem.unit} ${shoppingItem.foodName}",
                     color = Color.Black.copy(0.7f),
                     fontSize = 14.sp,
-                    style = TextStyle(textDecoration = if (shoppingList.isChecked) TextDecoration.LineThrough else TextDecoration.None),
+                    style = TextStyle(textDecoration = if (shoppingItem.isChecked) TextDecoration.LineThrough else TextDecoration.None),
                 )
             },
             leadingContent = {
                 IconButton(onClick = onCheck) {
                     Icon(
-                        painter = if (!shoppingList.isChecked) painterResource(id = R.drawable.unchecked) else painterResource(id = R.drawable.checked),
+                        painter = if (!shoppingItem.isChecked) painterResource(id = R.drawable.unchecked) else painterResource(id = R.drawable.checked),
                         contentDescription = "",
                         tint = YumBlack,
                     )
                 }
             },
             supportingContent = {
-                Text(
-                    shoppingList.recipeName,
-                    color = Color.Black.copy(0.5f),
-                    fontSize = 14.sp,
-                )
+                if(shoppingItem.recipeName.isNotEmpty()){
+                    Text(
+                        shoppingItem.recipeName,
+                        color = Color.Black.copy(0.5f),
+                        fontSize = 14.sp,
+                    )
+                }
+
             },
             modifier = Modifier
                 .offset {

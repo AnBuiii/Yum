@@ -1,6 +1,6 @@
 package com.anbui.yum.domain.model
 
-data class ShoppingList(
+data class ShoppingItem(
     val id: String = "",
     val amount: Int = 1,
     val foodName: String = "",
