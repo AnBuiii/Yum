@@ -46,12 +46,7 @@ fun RecipeDetailScreen(
             TitleItem(
 //                modifier = Modifier.pul
                 recipe = uiState.recipe,
-                pagerState = pagerState,
-                onTabChange = {
-                    coroutineScope.launch {
-                        pagerState.animateScrollToPage(it)
-                    }
-                },
+                pagerState = pagerState
             )
             BodyItem(
                 pagerState = pagerState,

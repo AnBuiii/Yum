@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -49,7 +50,9 @@ internal fun IngredientTab(
 ) {
     val pagePadding = 24.dp
     val coroutineScope = rememberCoroutineScope()
-    LazyColumn() {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize()
+    ) {
         item {
             TabTopBar(
                 modifier = Modifier.padding(24.dp),

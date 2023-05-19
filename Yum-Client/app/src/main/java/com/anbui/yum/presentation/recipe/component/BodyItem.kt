@@ -12,6 +12,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import com.anbui.yum.REVIEW_SCREEN
 import com.anbui.yum.domain.model.Ingredient
 import com.anbui.yum.domain.model.Nutrition
@@ -50,7 +51,7 @@ fun BodyItem(
         HorizontalPager(
             pageCount = 5,
             state = pagerState,
-            modifier = Modifier.background(MaterialTheme.colorScheme.background),
+            modifier = Modifier.background(Color.White),
             verticalAlignment = Alignment.Top,
 
             ) { index ->

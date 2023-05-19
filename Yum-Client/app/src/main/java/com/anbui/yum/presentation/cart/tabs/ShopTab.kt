@@ -169,6 +169,7 @@ fun ShopTab(
                                 },
                             )
                             CategoryItem(
+                                modifier = Modifier.animateItemPlacement(),
                                 shoppingItem = item,
                                 onCheck = {
                                     onCheck(
