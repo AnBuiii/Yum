@@ -1,5 +1,8 @@
 package com.anbui.di
 
+import com.anbui.data.collection.Collection
+import com.anbui.data.collection.CollectionDataSource
+import com.anbui.data.collection.CollectionDataSourceImpl
 import com.anbui.data.ingredient.IngredientDataSource
 import com.anbui.data.ingredient.IngredientDataSourceImpl
 import com.anbui.data.recipe.RecipeDataSource
@@ -52,5 +55,8 @@ val userModule = module {
     }
     single<TokenService> {
         JwtTokenImpl()
+    }
+    single<CollectionDataSource> {
+        CollectionDataSourceImpl(get())
     }
 }

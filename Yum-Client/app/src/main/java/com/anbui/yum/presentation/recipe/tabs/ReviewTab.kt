@@ -1,8 +1,10 @@
 package com.anbui.yum.presentation.recipe.tabs
 
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,6 +22,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.anbui.yum.domain.model.Review
@@ -34,7 +37,9 @@ fun ReviewTab(
     getUserInfo: suspend (String) -> UserInfo,
     openReviewScreen: () -> Unit,
 ) {
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize().background(Color.White)
+    ) {
         item {
             TabTopBar(
                 modifier = Modifier.padding(24.dp),
@@ -72,7 +77,12 @@ fun ReviewTab(
             )
         }
 
-        items(reviews) { review ->
+        items(
+            reviews,
+            key = {
+                it.id
+            }
+        ) { review ->
             var a by remember { mutableStateOf(UserInfo()) }
             LaunchedEffect(true) {
                 a = getUserInfo(review.userId)

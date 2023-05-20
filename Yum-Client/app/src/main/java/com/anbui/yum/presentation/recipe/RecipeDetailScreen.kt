@@ -4,6 +4,7 @@ import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -13,11 +14,10 @@ import androidx.compose.ui.unit.dp
 import com.anbui.yum.presentation.recipe.component.BodyItem
 import com.anbui.yum.presentation.recipe.component.ImageItem
 import com.anbui.yum.presentation.recipe.component.TitleItem
-import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 
-internal val TITLE_HEIGHT = 180.dp
+internal val TITLE_HEIGHT = 200.dp
 internal val IMAGE_HEIGHT = 400.dp
 
 
@@ -38,7 +38,7 @@ fun RecipeDetailScreen(
 
 
     BottomSheetScaffold(
-
+        scaffoldState = rememberBottomSheetScaffoldState(),
         sheetPeekHeight = 500.dp,
         sheetShape = RectangleShape,
         sheetDragHandle = {},
@@ -46,7 +46,7 @@ fun RecipeDetailScreen(
             TitleItem(
 //                modifier = Modifier.pul
                 recipe = uiState.recipe,
-                pagerState = pagerState
+                pagerState = pagerState,
             )
             BodyItem(
                 pagerState = pagerState,
@@ -56,8 +56,7 @@ fun RecipeDetailScreen(
                 ingredient = uiState.ingredients,
                 getIngredientName = viewModel::getIngredientNameById,
                 getUserInfo = viewModel::getUserInfoById,
-                navigate = openScreen
-
+                navigate = openScreen,
             )
         },
     ) {

@@ -32,5 +32,7 @@ fun Application.configureRouting(
         ingredientRoute(ingredientDataSource)
         reviewRoute(reviewDataSource)
         shoppingRoute()
+        collectionRoute()
+
     }
 }
