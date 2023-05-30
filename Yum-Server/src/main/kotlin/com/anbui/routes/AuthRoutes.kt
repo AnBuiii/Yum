@@ -66,6 +66,7 @@ fun Route.userRoute(userDataSource: UserDataSource, userInfoDataSource: UserInfo
                 application.log.error("Fail to get all user")
             }
         }
+
     }
 }
 
