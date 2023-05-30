@@ -52,5 +52,24 @@ fun Route.collectionRoute() {
                 application.log.error("Fail to get collection $e")
             }
         }
+        get("user/{id}") {
+            val userId = call.parameters["id"]
+            try {
+                val collection = collectionDataSource.getCollectionsByUserId(userId!!)
+                val collectionResponds = collection.map {
+                    CollectionSend(
+                        id = it.id,
+                        title = it.title,
+                        userId = it.userId,
+                        recipes = it.recipes.map { recipeId ->
+                            recipeDataSource.getRecipe(recipeId)!!
+                        },
+                    )
+                }
+                call.respond(collectionResponds)
+            } catch (e: Exception) {
+                application.log.error("Fail to get collection $e")
+            }
+        }
     }
 }

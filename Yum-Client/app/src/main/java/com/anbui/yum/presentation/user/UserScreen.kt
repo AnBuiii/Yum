@@ -4,16 +4,42 @@ import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.*
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.ScrollState
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.heightIn
+import androidx.compose.foundation.layout.offset
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AssistChipDefaults
+import androidx.compose.material3.ElevatedAssistChip
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,8 +53,10 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.anbui.yum.R
 import com.anbui.yum.common.component.YumSurface
+import com.anbui.yum.domain.model.Collection
 import com.anbui.yum.domain.model.UserInfo
 import com.anbui.yum.ui.theme.YumGreen
 import org.koin.androidx.compose.getViewModel
@@ -36,20 +64,6 @@ import org.koin.androidx.compose.getViewModel
 
 private val TopBarHeight = 56.dp
 private val TitleHeight = 300.dp
-
-
-//private val MinTitleOffset = 56.dp
-//private val GradientScroll = 180.dp
-//private val ImageOverlap = 115.dp
-//private val BottomBarHeight = 56.dp
-//
-//
-//private val MinImageOffset = 12.dp
-//private val MaxTitleOffset = ImageOverlap + MinTitleOffset + GradientScroll
-//private val ExpandedImageSize = 300.dp
-//private val CollapsedImageSize = 150.dp
-//private val HzPadding = Modifier.padding(horizontal = 24.dp)
-
 
 @ExperimentalAnimationApi
 @Composable
@@ -77,7 +91,10 @@ fun UserScreen(
                     uiState.userInfo,
                 )
                 Header()
-                Body(scroll)
+                Body(
+                    uiState.collections,
+                    scroll,
+                )
                 HeaderItem(
                     scrollValue = scroll.value,
                     userInfo = uiState.userInfo,
@@ -222,8 +239,8 @@ private fun Title(
             alignment = Alignment.CenterVertically,
         ),
     ) {
-        Image(
-            painter = painterResource(id = R.drawable.food_1),
+        AsyncImage(
+            model = userInfo.imageUrl,
             contentDescription = "",
             modifier = Modifier
                 .size(120.dp)
@@ -255,7 +272,7 @@ private fun Header() {
 
 @Composable
 private fun Body(
-//    related: List<SnackCollection>,
+    collections: List<Collection>,
     scroll: ScrollState,
 ) {
     Column(
@@ -294,21 +311,14 @@ private fun Body(
         }
 
 
-        listOf(
-            "All Yum",
-            "Break fast",
-            "Desserts",
-            "Dinners",
-            "Drinks",
-            "Sides",
-        ).forEach {
+        collections.forEach {
             Box(
                 modifier = Modifier
                     .aspectRatio(2.5f)
                     .fillMaxWidth(),
             ) {
-                Image(
-                    painter = painterResource(id = R.drawable.food_1),
+                AsyncImage(
+                    model = it.recipes.getOrNull(0)?.imageUrl,
                     contentDescription = "",
                     modifier = Modifier.fillMaxSize(),
                     contentScale = ContentScale.Crop,
@@ -330,7 +340,7 @@ private fun Body(
                     verticalAlignment = Alignment.CenterVertically,
                 ) {
                     Text(
-                        it,
+                        it.name,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.White,
@@ -340,7 +350,7 @@ private fun Body(
                         verticalArrangement = Arrangement.spacedBy(4.dp),
                     ) {
                         Text(
-                            "1",
+                            "${it.recipes.size}",
                             color = Color.White,
                             fontSize = 18.sp,
                         )

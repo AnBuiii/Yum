@@ -50,3 +50,24 @@ dependencies {
     //codec
 //    implementation("commons-codec:commons-codec:$commons_codec_version")
 }
+
+tasks.test {
+    filter {
+//        excludeTestsMatching("com.anbui.routes.UserRouteTest.test1")
+    }
+}
+
+
+reporting.baseDir = file("my-reports")
+project.setProperty("testResultsDirName", "$buildDir/my-test-results")
+
+tasks.register("showDirs") {
+    val rootDir = project.rootDir
+    val reportsDir = project.reporting.baseDirectory
+    val testResultsDir = project.java.testResultsDir
+
+    doLast {
+        logger.quiet(rootDir.toPath().relativize(reportsDir.get().asFile.toPath()).toString())
+        logger.quiet(rootDir.toPath().relativize(testResultsDir.get().asFile.toPath()).toString())
+    }
+}

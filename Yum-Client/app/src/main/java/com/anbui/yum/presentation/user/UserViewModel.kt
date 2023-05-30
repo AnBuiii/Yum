@@ -6,7 +6,9 @@ import com.anbui.yum.SIGNIN_SCREEN
 import com.anbui.yum.SIGNUP_SCREEN
 import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.mappers.toUserInfo
+import com.anbui.yum.data.remote.collection.CollectionService
 import com.anbui.yum.data.remote.user_info.UserInfoService
+import com.anbui.yum.domain.model.Collection
 import com.anbui.yum.domain.model.UserInfo
 import com.anbui.yum.presentation.YumViewModel
 import kotlinx.coroutines.launch
@@ -14,6 +16,7 @@ import kotlinx.coroutines.launch
 
 class UserViewModel(
     private val userInfoService: UserInfoService,
+    private val collectionService: CollectionService,
     private val yumDatabase: YumDatabase,
 //    val userService: UserService,
 ) : YumViewModel() {
@@ -26,6 +29,15 @@ class UserViewModel(
                 uiState.value =
                     uiState.value.copy(
                         userInfo = userInfoService.getUserInfo(hm)?.toUserInfo() ?: UserInfo(),
+                        collections = collectionService.getCollectionByUserId(hm).map {
+                            Collection(
+                                name = it.title,
+                                userId = it.userId,
+                                id = it.id,
+                                recipes = it.recipes,
+                                description = ""
+                            )
+                        }
                     )
             }
         }

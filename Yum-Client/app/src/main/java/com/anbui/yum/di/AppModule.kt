@@ -8,6 +8,8 @@ import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.remote.RecipeRemoteMediator
 import com.anbui.yum.data.remote.auth.UserService
 import com.anbui.yum.data.remote.auth.UserServiceImpl
+import com.anbui.yum.data.remote.collection.CollectionService
+import com.anbui.yum.data.remote.collection.CollectionServiceImpl
 import com.anbui.yum.data.remote.ingredient.IngredientService
 import com.anbui.yum.data.remote.ingredient.IngredientServiceImpl
 import com.anbui.yum.data.remote.recipe.RecipeService
@@ -93,6 +95,8 @@ val appModule = module {
     singleOf(::IngredientServiceImpl) { bind<IngredientService>() }
 
     singleOf(::ShoppingServiceImpl) { bind<ShoppingService>() }
+
+    singleOf(::CollectionServiceImpl) { bind<CollectionService>() }
 
     viewModelOf(::CartViewModel)
 
