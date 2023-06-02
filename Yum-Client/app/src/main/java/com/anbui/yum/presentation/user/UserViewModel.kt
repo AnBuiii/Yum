@@ -22,25 +22,28 @@ class UserViewModel(
 ) : YumViewModel() {
     val uiState = mutableStateOf(UserUiState())
 
-    init {
-        viewModelScope.launch {
-            val hm = yumDatabase.userDao.getCurrentUser().firstOrNull()?.userId
-            if (hm != null) {
-                uiState.value =
-                    uiState.value.copy(
-                        userInfo = userInfoService.getUserInfo(hm)?.toUserInfo() ?: UserInfo(),
-                        collections = collectionService.getCollectionByUserId(hm).map {
-                            Collection(
-                                name = it.title,
-                                userId = it.userId,
-                                id = it.id,
-                                recipes = it.recipes,
-                                description = ""
-                            )
-                        }
-                    )
-            }
+    suspend fun init() {
+        val hm = yumDatabase.userDao.getCurrentUser().firstOrNull()?.userId
+        if (hm != null) {
+            uiState.value =
+                uiState.value.copy(
+                    userInfo = userInfoService.getUserInfo(hm)?.toUserInfo() ?: UserInfo(),
+                    collections = collectionService.getCollectionByUserId(hm).map {
+                        Collection(
+                            name = it.title,
+                            userId = it.userId,
+                            id = it.id,
+                            recipes = it.recipes,
+                            description = "",
+                        )
+                    },
+                )
         }
+
+    }
+
+    init {
+
 
     }
 

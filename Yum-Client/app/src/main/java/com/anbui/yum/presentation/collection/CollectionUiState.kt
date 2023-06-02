@@ -1,4 +1,7 @@
 package com.anbui.yum.presentation.collection
 
-class CollectionUiState {
-}
+import com.anbui.yum.domain.model.Collection
+
+data class CollectionUiState(
+    val collection: Collection = Collection(),
+)

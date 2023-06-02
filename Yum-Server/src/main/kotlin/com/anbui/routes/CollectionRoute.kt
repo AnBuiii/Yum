@@ -24,6 +24,7 @@ fun Route.collectionRoute() {
                 application.log.error("Fail to insert new collection")
             }
         }
+        // add recipe to collection
         post("{id}") {
             val collectionId = call.parameters["id"]
             val recipeId = call.receive<String>()
@@ -31,7 +32,18 @@ fun Route.collectionRoute() {
                 val respond = collectionDataSource.addRecipeToCollection(collectionId!!, recipeId)
                 call.respond(respond)
             } catch (e: Exception) {
-                application.log.error("Fail to insert new collection")
+                application.log.error("Fail to insert recipe to collection collection")
+            }
+        }
+
+        put("{id}"){
+            val collectionId = call.parameters["id"]
+            val recipeId = call.receive<String>()
+            try {
+                val respond = collectionDataSource.removeRecipeFromCollection(collectionId!!, recipeId)
+                call.respond(respond)
+            } catch (e: Exception) {
+                application.log.error("Fail to insert recipe to collection collection")
             }
         }
 
@@ -49,6 +61,7 @@ fun Route.collectionRoute() {
                 )
                 call.respond(collectionRespond)
             } catch (e: Exception) {
+                call.respond("Fail to get collection $e")
                 application.log.error("Fail to get collection $e")
             }
         }
@@ -71,5 +84,6 @@ fun Route.collectionRoute() {
                 application.log.error("Fail to get collection $e")
             }
         }
+//        get()
     }
 }

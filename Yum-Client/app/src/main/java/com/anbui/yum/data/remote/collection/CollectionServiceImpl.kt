@@ -5,6 +5,9 @@ import com.anbui.yum.common.util.Constants
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.post
+import io.ktor.client.request.put
+import io.ktor.client.request.setBody
 
 class CollectionServiceImpl(
     private val client: HttpClient,
@@ -20,6 +23,51 @@ class CollectionServiceImpl(
                 e.toString(),
             )
             emptyList()
+        }
+    }
+
+    override suspend fun getCollectionById(id: String): CollectionDto {
+        return try {
+            val respond =
+                client.get("${Constants.BASE_URL}/collection/$id").body<CollectionDto>()
+            respond
+        } catch (e: Exception) {
+            Log.d(
+                "Get collection by id fail",
+                e.toString(),
+            )
+            CollectionDto()
+        }
+    }
+
+    override suspend fun removeRecipeFromCollection(
+        recipeId: String,
+        collectionId: String,
+    ): Boolean {
+        return try {
+            client.put("${Constants.BASE_URL}/collection/$collectionId") {
+                setBody(recipeId)
+            }.body()
+        } catch (e: Exception) {
+            Log.d(
+                "Remove recipe fail",
+                e.toString(),
+            )
+            false
+        }
+    }
+
+    override suspend fun insertRecipeInCollection(recipeId: String, collectionId: String): Boolean {
+        return try {
+            client.post("${Constants.BASE_URL}/collection/$collectionId") {
+                setBody(recipeId)
+            }.body()
+        } catch (e: Exception) {
+            Log.d(
+                "Remove recipe fail",
+                e.toString(),
+            )
+            false
         }
     }
 }

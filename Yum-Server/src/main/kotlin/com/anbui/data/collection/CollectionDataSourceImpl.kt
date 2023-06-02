@@ -1,10 +1,7 @@
 package com.anbui.data.collection
 
-import org.litote.kmongo.MongoOperator
-import org.litote.kmongo.addToSet
+import org.litote.kmongo.*
 import org.litote.kmongo.coroutine.CoroutineDatabase
-import org.litote.kmongo.eq
-import org.litote.kmongo.setTo
 
 class CollectionDataSourceImpl(db: CoroutineDatabase) : CollectionDataSource {
     private val collections = db.getCollection<Collection>()
@@ -22,8 +19,9 @@ class CollectionDataSourceImpl(db: CoroutineDatabase) : CollectionDataSource {
             .wasAcknowledged()
     }
 
-    override suspend fun removeRecipeFromCollection(collectionId: String, recipeId: String) {
-        TODO("Not yet implemented")
+    override suspend fun removeRecipeFromCollection(collectionId: String, recipeId: String): Boolean {
+        return collections.updateOne(Collection::id eq collectionId, pull(Collection::recipes, recipeId))
+            .wasAcknowledged()
     }
 
     override suspend fun addCollection(collection: Collection): Boolean {

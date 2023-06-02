@@ -9,10 +9,54 @@ plugins {
     kotlin("jvm") version "1.8.20"
     id("io.ktor.plugin") version "2.2.4"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
+//    `java-library`
+//    `maven-publish`
 }
 
 group = "com.anbui"
 version = "0.0.1"
+
+//publishing {
+//    publications {
+//        create<MavenPublication>("yumLibrary") {
+//            pom {
+//                name.set("My Library")
+//                description.set("A concise description of my library")
+//                url.set("https://www.example.com/library")
+//                properties.set(mapOf(
+//                    "myProp" to "value",
+//                    "prop.with.dots" to "anotherValue"
+//                ))
+//                licenses {
+//                    license {
+//                        name.set("The Apache License, Version 2.0")
+//                        url.set("http://www.apache.org/licenses/LICENSE-2.0.txt")
+//                    }
+//                }
+//                developers {
+//                    developer {
+//                        id.set("an ")
+//                        name.set("John Doe")
+//                        email.set("john.doe@example.com")
+//                    }
+//                }
+//                scm {
+//                    connection.set("scm:git:git://example.com/my-library.git")
+//                    developerConnection.set("scm:git:ssh://example.com/my-library.git")
+//                    url.set("http://example.com/my-library/")
+//                }
+//            }
+//        }
+//    }
+//
+//    repositories {
+//        maven {
+//            name = "yum"
+//            url = uri(layout.buildDirectory.dir("repo"))
+//        }
+//    }
+//}
+
 application {
     mainClass.set("com.anbui.ApplicationKt")
 
@@ -54,10 +98,10 @@ dependencies {
 }
 
 tasks.test {
-    ignoreFailures = true
-    filter {
-        excludeTestsMatching("com.anbui.routes.AuthRoutesKtTest.signinAdminOrSomethingTesta")
-    }
+//    ignoreFailures = true
+//    filter {
+//        excludeTestsMatching("com.anbui.routes.AuthRoutesKtTest.signinAdminOrSomethingTest")
+//    }
 }
 
 

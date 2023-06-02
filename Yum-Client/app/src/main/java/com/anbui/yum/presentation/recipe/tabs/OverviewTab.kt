@@ -33,12 +33,13 @@ import kotlin.math.roundToInt
 @Composable
 internal fun OverviewTab(
     recipe: Recipe,
+    onAddToCollection: () -> Unit = {},
 //    state: BottomSheetScaffoldState,
 
 ) {
     val pagePadding = 24.dp
     Box(
-        modifier = Modifier.background(Color.White)
+        modifier = Modifier.background(Color.White),
     ) {
         LazyColumn {
 
@@ -48,10 +49,17 @@ internal fun OverviewTab(
                     leading = {
                         Row(
                             horizontalArrangement = Arrangement.spacedBy(8.dp),
-                            modifier = Modifier.clickable { },
+                            modifier = Modifier.clickable { onAddToCollection() },
                         ) {
-                            Icon(Icons.Default.List, contentDescription = "", tint = YumGreen)
-                            Text("Update Collection", fontWeight = FontWeight.SemiBold)
+                            Icon(
+                                Icons.Default.List,
+                                contentDescription = "",
+                                tint = YumGreen,
+                            )
+                            Text(
+                                "Add to Collection",
+                                fontWeight = FontWeight.SemiBold,
+                            )
                         }
                     },
                     trailing = {},
@@ -64,10 +72,26 @@ internal fun OverviewTab(
             }
 
             val detailList = listOf(
-                Triple(Icons.Default.Star, "Ratings", "${recipe.ratings.roundToInt()}"),
-                Triple(Icons.Default.Star, "Servings", "${recipe.servings}"),
-                Triple(Icons.Default.Star, "Calories per serving", "${recipe.caloriesPerServing}"),
-                Triple(Icons.Default.Star, "Total time", "${recipe.totalTimeInMinute}"),
+                Triple(
+                    Icons.Default.Star,
+                    "Ratings",
+                    "${recipe.ratings.roundToInt()}",
+                ),
+                Triple(
+                    Icons.Default.Star,
+                    "Servings",
+                    "${recipe.servings}",
+                ),
+                Triple(
+                    Icons.Default.Star,
+                    "Calories per serving",
+                    "${recipe.caloriesPerServing}",
+                ),
+                Triple(
+                    Icons.Default.Star,
+                    "Total time",
+                    "${recipe.totalTimeInMinute}",
+                ),
             )
 
             items(detailList) {
@@ -76,7 +100,12 @@ internal fun OverviewTab(
                     header = it.second,
                     value = it.third,
                 )
-                Divider(modifier = Modifier.padding(vertical = 12.dp, horizontal = 24.dp))
+                Divider(
+                    modifier = Modifier.padding(
+                        vertical = 12.dp,
+                        horizontal = 24.dp,
+                    ),
+                )
             }
 
             item {
@@ -85,13 +114,26 @@ internal fun OverviewTab(
             }
 
 
-            val relatedRecipes = listOf(Recipe(), Recipe(), Recipe(), Recipe())
+            val relatedRecipes = listOf(
+                Recipe(),
+                Recipe(),
+                Recipe(),
+                Recipe(),
+            )
 
             item {
-                RelatedRecipes(relatedRecipes, title = "Related Recipes", trail = "View more")
+                RelatedRecipes(
+                    relatedRecipes,
+                    title = "Related Recipes",
+                    trail = "View more",
+                )
             }
             item {
-                RelatedRecipes(relatedRecipes, title = "Related Recipes", trail = "View more")
+                RelatedRecipes(
+                    relatedRecipes,
+                    title = "Related Recipes",
+                    trail = "View more",
+                )
             }
 
         }

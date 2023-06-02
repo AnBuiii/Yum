@@ -8,7 +8,6 @@ import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
 //import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -39,6 +38,8 @@ fun BodyItem(
     getIngredientName: suspend (String) -> String,
     getUserInfo: suspend (String) -> UserInfo,
     navigate: (String) -> Unit,
+    popUp: () -> Unit,
+    onAddToCollection: () -> Unit = {},
 //    state: BottomSheetScaffoldState
 
 ) {
@@ -56,11 +57,16 @@ fun BodyItem(
 
             ) { index ->
             when (index) {
-                0 -> OverviewTab(recipe)
+                0 -> OverviewTab(
+                    recipe = recipe,
+                    onAddToCollection = onAddToCollection,
+                )
+
                 1 -> IngredientTab(
                     recipe,
                     ingredient,
                     getIngredientName,
+                    onAddAllRecipeToShoppingList = {}
                 )
 
                 2 -> DirectionTab(recipe)
@@ -70,7 +76,8 @@ fun BodyItem(
                     getUserInfo,
                     openReviewScreen = {
                         navigate("$REVIEW_SCREEN/${recipe.id}")
-                    }
+                    },
+                    popUp = popUp,
                 )
             }
 

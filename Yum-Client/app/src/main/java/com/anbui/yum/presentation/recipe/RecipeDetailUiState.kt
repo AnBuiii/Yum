@@ -3,6 +3,7 @@ package com.anbui.yum.presentation.recipe
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.pager.PagerState
+import com.anbui.yum.domain.model.Collection
 import com.anbui.yum.domain.model.Ingredient
 import com.anbui.yum.domain.model.Nutrition
 import com.anbui.yum.domain.model.Recipe
@@ -16,5 +17,6 @@ data class RecipeDetailUiState(
     val currentNutrition: Nutrition = Nutrition(),
     val selectedTab: Int = 0,
     val pagerState: PagerState = PagerState(0,0f),
-    val ingredients: List<Ingredient> = listOf()
+    val ingredients: List<Ingredient> = listOf(),
+    val collections: List<Collection> = emptyList()
 )

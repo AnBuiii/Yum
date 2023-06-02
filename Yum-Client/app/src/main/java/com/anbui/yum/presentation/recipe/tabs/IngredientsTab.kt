@@ -46,7 +46,8 @@ import kotlinx.coroutines.launch
 internal fun IngredientTab(
     recipe: Recipe,
     ingredient: List<Ingredient>,
-    getIngredientName: suspend (String) -> String
+    getIngredientName: suspend (String) -> String,
+    onAddAllRecipeToShoppingList : (String) -> Unit = {}
 ) {
     val pagePadding = 24.dp
     val coroutineScope = rememberCoroutineScope()
@@ -59,7 +60,9 @@ internal fun IngredientTab(
                 leading = {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.clickable { },
+                        modifier = Modifier.clickable {
+
+                        },
                     ) {
                         Icon(
                             Icons.Default.List,

@@ -88,7 +88,7 @@ fun ReviewScreen(
                 fontWeight = FontWeight.Bold,
             )
             IconButton(
-                onClick = { /*TODO*/ },
+                onClick = onBack,
                 colors = IconButtonDefaults.filledIconButtonColors(
                     containerColor = YumBlack.copy(0.1f),
                     contentColor = YumBlack,
@@ -153,8 +153,6 @@ fun ReviewScreen(
                 bottom = 24.dp,
             ),
         )
-
-        var a by remember { mutableStateOf(1f) }
 
         RatingBar(
             value = uiState.rating,

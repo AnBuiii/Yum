@@ -153,6 +153,9 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
         UserScreen(
             onOpenScreen = { route -> appState.navigate(route) },
             restartApp = appState::restartNavigate,
+            onCollectionTab = { id ->
+                appState.navigate("$COLLECTION_SCREEN/$id")
+            },
         )
     }
 
@@ -185,11 +188,14 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
         route = "$COLLECTION_SCREEN/{id}",
         arguments = listOf(
             navArgument("id") {
-                defaultValue = RECIPE_DEFAULT_ID
+                defaultValue = COLLECTION_DEFAULT_ID
             },
         ),
     ) {
-        CollectionScreen()
+        CollectionScreen(
+            collectionId = it.arguments?.getString(COLLECTION_ID) ?: COLLECTION_DEFAULT_ID,
+            onBack = appState::popUp,
+        )
     }
 
     composable(

@@ -27,6 +27,8 @@ const val REVIEW_SCREEN = "ReviewScreen"
 const val RECIPE_ID = "id"
 const val RECIPE_DEFAULT_ID = "64228ff38bfb4c5001ed75b7"
 const val RECIPE_ID_ARG = "?$RECIPE_ID = {$RECIPE_ID}"
+const val COLLECTION_ID = "id"
+const val COLLECTION_DEFAULT_ID = "-1"
 
 enum class HomeScreenSection(
     @StringRes val title: Int,

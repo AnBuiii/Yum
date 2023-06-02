@@ -25,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.anbui.yum.common.ext.timeAgo
 import com.anbui.yum.domain.model.Review
 import com.anbui.yum.domain.model.UserInfo
 import com.anbui.yum.presentation.recipe.component.ReviewItem
@@ -36,6 +37,7 @@ fun ReviewTab(
     reviews: List<Review>,
     getUserInfo: suspend (String) -> UserInfo,
     openReviewScreen: () -> Unit,
+    popUp: () -> Unit,
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize().background(Color.White)
@@ -54,7 +56,7 @@ fun ReviewTab(
                             tint = YumGreen,
                         )
                         Text(
-                            "Live a review",
+                            "Leave a review",
                             fontWeight = FontWeight.SemiBold,
                         )
                     }
@@ -93,6 +95,7 @@ fun ReviewTab(
                 userImage = a.imageUrl,
                 star = review.rating.toFloat(),
                 userName = a.name,
+                time = review.timestamp.timeAgo()
 //                navigate = navigate
             )
         }

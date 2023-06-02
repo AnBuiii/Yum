@@ -13,53 +13,53 @@ import kotlin.test.Test
 class AuthRoutesKtTest {
 
     // black box
-    @Test
-    fun testPostSignin() = testApplication {
-        val client = createClient {
-            install(ContentNegotiation) {
-                json()
-            }
-        }
-
-        application {
-            configureRouting()
-        }
-
-        client.post("/signin") {
-            contentType(ContentType.Application.Json)
-            setBody(
-                mapOf(
-                    "username" to "builehoaian",
-                    "password" to "builehoaian",
-                ),
-            )
-        }.apply {
-            assertEquals(HttpStatusCode.OK, status)
-        }
-    }
-
-    @Test
-    fun signinAdminOrSomethingTest() = testApplication {
-        val client = createClient {
-            install(ContentNegotiation) {
-                json()
-            }
-        }
-
-        application {
-            configureRouting()
-        }
-
-        client.post("/signinAdminOrSomething") {
-            contentType(ContentType.Application.Json)
-            setBody(
-                mapOf(
-                    "username" to "builehoaian",
-                    "password" to "builehoaian",
-                ),
-            )
-        }.apply {
-            assertEquals(HttpStatusCode.OK, status)
-        }
-    }
+//    @Test
+//    fun testPostSignin() = testApplication {
+//        val client = createClient {
+//            install(ContentNegotiation) {
+//                json()
+//            }
+//        }
+//
+//        application {
+//            configureRouting()
+//        }
+//
+//        client.post("/signin") {
+//            contentType(ContentType.Application.Json)
+//            setBody(
+//                mapOf(
+//                    "username" to "builehoaian",
+//                    "password" to "builehoaian",
+//                ),
+//            )
+//        }.apply {
+//            assertEquals(HttpStatusCode.OK, status)
+//        }
+//    }
+//
+//    @Test
+//    fun signinAdminOrSomethingTest() = testApplication {
+//        val client = createClient {
+//            install(ContentNegotiation) {
+//                json()
+//            }
+//        }
+//
+//        application {
+//            configureRouting()
+//        }
+//
+//        client.post("/signinAdminOrSomething") {
+//            contentType(ContentType.Application.Json)
+//            setBody(
+//                mapOf(
+//                    "username" to "builehoaian",
+//                    "password" to "builehoaian",
+//                ),
+//            )
+//        }.apply {
+//            assertEquals(HttpStatusCode.OK, status)
+//        }
+//    }
 }

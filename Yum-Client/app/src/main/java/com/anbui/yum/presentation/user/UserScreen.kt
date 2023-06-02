@@ -27,15 +27,13 @@ import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Lock
-import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Settings
-import androidx.compose.material3.AssistChipDefaults
-import androidx.compose.material3.ElevatedAssistChip
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -47,17 +45,16 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
-import com.anbui.yum.R
 import com.anbui.yum.common.component.YumSurface
 import com.anbui.yum.domain.model.Collection
 import com.anbui.yum.domain.model.UserInfo
+import com.anbui.yum.presentation.user.tabs.AnonymousSection
 import com.anbui.yum.ui.theme.YumGreen
 import org.koin.androidx.compose.getViewModel
 
@@ -71,6 +68,7 @@ fun UserScreen(
     modifier: Modifier = Modifier,
     onOpenScreen: (String) -> Unit = {},
     restartApp: () -> Unit = {},
+    onCollectionTab: (String) -> Unit = {},
     viewModel: UserViewModel = getViewModel(),
 ) {
     val uiState by viewModel.uiState
@@ -83,7 +81,6 @@ fun UserScreen(
                 onSignIn = { viewModel.onSignInTap(onOpenScreen) },
                 onSignUp = { viewModel.onSignUpTap(onOpenScreen) },
             )
-
         } else {
             Box(modifier = Modifier.fillMaxSize()) {
                 Title(
@@ -94,6 +91,7 @@ fun UserScreen(
                 Body(
                     uiState.collections,
                     scroll,
+                    onCollectionClick = onCollectionTab,
                 )
                 HeaderItem(
                     scrollValue = scroll.value,
@@ -106,6 +104,9 @@ fun UserScreen(
 
             }
         }
+    }
+    LaunchedEffect(Unit){
+        viewModel.init()
     }
 }
 
@@ -167,53 +168,6 @@ fun HeaderItem(
 
 }
 
-@Composable
-private fun AnonymousSection(
-    modifier: Modifier = Modifier,
-    onSignIn: () -> Unit = {},
-    onSignUp: () -> Unit = {},
-) {
-    Box(
-        modifier = modifier.fillMaxSize(),
-    ) {
-        Column(
-            modifier.align(Alignment.Center),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(8.dp),
-        ) {
-            ElevatedAssistChip(
-                modifier = Modifier.size(
-                    height = 48.dp,
-                    width = 200.dp,
-                ),
-                onClick = onSignIn,
-                label = { Text("Sign In") },
-                leadingIcon = {
-                    Icon(
-                        Icons.Filled.Person,
-                        contentDescription = "",
-                        Modifier.size(AssistChipDefaults.IconSize),
-                    )
-                },
-            )
-            ElevatedAssistChip(
-                modifier = Modifier.size(
-                    height = 48.dp,
-                    width = 200.dp,
-                ),
-                onClick = onSignUp,
-                label = { Text("Sign Up") },
-                leadingIcon = {
-                    Icon(
-                        painterResource(id = R.drawable.baseline_person_add_24),
-                        contentDescription = "Localized description",
-                        Modifier.size(AssistChipDefaults.IconSize),
-                    )
-                },
-            )
-        }
-    }
-}
 
 @Composable
 private fun Title(
@@ -274,6 +228,7 @@ private fun Header() {
 private fun Body(
     collections: List<Collection>,
     scroll: ScrollState,
+    onCollectionClick: (String) -> Unit = {},
 ) {
     Column(
         modifier = Modifier
@@ -314,8 +269,11 @@ private fun Body(
         collections.forEach {
             Box(
                 modifier = Modifier
-                    .aspectRatio(2.5f)
-                    .fillMaxWidth(),
+                    .aspectRatio(2.4f)
+                    .fillMaxWidth()
+                    .clickable {
+                        onCollectionClick(it.id)
+                    },
             ) {
                 AsyncImage(
                     model = it.recipes.getOrNull(0)?.imageUrl,

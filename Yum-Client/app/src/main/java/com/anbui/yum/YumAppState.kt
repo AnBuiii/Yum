@@ -37,6 +37,7 @@ class YumAppState(
     fun navigate(route: String) {
         navController.navigate(route) {
             launchSingleTop = true
+            restoreState = true
         }
     }
 
