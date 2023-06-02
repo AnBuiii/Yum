@@ -47,7 +47,7 @@ internal fun IngredientTab(
     recipe: Recipe,
     ingredient: List<Ingredient>,
     getIngredientName: suspend (String) -> String,
-    onAddAllRecipeToShoppingList : (String) -> Unit = {}
+    onAddAllRecipeToShoppingList : () -> Unit = {}
 ) {
     val pagePadding = 24.dp
     val coroutineScope = rememberCoroutineScope()
@@ -61,7 +61,7 @@ internal fun IngredientTab(
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         modifier = Modifier.clickable {
-
+                            onAddAllRecipeToShoppingList()
                         },
                     ) {
                         Icon(

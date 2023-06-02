@@ -63,18 +63,19 @@ class RecipeDetailViewModel(
         }
     }
 
-    suspend fun addAllIngredientToShoppingList() {
-        uiState.value.recipe.ingredients.forEach {
-            shoppingService.addShoppingItem(
-                ShoppingItemSendDto(
-                    userId = yumDatabase.userDao.getCurrentUser().first().userId,
-                    ingredientId = it.ingredientId,
-                    amount = it.amount.toDouble(),
-                    unit = it.unit,
-                    recipeId = uiState.value.recipe.id,
-
+    fun addAllIngredientToShoppingList() {
+        viewModelScope.launch {
+            uiState.value.recipe.ingredients.forEach {
+                shoppingService.addShoppingItem(
+                    ShoppingItemSendDto(
+                        userId = yumDatabase.userDao.getCurrentUser().first().userId,
+                        ingredientId = it.ingredientId,
+                        amount = it.amount.toDouble(),
+                        unit = it.unit,
+                        recipeId = uiState.value.recipe.id,
                     ),
-            )
+                )
+            }
         }
     }
 

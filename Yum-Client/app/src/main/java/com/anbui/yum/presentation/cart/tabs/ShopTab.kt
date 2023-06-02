@@ -56,11 +56,13 @@ fun ShopTab(
     onRefresh: () -> Unit,
     onRemove: (String) -> Unit,
 ) {
-
-
     val coroutineScope = rememberCoroutineScope()
-    val groupedItems = hmItems.groupBy { it.categoriesName }
+    var isGroupByCategory by remember {
+        mutableStateOf(true)
+    }
+    var groupedItems by remember { mutableStateOf(hmItems.groupBy { it.categoriesName }) }
     val collapseStates = remember { mutableStateListOf<Boolean>() }
+
     var currentRevealed by remember { mutableStateOf("") }
 
     var isRefreshing by remember {
@@ -115,7 +117,9 @@ fun ShopTab(
                 verticalAlignment = Alignment.CenterVertically,
             ) {
                 YumIconButton(
-                    onClick = {},
+                    onClick = {
+                        isGroupByCategory = true
+                    },
                     text = "CATEGORY",
                     icon = Icons.Default.Menu,
                     modifier = Modifier,
@@ -126,7 +130,9 @@ fun ShopTab(
                     modifier = Modifier.width(1.dp),
                 )
                 YumIconButton(
-                    onClick = {},
+                    onClick = {
+                        isGroupByCategory = false
+                    },
                     text = "EDIT",
                     icon = Icons.Default.Edit,
                     modifier = Modifier,
@@ -203,6 +209,16 @@ fun ShopTab(
                 state = pullRefreshState,
                 modifier = Modifier.align(Alignment.TopCenter),
             )
+        }
+        LaunchedEffect(isGroupByCategory) {
+            if (isGroupByCategory) {
+                groupedItems =
+                    hmItems.groupBy { it.categoriesName }
+                        .toSortedMap(compareBy<String> { it.firstOrNull() }.reversed())
+            } else {
+                groupedItems = hmItems.groupBy { it.recipeName }
+                    .toSortedMap(compareBy<String> { it.firstOrNull() }.reversed())
+            }
         }
     }
 }

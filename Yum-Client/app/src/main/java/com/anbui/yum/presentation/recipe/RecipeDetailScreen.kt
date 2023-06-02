@@ -85,8 +85,11 @@ fun RecipeDetailScreen(
                                 delay(300)
                                 visible = true
                             }
-
                         },
+                        onAddAllIngredientToShoppingList = {
+                            viewModel.addAllIngredientToShoppingList()
+                        }
+
                     )
                 }
             },

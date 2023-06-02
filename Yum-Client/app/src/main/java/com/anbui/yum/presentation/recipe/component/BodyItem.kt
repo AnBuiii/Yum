@@ -26,7 +26,6 @@ import com.anbui.yum.presentation.recipe.tabs.ReviewTab
 
 @OptIn(
     ExperimentalFoundationApi::class,
-    ExperimentalMaterial3Api::class,
 )
 @Composable
 fun BodyItem(
@@ -40,6 +39,7 @@ fun BodyItem(
     navigate: (String) -> Unit,
     popUp: () -> Unit,
     onAddToCollection: () -> Unit = {},
+    onAddAllIngredientToShoppingList: () -> Unit = {},
 //    state: BottomSheetScaffoldState
 
 ) {
@@ -66,7 +66,7 @@ fun BodyItem(
                     recipe,
                     ingredient,
                     getIngredientName,
-                    onAddAllRecipeToShoppingList = {}
+                    onAddAllRecipeToShoppingList = onAddAllIngredientToShoppingList
                 )
 
                 2 -> DirectionTab(recipe)
