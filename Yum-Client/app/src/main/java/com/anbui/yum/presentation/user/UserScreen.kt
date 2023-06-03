@@ -25,12 +25,15 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ArrowDropDown
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.IconButtonDefaults
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -54,7 +57,9 @@ import coil.compose.AsyncImage
 import com.anbui.yum.common.component.YumSurface
 import com.anbui.yum.domain.model.Collection
 import com.anbui.yum.domain.model.UserInfo
+import com.anbui.yum.presentation.user.components.NewCollection
 import com.anbui.yum.presentation.user.tabs.AnonymousSection
+import com.anbui.yum.ui.theme.YumBlack
 import com.anbui.yum.ui.theme.YumGreen
 import org.koin.androidx.compose.getViewModel
 
@@ -74,6 +79,7 @@ fun UserScreen(
     val uiState by viewModel.uiState
     var showWarningDialog by remember { mutableStateOf(false) }
     val scroll = rememberScrollState()
+    var showAddCollection by remember { mutableStateOf(false) }
 
     YumSurface {
         if (uiState.userInfo.userId.isBlank()) {
@@ -82,30 +88,67 @@ fun UserScreen(
                 onSignUp = { viewModel.onSignUpTap(onOpenScreen) },
             )
         } else {
-            Box(modifier = Modifier.fillMaxSize()) {
-                Title(
-                    scroll.value,
-                    uiState.userInfo,
-                )
-                Header()
-                Body(
-                    uiState.collections,
-                    scroll,
-                    onCollectionClick = onCollectionTab,
-                )
-                HeaderItem(
-                    scrollValue = scroll.value,
-                    userInfo = uiState.userInfo,
-                    logout = {
-                        viewModel.logout()
-                        restartApp()
-                    },
-                )
+            Scaffold(
+                floatingActionButton = {
+                    IconButton(
+                        onClick = {
+                            showAddCollection = true
+                        },
+                        modifier = Modifier.size(64.dp),
+                        colors = IconButtonDefaults.iconButtonColors(
+                            containerColor = Color.White,
+                            contentColor = YumBlack,
+                        ),
+                    ) {
+                        Icon(
+                            imageVector = Icons.Default.Add,
+                            contentDescription = null,
+                        )
+                    }
+                },
+            ) {
+                Box(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(it),
+                ) {
+                    Title(
+                        scroll.value,
+                        uiState.userInfo,
+                    )
+                    Header()
+                    Body(
+                        uiState.collections,
+                        scroll,
+                        onCollectionClick = onCollectionTab,
+                    )
+                    HeaderItem(
+                        scrollValue = scroll.value,
+                        userInfo = uiState.userInfo,
+                        logout = {
+                            viewModel.logout()
+                            restartApp()
+                        },
+                    )
 
+                }
             }
+            NewCollection(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .background(Color.Black),
+                visible = showAddCollection,
+                onSubmit = {
+                    viewModel.onNewCollection(it)
+                    showAddCollection = false
+                },
+                onClose = { showAddCollection = false },
+            )
+
+
         }
     }
-    LaunchedEffect(Unit){
+    LaunchedEffect(Unit) {
         viewModel.init()
     }
 }

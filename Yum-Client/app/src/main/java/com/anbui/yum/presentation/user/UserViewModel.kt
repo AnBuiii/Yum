@@ -6,6 +6,7 @@ import com.anbui.yum.SIGNIN_SCREEN
 import com.anbui.yum.SIGNUP_SCREEN
 import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.mappers.toUserInfo
+import com.anbui.yum.data.remote.collection.CollectionDto
 import com.anbui.yum.data.remote.collection.CollectionService
 import com.anbui.yum.data.remote.user_info.UserInfoService
 import com.anbui.yum.domain.model.Collection
@@ -51,6 +52,16 @@ class UserViewModel(
         viewModelScope.launch {
             yumDatabase.userDao.clearUser()
         }
+    }
+
+    fun onNewCollection(name : String){
+        viewModelScope.launch {
+            collectionService.insertCollection(CollectionDto(
+                title = name,
+                userId = yumDatabase.userDao.getCurrentUser().first().userId
+            ))
+        }
+
     }
 
     fun onSignOutClick(restartApp: (String) -> Unit) {
