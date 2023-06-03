@@ -10,7 +10,36 @@ class ShoppingItemDataSourceImpl(db: CoroutineDatabase) : ShoppingItemDataSource
     private val ingredients = db.getCollection<Ingredient>()
     private val recipes = db.getCollection<Recipe>()
     override suspend fun insertShoppingList(shoppingItem: ShoppingItem): Boolean {
-        return shoppingItems.insertOne(shoppingItem).wasAcknowledged()
+
+        return if (shoppingItem.recipeId.isNullOrBlank()) {
+            val existItem = shoppingItems.findOne(
+                and(
+                    ShoppingItem::ingredientId eq shoppingItem.ingredientId,
+                    ShoppingItem::userId eq shoppingItem.userId,
+                    ShoppingItem::recipeId eq "",
+                ),
+            )
+            if(existItem == null){
+                shoppingItems.insertOne(shoppingItem).wasAcknowledged()
+            } else {
+                changeShoppingListItemStatus(existItem.copy(amount = existItem.amount + 1))
+            }
+        } else {
+            val existItem = shoppingItems.findOne(
+                and(
+                    ShoppingItem::ingredientId eq shoppingItem.ingredientId,
+                    ShoppingItem::userId eq shoppingItem.userId,
+                    ShoppingItem::recipeId eq shoppingItem.recipeId,
+                ),
+            )
+            if(existItem == null){
+                shoppingItems.insertOne(shoppingItem).wasAcknowledged()
+            } else {
+//                changeShoppingListItemStatus(existItem.copy(amount = existItem.amount + 1))
+                false
+            }
+        }
+
     }
 
     override suspend fun deleteShoppingList(id: String): Boolean {
@@ -31,13 +60,13 @@ class ShoppingItemDataSourceImpl(db: CoroutineDatabase) : ShoppingItemDataSource
     override suspend fun getShoppingListByUserId(id: String): List<ShoppingItemSend> {
         return shoppingItems.find(ShoppingItem::userId eq id).toList().map {
             ShoppingItemSend(
-                id= it.id,
+                id = it.id,
                 userId = it.userId,
                 amount = it.amount,
                 isChecked = it.isChecked,
                 unit = it.unit,
-                ingredient =  ingredients.findOne(Ingredient::id eq it.ingredientId)!!,
-                recipe = recipes.findOne(Recipe::id eq it.recipeId)
+                ingredient = ingredients.findOne(Ingredient::id eq it.ingredientId)!!,
+                recipe = recipes.findOne(Recipe::id eq it.recipeId),
             )
         }
     }

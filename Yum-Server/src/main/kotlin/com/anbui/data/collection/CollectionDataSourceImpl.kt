@@ -25,7 +25,13 @@ class CollectionDataSourceImpl(db: CoroutineDatabase) : CollectionDataSource {
     }
 
     override suspend fun addCollection(collection: Collection): Boolean {
-        return collections.insertOne(collection).wasAcknowledged()
+        return if (collections.findOne(Collection::title eq collection.title) != null) {
+            false
+        } else {
+            collections.insertOne(
+                collection,
+            ).wasAcknowledged()
+        }
     }
 
     override suspend fun removeCollection(collectionId: String) {

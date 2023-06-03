@@ -63,9 +63,11 @@ class RecipeDetailViewModel(
         }
     }
 
+
+
     fun addAllIngredientToShoppingList() {
         viewModelScope.launch {
-            uiState.value.recipe.ingredients.forEach {
+            uiState.value.recipe.ingredients?.forEach {
                 shoppingService.addShoppingItem(
                     ShoppingItemSendDto(
                         userId = yumDatabase.userDao.getCurrentUser().first().userId,
@@ -77,6 +79,7 @@ class RecipeDetailViewModel(
                 )
             }
         }
+//        TODO("performance issue")
     }
 
     suspend fun getCollection() {

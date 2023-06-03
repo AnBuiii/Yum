@@ -69,10 +69,7 @@ fun ShopTab(
         mutableStateOf(false)
     }
 
-    LaunchedEffect(hmItems.size) {
-        collapseStates.clear()
-        collapseStates.addAll(List(groupedItems.size) { false })
-    }
+
 
     Column(
         modifier = Modifier
@@ -210,15 +207,21 @@ fun ShopTab(
                 modifier = Modifier.align(Alignment.TopCenter),
             )
         }
-        LaunchedEffect(isGroupByCategory) {
-            if (isGroupByCategory) {
-                groupedItems =
-                    hmItems.groupBy { it.categoriesName }
-                        .toSortedMap(compareBy<String> { it.firstOrNull() }.reversed())
+        LaunchedEffect(isGroupByCategory, hmItems) {
+            groupedItems = if (isGroupByCategory) {
+                hmItems.groupBy { it.categoriesName }
+                    .toSortedMap(compareBy<String> { it.firstOrNull() }.reversed())
             } else {
-                groupedItems = hmItems.groupBy { it.recipeName }
+                hmItems.groupBy { it.recipeName }
                     .toSortedMap(compareBy<String> { it.firstOrNull() }.reversed())
             }
+            collapseStates.clear()
+            collapseStates.addAll(List(groupedItems.size) { false })
         }
+
+        LaunchedEffect(hmItems.size) {
+
+        }
+
     }
 }

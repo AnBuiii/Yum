@@ -80,6 +80,7 @@ fun CartScreen(
     var active by rememberSaveable { mutableStateOf(false) }
     val focusManager = LocalFocusManager.current
 
+
     fun closeSearchBar() {
         focusManager.clearFocus()
         active = false
