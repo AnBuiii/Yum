@@ -23,16 +23,16 @@ class SplashViewModel(
     init {
         viewModelScope.launch {
 //            yumDatabase.userDao.clearUser()
-            val a = userService.signIn(
-                auth = AuthRequestDto(
-                    username = "builehoaian",
-                    password = "builehoaian",
-                ),
-            )
-            if(a.isNotEmpty()){
-                yumDatabase.userDao.clearUser()
-                yumDatabase.userDao.upsertAll(UserEntity(userId = a))
-            }
+//            val a = userService.signIn(
+//                auth = AuthRequestDto(
+//                    username = "builehoaian",
+//                    password = "builehoaian",
+//                ),
+//            )
+//            if(a.isNotEmpty()){
+//                yumDatabase.userDao.clearUser()
+//                yumDatabase.userDao.upsertAll(UserEntity(userId = a))
+//            }
 
         }
 

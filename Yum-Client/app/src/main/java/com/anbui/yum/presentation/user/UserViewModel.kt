@@ -5,7 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.anbui.yum.SIGNIN_SCREEN
 import com.anbui.yum.SIGNUP_SCREEN
 import com.anbui.yum.data.local.YumDatabase
+import com.anbui.yum.data.local.user.UserEntity
 import com.anbui.yum.data.mappers.toUserInfo
+import com.anbui.yum.data.remote.auth.AuthRequestDto
+import com.anbui.yum.data.remote.auth.UserService
 import com.anbui.yum.data.remote.collection.CollectionDto
 import com.anbui.yum.data.remote.collection.CollectionService
 import com.anbui.yum.data.remote.user_info.UserInfoService
@@ -18,6 +21,7 @@ import kotlinx.coroutines.launch
 class UserViewModel(
     private val userInfoService: UserInfoService,
     private val collectionService: CollectionService,
+    private val userService: UserService,
     private val yumDatabase: YumDatabase,
 //    val userService: UserService,
 ) : YumViewModel() {
@@ -43,6 +47,20 @@ class UserViewModel(
 
     }
 
+    suspend fun login(email: String, password: String):String {
+        val a = userService.signIn(
+            auth = AuthRequestDto(
+                username = email,
+                password = password,
+            ),
+        )
+        if (a.isNotEmpty()) {
+            yumDatabase.userDao.clearUser()
+            yumDatabase.userDao.upsertAll(UserEntity(userId = a))
+        }
+        return a
+    }
+
     init {
 
 
@@ -54,12 +72,14 @@ class UserViewModel(
         }
     }
 
-    fun onNewCollection(name : String){
+    fun onNewCollection(name: String) {
         viewModelScope.launch {
-            collectionService.insertCollection(CollectionDto(
-                title = name,
-                userId = yumDatabase.userDao.getCurrentUser().first().userId
-            ))
+            collectionService.insertCollection(
+                CollectionDto(
+                    title = name,
+                    userId = yumDatabase.userDao.getCurrentUser().first().userId,
+                ),
+            )
         }
 
     }

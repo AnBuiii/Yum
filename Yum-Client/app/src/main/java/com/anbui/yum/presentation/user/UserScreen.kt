@@ -40,6 +40,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -61,6 +62,7 @@ import com.anbui.yum.presentation.user.components.NewCollection
 import com.anbui.yum.presentation.user.tabs.AnonymousSection
 import com.anbui.yum.ui.theme.YumBlack
 import com.anbui.yum.ui.theme.YumGreen
+import kotlinx.coroutines.launch
 import org.koin.androidx.compose.getViewModel
 
 
@@ -80,12 +82,19 @@ fun UserScreen(
     var showWarningDialog by remember { mutableStateOf(false) }
     val scroll = rememberScrollState()
     var showAddCollection by remember { mutableStateOf(false) }
+    val coroutineScope = rememberCoroutineScope()
 
     YumSurface {
         if (uiState.userInfo.userId.isBlank()) {
             AnonymousSection(
-                onSignIn = { viewModel.onSignInTap(onOpenScreen) },
-                onSignUp = { viewModel.onSignUpTap(onOpenScreen) },
+                onSignIn = {email, password ->
+                    coroutineScope.launch {
+                        if(viewModel.login(email, password).isNotEmpty()){
+                            restartApp()
+                        }
+                    }
+                },
+//                onSignUp = { viewModel.onSignUpTap(onOpenScreen) },
             )
         } else {
             Scaffold(
