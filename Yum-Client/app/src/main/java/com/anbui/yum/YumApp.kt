@@ -24,6 +24,7 @@ import com.anbui.yum.common.component.YumBottomBar
 import com.anbui.yum.common.component.YumSurface
 import com.anbui.yum.common.snackbar.SnackbarManager
 import com.anbui.yum.presentation.cart.CartScreen
+import com.anbui.yum.presentation.category.CategoryScreen
 import com.anbui.yum.presentation.collection.CollectionScreen
 import com.anbui.yum.presentation.feed.FeedScreen
 import com.anbui.yum.presentation.other_user.OtherUserScreen
@@ -134,6 +135,10 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
             onCollectionTab = { id ->
                 appState.navigate("$COLLECTION_SCREEN/$id")
             },
+            onCategoryTap = {categoryName ->
+                appState.navigate("$CATEGORY_SCREEN/$categoryName")
+            }
+
         )
         Log.d(
             "TAB LOG",
@@ -226,6 +231,19 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
             onCollectionTab = { id ->
                 appState.navigate("$COLLECTION_SCREEN/$id")
             },
+        )
+    }
+
+    composable(
+        route = "$CATEGORY_SCREEN/{category_name}",
+        arguments = listOf(
+            navArgument("category_name") {
+                defaultValue = ""
+            },
+        ),
+    ) {
+        CategoryScreen(
+            categoryName = it.arguments?.getString("category_name") ?: "",
         )
     }
 }

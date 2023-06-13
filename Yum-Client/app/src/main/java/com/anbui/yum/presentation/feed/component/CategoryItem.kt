@@ -1,6 +1,5 @@
 package com.anbui.yum.presentation.feed.component
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -23,30 +22,32 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
-import com.anbui.yum.R
+import coil.compose.AsyncImage
 import com.anbui.yum.ui.theme.YumBlack
 
 @Composable
-fun CollectionItem(
-    onTap: (String) -> Unit = {}
+fun CategoryItem(
+    categoryName: String = "",
+    onOpenCategory: (String) -> Unit = {},
+    imageUrl: String = "",
+    icon: String = "",
 ) {
     Box(
         modifier = Modifier
             .height(IntrinsicSize.Min)
             .width(IntrinsicSize.Max)
             .clickable {
-                onTap("1")
-            }
+                onOpenCategory(categoryName)
+            },
 
 
-    ) {
+        ) {
 
-        Image(
-            painter = painterResource(id = R.drawable.food_1),
+        AsyncImage(
+            model = imageUrl,
             contentDescription = "",
             modifier = Modifier.aspectRatio(1f),
             contentScale = ContentScale.Crop,
@@ -76,12 +77,11 @@ fun CollectionItem(
                 )
             }
             Text(
-                text = "Guided",
+                text = categoryName,
                 style = TextStyle(
                     color = Color.White,
                     fontWeight = FontWeight.SemiBold,
-
-                    ),
+                ),
             )
         }
     }

@@ -21,6 +21,7 @@ import com.anbui.yum.data.remote.shopping_list.ShoppingServiceImpl
 import com.anbui.yum.data.remote.user_info.UserInfoService
 import com.anbui.yum.data.remote.user_info.UserInfoServiceImpl
 import com.anbui.yum.presentation.cart.CartViewModel
+import com.anbui.yum.presentation.category.CategoryViewModel
 import com.anbui.yum.presentation.collection.CollectionViewModel
 import com.anbui.yum.presentation.feed.FeedViewModel
 import com.anbui.yum.presentation.other_user.OtherUserViewModel
@@ -121,6 +122,8 @@ val appModule = module {
     viewModelOf(::ReviewViewModel)
 
     viewModelOf(::CollectionViewModel)
+
+    viewModelOf(::CategoryViewModel)
 
 }
 

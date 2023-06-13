@@ -6,6 +6,7 @@ import com.anbui.yum.domain.model.Nutrition
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
 import io.ktor.client.request.get
+import io.ktor.client.request.setBody
 
 class RecipeServiceImpl(
     private val client: HttpClient,
@@ -66,6 +67,16 @@ class RecipeServiceImpl(
                         query,
                     )
                 }
+            }.body()
+        } catch (e: Exception) {
+            listOf()
+        }
+    }
+
+    override suspend fun getRecipeByCategory(name: String): List<RecipeDto> {
+        return try {
+            client.get("${BASE_URL}/recipe/category") {
+               setBody(name)
             }.body()
         } catch (e: Exception) {
             listOf()

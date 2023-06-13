@@ -69,6 +69,7 @@ fun FeedScreen(
     modifier: Modifier = Modifier,
     onRecipeTap: (String) -> Unit = {},
     onCollectionTab: (String) -> Unit = {},
+    onCategoryTap: (String) -> Unit  = {},
     viewModel: FeedViewModel = getViewModel(),
 ) {
 
@@ -113,9 +114,8 @@ fun FeedScreen(
                     ) { recipes.refresh() }
 
                     1 -> ExploreTab(
-                        onCollectionTab = onCollectionTab,
+                        onCategoryTap = onCategoryTap
                     )
-
                     2 -> ProTab()
                 }
             }

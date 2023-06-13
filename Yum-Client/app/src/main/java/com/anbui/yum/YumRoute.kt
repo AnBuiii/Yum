@@ -23,6 +23,7 @@ const val SIGNIN_SCREEN = "SignInScreen"
 const val COLLECTION_SCREEN = "CollectionScreen"
 const val REVIEW_SCREEN = "ReviewScreen"
 const val OTHERUSER_SCREEN = "OtherUserScreen"
+const val CATEGORY_SCREEN = "CategoryScreen"
 
 
 const val RECIPE_ID = "id"

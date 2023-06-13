@@ -8,6 +8,7 @@ import io.ktor.server.application.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
+import io.ktor.util.logging.*
 
 
 val caloriesMax = 2000
@@ -43,6 +44,16 @@ fun Route.recipeRoute(
                 call.respond(recipes)
             } catch (e: Exception) {
                 application.log.error("Fail to get all user info")
+            }
+        }
+
+        get("category"){
+            val request = call.receive<String>()
+            try{
+                val recipes = recipeDataSource.getRecipeByCategory(request)
+                call.respond(recipes)
+            } catch(e: Exception){
+                application.log.error(e)
             }
         }
 

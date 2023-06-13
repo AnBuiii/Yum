@@ -9,5 +9,6 @@ interface RecipeService{
     suspend fun getNutrition(recipeId: String): Nutrition
     suspend fun getAllRecipeSize(): Int
     suspend fun search(query: String): List<RecipeDto>
+    suspend fun getRecipeByCategory(name: String): List<RecipeDto>
 
 }

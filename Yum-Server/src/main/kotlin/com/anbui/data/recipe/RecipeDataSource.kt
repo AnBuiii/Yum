@@ -6,4 +6,5 @@ interface RecipeDataSource {
     suspend fun getRecipe(id: String): Recipe?
     suspend fun getNutrition(id: String): Nutrition
     suspend fun search(query: String): List<Recipe>
+    suspend fun getRecipeByCategory(name: String): List<Recipe>
 }

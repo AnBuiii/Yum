@@ -17,6 +17,10 @@ class RecipeDataSourceImpl(db: CoroutineDatabase) : RecipeDataSource {
         return recipes.findOne(Recipe::id eq id)
     }
 
+    override suspend fun getRecipeByCategory(name: String): List<Recipe> {
+        return recipes.find(Recipe::subTitle eq name).toList()
+    }
+
     override suspend fun getNutrition(id: String): Nutrition {
         val recipe = getRecipe(id)
         try {
