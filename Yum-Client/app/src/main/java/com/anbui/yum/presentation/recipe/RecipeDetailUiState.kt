@@ -18,5 +18,6 @@ data class RecipeDetailUiState(
     val selectedTab: Int = 0,
     val pagerState: PagerState = PagerState(0,0f),
     val ingredients: List<Ingredient> = listOf(),
-    val collections: List<Collection> = emptyList()
+    val collections: List<Collection> = emptyList(),
+    val userName: String = ""
 )

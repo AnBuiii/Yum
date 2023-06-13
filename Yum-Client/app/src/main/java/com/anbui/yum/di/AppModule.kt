@@ -23,6 +23,7 @@ import com.anbui.yum.data.remote.user_info.UserInfoServiceImpl
 import com.anbui.yum.presentation.cart.CartViewModel
 import com.anbui.yum.presentation.collection.CollectionViewModel
 import com.anbui.yum.presentation.feed.FeedViewModel
+import com.anbui.yum.presentation.other_user.OtherUserViewModel
 import com.anbui.yum.presentation.recipe.RecipeDetailViewModel
 import com.anbui.yum.presentation.review.ReviewViewModel
 import com.anbui.yum.presentation.search.SearchViewModel
@@ -114,6 +115,8 @@ val appModule = module {
     viewModelOf(::SplashViewModel)
 
     viewModelOf(::UserViewModel)
+
+    viewModelOf(::OtherUserViewModel)
 
     viewModelOf(::ReviewViewModel)
 

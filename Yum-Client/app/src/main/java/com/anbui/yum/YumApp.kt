@@ -26,6 +26,7 @@ import com.anbui.yum.common.snackbar.SnackbarManager
 import com.anbui.yum.presentation.cart.CartScreen
 import com.anbui.yum.presentation.collection.CollectionScreen
 import com.anbui.yum.presentation.feed.FeedScreen
+import com.anbui.yum.presentation.other_user.OtherUserScreen
 import com.anbui.yum.presentation.recipe.RecipeDetailScreen
 import com.anbui.yum.presentation.review.ReviewScreen
 import com.anbui.yum.presentation.search.SearchScreen
@@ -207,8 +208,24 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
         ),
     ) {
         ReviewScreen(
-            recipeId = it.arguments?.getString(RECIPE_ID) ?: RECIPE_DEFAULT_ID,
+            recipeId = it.arguments?.getString("id") ?: RECIPE_DEFAULT_ID,
             onBack = appState::popUp,
+        )
+    }
+
+    composable(
+        route = "$OTHERUSER_SCREEN/{id}",
+        arguments = listOf(
+            navArgument("id") {
+                defaultValue = RECIPE_DEFAULT_ID
+            },
+        ),
+    ) {
+        OtherUserScreen(
+            userId = it.arguments?.getString("id") ?: RECIPE_DEFAULT_ID,
+            onCollectionTab = { id ->
+                appState.navigate("$COLLECTION_SCREEN/$id")
+            },
         )
     }
 }

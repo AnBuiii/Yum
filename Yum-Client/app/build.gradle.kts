@@ -115,4 +115,6 @@ dependencies {
 
     //koin
     implementation(libs.koin.androidx.compose)
+
+    implementation("com.github.AnBuiii:AndroidLibrary:2.1-alpha1")
 }

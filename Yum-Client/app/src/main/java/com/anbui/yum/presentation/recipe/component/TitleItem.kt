@@ -2,6 +2,7 @@ package com.anbui.yum.presentation.recipe.component
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,8 +27,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.anbui.yum.OTHERUSER_SCREEN
 import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.presentation.recipe.TITLE_HEIGHT
+import com.anbui.yum.ui.theme.YumBlack
 import com.anbui.yum.ui.theme.YumGreen
 
 @ExperimentalFoundationApi
@@ -36,6 +39,8 @@ fun TitleItem(
     modifier: Modifier = Modifier,
     recipe: Recipe,
     pagerState: PagerState,
+    userName: String = "",
+    openUserScreen: (String) ->Unit = {}
 ) {
 //    val scrollValueDp = with(LocalDensity.current) { scrollValue.toDp() }
 //    val alpha = (IMAGE_HEIGHT - scrollValueDp).coerceAtLeast(0.dp) * 2 / IMAGE_HEIGHT
@@ -71,8 +76,11 @@ fun TitleItem(
                         fontWeight = FontWeight.SemiBold,
                     )
                     Text(
-                        text = recipe.subTitle,
+                        text = userName,
                         fontSize = 16.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        color = YumBlack,
+                        modifier = Modifier.clickable { openUserScreen("$OTHERUSER_SCREEN/${recipe.userId}") }
                     )
                 }
                 FilledIconButton(
@@ -105,8 +113,6 @@ fun TitleItem(
                 pagerState = pagerState,
                 tabList = tabList,
             )
-
-
         }
     }
 }

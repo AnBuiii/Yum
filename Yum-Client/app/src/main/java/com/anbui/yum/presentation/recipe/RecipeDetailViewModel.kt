@@ -49,6 +49,10 @@ class RecipeDetailViewModel(
                             .toIngredient(),
                     )
                 }
+
+                uiState.value = uiState.value.copy(
+                    userName = userInfoService.getUserInfo(uiState.value.recipe.userId)?.name ?: "",
+                )
                 Log.d(
                     "Recipe",
                     uiState.value.ingredients.toString(),
@@ -62,7 +66,6 @@ class RecipeDetailViewModel(
             }
         }
     }
-
 
 
     fun addAllIngredientToShoppingList() {

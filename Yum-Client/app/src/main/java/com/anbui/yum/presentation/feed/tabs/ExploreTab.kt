@@ -5,7 +5,10 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import com.anbui.yum.presentation.feed.component.CollectionItem
+import com.plcoding.image_preview.ImagePreview
 
+
+val explores = listOf("Morning", "Lunch", "Holiday", "")
 @Composable
 fun ExploreTab(
     modifier: Modifier = Modifier,
@@ -15,9 +18,12 @@ fun ExploreTab(
         columns = GridCells.Fixed(2),
     ) {
         items(10) { item ->
-            CollectionItem(
-                onTap =  onCollectionTab
-            )
+//            CollectionItem(
+//                onTap =  onCollectionTab
+//            )
+
+//            ImagePreview(image = R)
+
         }
     }
 

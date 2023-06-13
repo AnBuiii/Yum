@@ -68,6 +68,9 @@ fun RecipeDetailScreen(
 //                modifier = Modifier.pul
                         recipe = uiState.recipe,
                         pagerState = pagerState,
+                        userName = uiState.userName,
+                        openUserScreen = openScreen
+
                     )
                     BodyItem(
                         pagerState = pagerState,
