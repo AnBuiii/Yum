@@ -13,8 +13,8 @@ android {
     compileSdk = 33
 
     defaultConfig {
-        applicationId = "com.anbui.yum"
-        minSdk = 33
+        applicationId = "com.anbui.yumm"
+        minSdk = 33 // don't modify this
         targetSdk = 33
         versionCode = 1
         versionName = "1.0"

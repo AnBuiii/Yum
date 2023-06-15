@@ -85,16 +85,16 @@ fun ReviewTab(
                 it.id
             }
         ) { review ->
-            var a by remember { mutableStateOf(UserInfo()) }
+            var userInfo by remember { mutableStateOf(UserInfo()) }
             LaunchedEffect(true) {
-                a = getUserInfo(review.userId)
+                userInfo = getUserInfo(review.userId)
             }
 
             ReviewItem(
                 text = review.message,
-                userImage = a.imageUrl,
+                userImage = userInfo.imageUrl,
                 star = review.rating.toFloat(),
-                userName = a.name,
+                userName = userInfo.name,
                 time = review.timestamp.timeAgo()
 //                navigate = navigate
             )

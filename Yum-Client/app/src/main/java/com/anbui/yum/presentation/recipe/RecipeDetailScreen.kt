@@ -69,9 +69,9 @@ fun RecipeDetailScreen(
                         recipe = uiState.recipe,
                         pagerState = pagerState,
                         userName = uiState.userName,
-                        openUserScreen = openScreen
+                        openUserScreen = openScreen,
 
-                    )
+                        )
                     BodyItem(
                         pagerState = pagerState,
                         recipe = uiState.recipe,
@@ -89,10 +89,8 @@ fun RecipeDetailScreen(
                                 visible = true
                             }
                         },
-                        onAddAllIngredientToShoppingList = {
-                            viewModel.addAllIngredientToShoppingList()
-                        }
-
+                        onAddAllIngredientToShoppingList = viewModel::addAllIngredientToShoppingList,
+                        onAddToMealPlan = viewModel::onAddToMealPlan,
                     )
                 }
             },
@@ -106,7 +104,7 @@ fun RecipeDetailScreen(
             collections = uiState.collections,
             recipe = uiState.recipe,
             onRemove = viewModel::removeFromCollection,
-            onInsert = viewModel::insertToCollection
+            onInsert = viewModel::insertToCollection,
         )
 
     }

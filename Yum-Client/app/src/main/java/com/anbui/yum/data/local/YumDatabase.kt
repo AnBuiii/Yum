@@ -30,6 +30,5 @@ abstract class YumDatabase : RoomDatabase() {
     abstract val recipeRemoteDao: RecipeRemoteKeyDao
     abstract val userDao: UserDao
     abstract val mealPlanDao: MealPlanDao
-
 }
 

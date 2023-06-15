@@ -2,7 +2,11 @@ package com.anbui.yum.presentation.recipe.tabs
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -28,6 +32,7 @@ import com.anbui.yum.ui.theme.YumGreen
 @Composable
 fun DirectionTab(
     recipe: Recipe,
+    onAddToMealPlan: () -> Unit = {},
 ) {
     LazyColumn {
         item {
@@ -36,10 +41,17 @@ fun DirectionTab(
                 leading = {
                     Row(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
-                        modifier = Modifier.clickable { },
+                        modifier = Modifier.clickable { onAddToMealPlan() },
                     ) {
-                        Icon(Icons.Default.Lock, contentDescription = "", tint = YumGreen)
-                        Text("Add to Meal Plan", fontWeight = FontWeight.SemiBold)
+                        Icon(
+                            Icons.Default.Lock,
+                            contentDescription = "",
+                            tint = YumGreen,
+                        )
+                        Text(
+                            "Add to Meal Plan",
+                            fontWeight = FontWeight.SemiBold,
+                        )
                     }
                 },
                 trailing = {},
@@ -54,7 +66,7 @@ fun DirectionTab(
                     .padding(16.dp),
             ) {
                 Text("Total time")
-                Text("15 minutes")
+                Text("${recipe.totalTimeInMinute} minutes")
             }
         }
         itemsIndexed(recipe.steps ?: listOf()) { index, direction ->

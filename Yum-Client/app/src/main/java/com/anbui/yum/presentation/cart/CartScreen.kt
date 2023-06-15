@@ -46,20 +46,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.anbui.yum.common.component.YumDivider
 import com.anbui.yum.common.component.YumSurface
+import com.anbui.yum.common.ext.timeAgo
 import com.anbui.yum.presentation.cart.components.CartBottomSheet
 import com.anbui.yum.presentation.cart.components.CartTopBar
+import com.anbui.yum.presentation.cart.components.MealPlanDatePicker
+import com.anbui.yum.presentation.cart.components.MealPlanTimePicker
 import com.anbui.yum.presentation.cart.components.ShoppingItemCartBottomSheet
 import com.anbui.yum.presentation.cart.tabs.PantryTab
 import com.anbui.yum.presentation.cart.tabs.PlanTab
 import com.anbui.yum.presentation.cart.tabs.ShopTab
 import com.anbui.yum.ui.theme.YumBlack
 import org.koin.androidx.compose.getViewModel
+import java.util.Date
 
 
 val cartTabList = listOf(
     "Plan",
     "Shop",
-    "Pantry",
+//    "Pantry",
 )
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -107,6 +111,34 @@ fun CartScreen(
                     )
                 },
             )
+            MealPlanDatePicker(
+                onSave = { date ->
+                    viewModel.onChangeSelectedDateInLong(date)
+                    viewModel.onChangeMealPlaneTimePicker(true)
+
+                },
+                isOpen = uiState.isDatePickerDialogOpen,
+                onChangeDatePicker = viewModel::onChangeMealPlanDatePicker,
+            )
+
+            MealPlanTimePicker(
+                isOpen = uiState.isTimePickerDialogOpen,
+                onChangeTimePicker = viewModel::onChangeMealPlaneTimePicker,
+                onSave = { hour, minute ->
+                    Log.d(
+                        "PRETIME",
+                        "$hour $minute",
+                    )
+                    viewModel.onChangeSelectedDateInLong(uiState.selectedDateInLong + hour * 3600000 + minute * 60000)
+                    viewModel.onChangeMealPlanDatePicker(false)
+                    Log.d(
+                        "TIME",
+                        Date(uiState.selectedDateInLong).toString(),
+                    )
+                    viewModel.onChangeDateTimeSelectedPlan()
+
+                },
+            )
 
             // main screen
             Column(
@@ -126,10 +158,14 @@ fun CartScreen(
                     state = pagerState,
                 ) { index ->
                     when (index) {
-                        0 -> PlanTab()
+                        0 -> PlanTab(
+                            mealPlans = uiState.mealPlans,
+                            onChangeTime = viewModel::openDatePickerDialog,
+                            onDoneTap = viewModel::planCheck
+                        )
+
                         1 -> ShopTab(
                             hmItems = uiState.hmItems,
-//                        hmItems = a,
                             onCheck = viewModel::check,
                             onEdit = viewModel::openBottomSheet,
                             onRemove = viewModel::remove,
@@ -145,12 +181,6 @@ fun CartScreen(
                 }
             }
 
-            LaunchedEffect(uiState.isSearchOpen) {
-                Log.d(
-                    "?",
-                    uiState.isSearchOpen.toString(),
-                )
-            }
             AnimatedVisibility(
                 visible = uiState.isSearchOpen,
                 enter = fadeIn(),
@@ -225,7 +255,7 @@ fun CartScreen(
                         ) {
                             items(
                                 persons,
-                            ) {suggestion ->
+                            ) { suggestion ->
                                 ListItem(
                                     headlineContent = {
                                         Text(
@@ -257,6 +287,7 @@ fun CartScreen(
     }
     LaunchedEffect(true) {
         viewModel.getShoppingList()
+        viewModel.getMealPlan()
     }
 }
 

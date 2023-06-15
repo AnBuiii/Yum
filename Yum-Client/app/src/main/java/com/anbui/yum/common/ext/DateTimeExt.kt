@@ -2,6 +2,7 @@ package com.anbui.yum.common.ext
 
 import android.text.format.DateUtils
 import java.text.ParseException
+import java.time.LocalDateTime
 
 fun Long.timeAgo(): String {
     return try {
@@ -19,3 +20,4 @@ fun Long.timeAgo(): String {
         "fail"
     }
 }
+

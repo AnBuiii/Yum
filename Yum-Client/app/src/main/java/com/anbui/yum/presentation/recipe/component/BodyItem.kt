@@ -1,13 +1,12 @@
 package com.anbui.yum.presentation.recipe.component
 
+//import androidx.compose.material3.BottomSheetScaffoldState
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.pager.HorizontalPager
 import androidx.compose.foundation.pager.PagerState
-//import androidx.compose.material3.BottomSheetScaffoldState
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -24,9 +23,8 @@ import com.anbui.yum.presentation.recipe.tabs.NutritionTab
 import com.anbui.yum.presentation.recipe.tabs.OverviewTab
 import com.anbui.yum.presentation.recipe.tabs.ReviewTab
 
-@OptIn(
-    ExperimentalFoundationApi::class,
-)
+
+@OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun BodyItem(
     pagerState: PagerState,
@@ -40,6 +38,7 @@ fun BodyItem(
     popUp: () -> Unit,
     onAddToCollection: () -> Unit = {},
     onAddAllIngredientToShoppingList: () -> Unit = {},
+    onAddToMealPlan: () -> Unit = {},
 //    state: BottomSheetScaffoldState
 
 ) {
@@ -63,13 +62,17 @@ fun BodyItem(
                 )
 
                 1 -> IngredientTab(
-                    recipe,
-                    ingredient,
-                    getIngredientName,
-                    onAddAllRecipeToShoppingList = onAddAllIngredientToShoppingList
+                    recipe = recipe,
+                    ingredient = ingredient,
+                    getIngredientName = getIngredientName,
+                    onAddAllRecipeToShoppingList = onAddAllIngredientToShoppingList,
                 )
 
-                2 -> DirectionTab(recipe)
+                2 -> DirectionTab(
+                    recipe = recipe,
+                    onAddToMealPlan = onAddToMealPlan,
+                )
+
                 3 -> NutritionTab(nutrition)
                 4 -> ReviewTab(
                     reviews,

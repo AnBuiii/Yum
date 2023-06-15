@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.mappers.toCollection
 import com.anbui.yum.data.mappers.toIngredient
+import com.anbui.yum.data.mappers.toMealPlanEntity
 import com.anbui.yum.data.mappers.toRecipe
 import com.anbui.yum.data.mappers.toUserInfo
 import com.anbui.yum.data.remote.collection.CollectionService
@@ -16,10 +17,12 @@ import com.anbui.yum.data.remote.review.ReviewService
 import com.anbui.yum.data.remote.shopping_list.ShoppingItemSendDto
 import com.anbui.yum.data.remote.shopping_list.ShoppingService
 import com.anbui.yum.data.remote.user_info.UserInfoService
+import com.anbui.yum.domain.model.MealPlan
 import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.domain.model.UserInfo
 import com.anbui.yum.presentation.YumViewModel
 import kotlinx.coroutines.launch
+import java.time.LocalDateTime
 
 @OptIn(ExperimentalFoundationApi::class)
 class RecipeDetailViewModel(
@@ -133,6 +136,20 @@ class RecipeDetailViewModel(
 
 
     fun getUser() {
+
+    }
+
+    fun onAddToMealPlan() {
+        viewModelScope.launch {
+            yumDatabase.mealPlanDao.upsert(
+                MealPlan(
+                    recipeId = uiState.value.recipe.id,
+                    title = uiState.value.recipe.title,
+                    imageUrl = uiState.value.recipe.imageUrl,
+                    time = LocalDateTime.now().plusDays(1)
+                ).toMealPlanEntity(),
+            )
+        }
 
     }
 

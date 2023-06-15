@@ -37,7 +37,7 @@ fun CartTopBar(
         horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         YumTabRow(
-            modifier = Modifier.width(250.dp),
+            modifier = Modifier.width(150.dp),
             tabList = cartTabList,
             textSize = 21.sp,
             height = 6.dp,

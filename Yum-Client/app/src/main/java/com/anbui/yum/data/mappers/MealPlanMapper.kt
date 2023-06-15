@@ -9,6 +9,7 @@ fun MealPlanEntity.toMealPlan(): MealPlan {
         title = title,
         imageUrl = imageUrl,
         time = time,
+        isDone = isDone,
         message = message,
     )
 }
@@ -19,6 +20,7 @@ fun MealPlan.toMealPlanEntity(): MealPlanEntity {
         title = title,
         imageUrl = imageUrl,
         time = time,
+        isDone = isDone,
         message = message,
     )
 }

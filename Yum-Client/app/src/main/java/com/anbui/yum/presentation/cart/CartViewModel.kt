@@ -1,18 +1,18 @@
 package com.anbui.yum.presentation.cart
 
-import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.anbui.yum.data.local.YumDatabase
+import com.anbui.yum.data.local.meal_plan.MealPlanEntity
 import com.anbui.yum.data.mappers.toIngredient
+import com.anbui.yum.data.mappers.toMealPlan
+import com.anbui.yum.data.mappers.toMealPlanEntity
 import com.anbui.yum.data.mappers.toShoppingItem
 import com.anbui.yum.data.remote.ingredient.IngredientService
 import com.anbui.yum.data.remote.recipe.RecipeService
-import com.anbui.yum.data.remote.shopping_list.ShoppingItemDto
 import com.anbui.yum.data.remote.shopping_list.ShoppingItemSendDto
 import com.anbui.yum.data.remote.shopping_list.ShoppingService
 import com.anbui.yum.domain.model.Ingredient
-import com.anbui.yum.domain.model.ShoppingItem
 import com.anbui.yum.presentation.YumViewModel
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,6 +24,9 @@ import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.time.Instant
+import java.time.LocalDateTime
+import java.util.TimeZone
 
 
 class CartViewModel(
@@ -65,13 +68,22 @@ class CartViewModel(
 
     fun getShoppingList() {
         viewModelScope.launch {
-            val a = shoppingService.getShoppingList(
+            val shoppingList = shoppingService.getShoppingList(
                 yumDatabase.userDao.getCurrentUser().firstOrNull()?.userId ?: "",
             )
             uiState.value = uiState.value.copy(
-                hmItems = a.map {
+                hmItems = shoppingList.map {
                     it.toShoppingItem()
                 },
+            )
+        }
+    }
+
+    fun getMealPlan() {
+        viewModelScope.launch {
+            uiState.value = uiState.value.copy(
+                mealPlans = yumDatabase.mealPlanDao.getMealPlans()
+                    .map(MealPlanEntity::toMealPlan),
             )
         }
     }
@@ -132,6 +144,57 @@ class CartViewModel(
         uiState.value = uiState.value.copy(isShoppingItemBottomSheetOpen = value)
     }
 
+    fun onChangeMealPlanDatePicker(value: Boolean) {
+        uiState.value = uiState.value.copy(isDatePickerDialogOpen = value)
+    }
+
+    fun onChangeMealPlaneTimePicker(value: Boolean) {
+        uiState.value = uiState.value.copy(isTimePickerDialogOpen = value)
+    }
+
+    fun onChangeSelectedDateInLong(value: Long) {
+        uiState.value = uiState.value.copy(selectedDateInLong = value)
+    }
+
+    fun planCheck(id: String, isDone: Boolean) {
+        uiState.value = uiState.value.copy(
+            mealPlans = uiState.value.mealPlans.map {
+                if (it.recipeId == id) it.copy(
+                    isDone = isDone,
+                )
+                else it
+            },
+        )
+        viewModelScope.launch {
+            yumDatabase.mealPlanDao.upsert(
+                uiState.value.mealPlans.first { it.recipeId == id }
+                    .toMealPlanEntity(),
+            )
+        }
+    }
+
+    fun onChangeDateTimeSelectedPlan() {
+        uiState.value = uiState.value.copy(
+            mealPlans = uiState.value.mealPlans.map {
+                if (it.recipeId == uiState.value.onChangeMealPlan.recipeId)
+                    it.copy(
+                        time = LocalDateTime.ofInstant(
+                            Instant.ofEpochMilli(uiState.value.selectedDateInLong),
+                            TimeZone
+                                .getDefault().toZoneId(),
+                        ),
+                    )
+                else it
+            },
+        )
+        viewModelScope.launch {
+            yumDatabase.mealPlanDao.upsert(
+                uiState.value.mealPlans.first { it.recipeId == uiState.value.onChangeMealPlan.recipeId }
+                    .toMealPlanEntity(),
+            )
+        }
+    }
+
 
     fun remove(id: String) {
         viewModelScope.launch {
@@ -155,6 +218,13 @@ class CartViewModel(
 
     fun onChangeSearch(value: Boolean) {
         uiState.value = uiState.value.copy(isSearchOpen = value)
+    }
+
+    fun openDatePickerDialog(id: String) {
+        uiState.value = uiState.value.copy(
+            isDatePickerDialogOpen = true,
+            onChangeMealPlan = uiState.value.mealPlans.first { it.recipeId == id },
+        )
     }
 
     // search
