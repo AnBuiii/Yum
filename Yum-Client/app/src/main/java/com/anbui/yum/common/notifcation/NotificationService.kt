@@ -33,12 +33,13 @@ class NotificationService(
             .setSmallIcon(R.drawable.unchecked)
             .setContentTitle("Let's cook!!")
             .setContentText(message)
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(activityPendingIntent)
-            .build()
+            .setAutoCancel(true)
 
         notificationManager.notify(
             id,
-            notification,
+            notification.build(),
         )
     }
 
