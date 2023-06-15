@@ -4,6 +4,10 @@ import androidx.paging.ExperimentalPagingApi
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.room.Room
+import com.anbui.yum.common.alarm.AlarmReceiver
+import com.anbui.yum.common.alarm.AlarmScheduler
+import com.anbui.yum.common.alarm.AlarmSchedulerImpl
+import com.anbui.yum.common.notifcation.NotificationService
 import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.remote.RecipeRemoteMediator
 import com.anbui.yum.data.remote.auth.UserService
@@ -65,6 +69,14 @@ val appModule = module {
         }
     }
 
+
+
+    single<AlarmScheduler> {
+        AlarmSchedulerImpl(
+            androidContext(),
+        )
+    }
+
     single {
         Room.databaseBuilder(
             androidContext(),
@@ -86,7 +98,6 @@ val appModule = module {
             },
         )
     }
-
     singleOf(::UserServiceImpl) { bind<UserService>() }
 
     singleOf(::UserInfoServiceImpl) { bind<UserInfoService>() }

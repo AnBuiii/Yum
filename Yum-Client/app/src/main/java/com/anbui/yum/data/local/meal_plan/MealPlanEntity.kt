@@ -11,5 +11,6 @@ data class MealPlanEntity(
     val time: LocalDateTime = LocalDateTime.now(),
     val message: String = "",
     val isDone: Boolean = false,
+    val notifyId: Int = 0,
     @PrimaryKey val recipeId: String = "",
 )

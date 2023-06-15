@@ -1,7 +1,14 @@
 package com.anbui.yum.presentation.cart
 
+import android.app.NotificationChannel
+import android.app.NotificationManager
+import android.content.Context
 import androidx.compose.runtime.mutableStateOf
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.lifecycle.viewModelScope
+import com.anbui.yum.common.alarm.AlarmItem
+import com.anbui.yum.common.alarm.AlarmScheduler
+import com.anbui.yum.common.notifcation.NotificationService
 import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.local.meal_plan.MealPlanEntity
 import com.anbui.yum.data.mappers.toIngredient
@@ -34,6 +41,7 @@ class CartViewModel(
     private val ingredientService: IngredientService,
     private val recipeService: RecipeService,
     private val yumDatabase: YumDatabase,
+    private val scheduler: AlarmScheduler,
 ) : YumViewModel() {
     val uiState = mutableStateOf(CartUiState())
 
@@ -80,12 +88,26 @@ class CartViewModel(
     }
 
     fun getMealPlan() {
-        viewModelScope.launch {
+        val job = viewModelScope.launch {
             uiState.value = uiState.value.copy(
                 mealPlans = yumDatabase.mealPlanDao.getMealPlans()
                     .map(MealPlanEntity::toMealPlan),
             )
         }
+
+
+
+        uiState.value.mealPlans.filter { !it.isDone && it.time.isAfter(LocalDateTime.now())  }.forEach {
+            val alarmItem = AlarmItem(
+                time = it.time,
+                message = it.title,
+                id = it.notifyId
+            )
+            alarmItem.let(scheduler::schedule)
+        }
+
+
+
     }
 
     fun check(id: String, value: Boolean) {

@@ -23,6 +23,7 @@ import com.anbui.yum.domain.model.UserInfo
 import com.anbui.yum.presentation.YumViewModel
 import kotlinx.coroutines.launch
 import java.time.LocalDateTime
+import kotlin.random.Random
 
 @OptIn(ExperimentalFoundationApi::class)
 class RecipeDetailViewModel(
@@ -146,7 +147,8 @@ class RecipeDetailViewModel(
                     recipeId = uiState.value.recipe.id,
                     title = uiState.value.recipe.title,
                     imageUrl = uiState.value.recipe.imageUrl,
-                    time = LocalDateTime.now().plusDays(1)
+                    time = LocalDateTime.now().plusDays(1),
+                    notifyId = Random.nextInt(0,1000)
                 ).toMealPlanEntity(),
             )
         }
