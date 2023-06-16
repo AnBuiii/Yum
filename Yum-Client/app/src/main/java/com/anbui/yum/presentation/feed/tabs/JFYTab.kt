@@ -16,7 +16,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.paging.LoadState
 import androidx.paging.compose.LazyPagingItems
-import androidx.paging.compose.itemsIndexed
+import androidx.paging.compose.itemKey
 import com.anbui.yum.common.component.PullRefreshIndicator
 import com.anbui.yum.common.component.YumRecipeCard
 import com.anbui.yum.common.component.pullRefresh
@@ -60,15 +60,14 @@ fun JFYTab(
                 modifier = Modifier
                     .fillMaxSize(),
             ) {
-                itemsIndexed(
-                    recipes,
-                    key = { _, recipe ->
-                        recipe.id
-                    },
-                ) { idx, recipe ->
+                items(
+                    recipes.itemCount,
+                    key = recipes.itemKey { it.id },
+                ) { idx ->
                     if (idx == 0) {
                         SuggestionCard()
                     }
+                    val recipe = recipes[idx]
                     if (recipe != null) {
                         YumRecipeCard(
                             recipe = recipe,

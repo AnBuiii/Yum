@@ -8,7 +8,6 @@ import org.koin.core.context.startKoin
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
-import android.os.Build
 import com.anbui.yum.common.notifcation.NotificationService
 
 
@@ -20,8 +19,11 @@ class MainApplication : Application() {
             androidContext(this@MainApplication)
             modules(appModule)
         }
+
         createNotificationChannel()
     }
+
+
     private fun createNotificationChannel() {
         val channel = NotificationChannel(
             NotificationService.COUNTER_CHANNEL_ID,
@@ -32,5 +34,7 @@ class MainApplication : Application() {
 
         val notificationManager = getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
         notificationManager.createNotificationChannel(channel)
+
+
     }
 }

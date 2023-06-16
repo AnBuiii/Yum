@@ -19,4 +19,7 @@ interface RecipeDao {
 
     @Query("SELECT COUNT(*) FROM recipeentity")
     suspend fun size(): Int
+
+    @Query("SELECT * FROM recipeentity WHERE id = :recipeId LIMIT 1")
+    suspend fun getRecipeById(recipeId: String): RecipeEntity?
 }
