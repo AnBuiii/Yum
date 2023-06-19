@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
+import com.anbui.yum.common.snackbar.SnackbarManager
 import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.mappers.toCollection
 import com.anbui.yum.data.mappers.toIngredient
@@ -107,6 +108,7 @@ class RecipeDetailViewModel(
             uiState.value.recipe.id,
             collectionId,
         )
+        SnackbarManager.showMessage("inserted")
 //        }
     }
 
@@ -117,6 +119,8 @@ class RecipeDetailViewModel(
                 collectionId,
             )
         }
+        SnackbarManager.showMessage("inserted")
+
     }
 
     suspend fun getIngredientNameById(id: String): String {
@@ -148,7 +152,10 @@ class RecipeDetailViewModel(
                     title = uiState.value.recipe.title,
                     imageUrl = uiState.value.recipe.imageUrl,
                     time = LocalDateTime.now().plusDays(1),
-                    notifyId = Random.nextInt(0,1000)
+                    notifyId = Random.nextInt(
+                        0,
+                        1000,
+                    ),
                 ).toMealPlanEntity(),
             )
         }

@@ -56,6 +56,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.anbui.yum.common.component.YumSurface
+import com.anbui.yum.common.snackbar.SnackbarManager
+import com.anbui.yum.common.snackbar.SnackbarMessage
 import com.anbui.yum.domain.model.Collection
 import com.anbui.yum.domain.model.UserInfo
 import com.anbui.yum.presentation.user.components.NewCollection
@@ -91,6 +93,7 @@ fun UserScreen(
                     coroutineScope.launch {
                         if(viewModel.login(email, password).isNotEmpty()){
                             restartApp()
+                            SnackbarManager.showMessage(SnackbarMessage.StringSnackbar("Logged in"))
                         }
                     }
                 },

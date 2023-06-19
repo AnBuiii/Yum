@@ -30,7 +30,7 @@ class NotificationService(
             context,
             COUNTER_CHANNEL_ID,
         )
-            .setSmallIcon(R.drawable.unchecked)
+            .setSmallIcon(R.mipmap.ic_launcher)
             .setContentTitle("Let's cook!!")
             .setContentText(message)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)

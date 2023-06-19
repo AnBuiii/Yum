@@ -27,13 +27,29 @@ class UserViewModel(
 ) : YumViewModel() {
     val uiState = mutableStateOf(UserUiState())
 
-    suspend fun init() {
-        val hm = yumDatabase.userDao.getCurrentUser().firstOrNull()?.userId
-        if (hm != null) {
-            uiState.value =
-                uiState.value.copy(
-                    userInfo = userInfoService.getUserInfo(hm)?.toUserInfo() ?: UserInfo(),
-                    collections = collectionService.getCollectionByUserId(hm).map {
+    fun init() {
+        viewModelScope.launch {
+            val userId = yumDatabase.userDao.getCurrentUser().firstOrNull()?.userId
+            if (userId != null) {
+                getUserInfo(userId)
+                getCurrentUserCollection()
+            }
+        }
+
+    }
+
+    private suspend fun getUserInfo(userId: String) {
+        uiState.value =
+            uiState.value.copy(
+                userInfo = userInfoService.getUserInfo(userId)?.toUserInfo() ?: UserInfo(),
+            )
+    }
+
+    private suspend fun getCurrentUserCollection() {
+        uiState.value =
+            uiState.value.copy(
+                collections = collectionService.getCollectionByUserId(uiState.value.userInfo.userId)
+                    .map {
                         Collection(
                             name = it.title,
                             userId = it.userId,
@@ -42,12 +58,11 @@ class UserViewModel(
                             description = "",
                         )
                     },
-                )
-        }
-
+            )
     }
 
-    suspend fun login(email: String, password: String):String {
+
+    suspend fun login(email: String, password: String): String {
         val a = userService.signIn(
             auth = AuthRequestDto(
                 username = email,
@@ -80,6 +95,7 @@ class UserViewModel(
                     userId = yumDatabase.userDao.getCurrentUser().first().userId,
                 ),
             )
+            getCurrentUserCollection()
         }
 
     }
