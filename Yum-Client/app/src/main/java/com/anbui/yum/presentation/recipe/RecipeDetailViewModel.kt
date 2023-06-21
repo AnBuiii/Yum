@@ -86,6 +86,7 @@ class RecipeDetailViewModel(
                     ),
                 )
             }
+            SnackbarManager.showMessage("Added all to shopping list")
         }
 //        TODO("performance issue")
     }
@@ -119,7 +120,7 @@ class RecipeDetailViewModel(
                 collectionId,
             )
         }
-        SnackbarManager.showMessage("inserted")
+        SnackbarManager.showMessage("removed")
 
     }
 
@@ -158,6 +159,7 @@ class RecipeDetailViewModel(
                     ),
                 ).toMealPlanEntity(),
             )
+            SnackbarManager.showMessage("Remind at ${LocalDateTime.now().plusDays(1)}")
         }
 
     }

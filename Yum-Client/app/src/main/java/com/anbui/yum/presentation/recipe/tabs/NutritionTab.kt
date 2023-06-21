@@ -1,7 +1,11 @@
 package com.anbui.yum.presentation.recipe.tabs
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Settings
@@ -34,8 +38,15 @@ fun NutritionTab(
                         horizontalArrangement = Arrangement.spacedBy(8.dp),
                         modifier = Modifier.clickable { },
                     ) {
-                        Icon(Icons.Default.Settings, contentDescription = "", tint = YumGreen)
-                        Text("Edit Dietary Preferences", fontWeight = FontWeight.SemiBold)
+                        Icon(
+                            Icons.Default.Settings,
+                            contentDescription = "",
+                            tint = YumGreen,
+                        )
+                        Text(
+                            "Edit Dietary Preferences",
+                            fontWeight = FontWeight.SemiBold,
+                        )
                     }
                 },
                 trailing = {},
@@ -61,11 +72,18 @@ fun NutritionTab(
 
         item {
             NutritionListItem(style = semi)
-            Divider(modifier = Modifier.padding(horizontal = 24.dp), color = YumBlack)
+            Divider(
+                modifier = Modifier.padding(horizontal = 24.dp),
+                color = YumBlack,
+            )
         }
 
         item {
-            NutritionListItem(title = "Calories", amount = "${nutrition.calories} cal", rda = "%")
+            NutritionListItem(
+                title = "Calories",
+                amount = "${nutrition.calories} cal",
+                rda = "%",
+            )
             Divider(modifier = Modifier.padding(horizontal = 24.dp))
             NutritionListItem(
                 title = "Calories from Fat",
@@ -91,13 +109,29 @@ fun NutritionTab(
                 rda = "%",
             )
             Divider(modifier = Modifier.padding(horizontal = 24.dp))
-            NutritionListItem(title = "Sodium", amount = "${nutrition.sodium} mg", rda = "%")
+            NutritionListItem(
+                title = "Sodium",
+                amount = "${nutrition.sodium} mg",
+                rda = "%",
+            )
             Divider(modifier = Modifier.padding(horizontal = 24.dp))
-            NutritionListItem(title = "Potassium", amount = "${nutrition.potassium} mg", rda = "%")
+            NutritionListItem(
+                title = "Potassium",
+                amount = "${nutrition.potassium} mg",
+                rda = "%",
+            )
             Divider(modifier = Modifier.padding(horizontal = 24.dp))
-            NutritionListItem(title = "Calcium", amount = "${nutrition.calcium} mg", rda = "%")
+            NutritionListItem(
+                title = "Calcium",
+                amount = "${nutrition.calcium} mg",
+                rda = "%",
+            )
             Divider(modifier = Modifier.padding(horizontal = 24.dp))
-            NutritionListItem(title = "Iron", amount = "${nutrition.iron} mg", rda = "%")
+            NutritionListItem(
+                title = "Iron",
+                amount = "${nutrition.iron} mg",
+                rda = "%",
+            )
             Divider(modifier = Modifier.padding(horizontal = 24.dp))
 
         }

@@ -19,8 +19,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import com.anbui.yum.R
 import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.presentation.recipe.component.OverviewListItem
 import com.anbui.yum.presentation.recipe.component.RecipeExpandableText
@@ -52,7 +54,7 @@ internal fun OverviewTab(
                             modifier = Modifier.clickable { onAddToCollection() },
                         ) {
                             Icon(
-                                Icons.Default.List,
+                                painter = painterResource(id = R.drawable.ic_add_collection),
                                 contentDescription = "",
                                 tint = YumGreen,
                             )

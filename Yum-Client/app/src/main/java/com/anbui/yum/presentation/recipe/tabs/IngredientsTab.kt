@@ -29,12 +29,14 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.anbui.yum.R
 import com.anbui.yum.domain.model.Ingredient
 import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.presentation.recipe.component.TabTopBar
@@ -65,7 +67,7 @@ internal fun IngredientTab(
                         },
                     ) {
                         Icon(
-                            Icons.Default.List,
+                            painter = painterResource(id = R.drawable.ic_add_shopping_cart),
                             contentDescription = "",
                             tint = YumGreen,
                         )

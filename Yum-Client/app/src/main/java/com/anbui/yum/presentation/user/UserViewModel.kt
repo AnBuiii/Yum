@@ -1,12 +1,15 @@
 package com.anbui.yum.presentation.user
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
 import com.anbui.yum.SIGNIN_SCREEN
 import com.anbui.yum.SIGNUP_SCREEN
+import com.anbui.yum.common.snackbar.SnackbarManager
 import com.anbui.yum.data.local.YumDatabase
 import com.anbui.yum.data.local.user.UserEntity
 import com.anbui.yum.data.mappers.toUserInfo
+import com.anbui.yum.data.mappers.toUserInfoDto
 import com.anbui.yum.data.remote.auth.AuthRequestDto
 import com.anbui.yum.data.remote.auth.UserService
 import com.anbui.yum.data.remote.collection.CollectionDto
@@ -97,7 +100,18 @@ class UserViewModel(
             )
             getCurrentUserCollection()
         }
+    }
 
+    fun changeNewCollectionVisible(value: Boolean) {
+        uiState.value = uiState.value.copy(isNewCollectionVisible = value)
+    }
+
+    fun changeChangeUsernameVisible(value: Boolean) {
+        uiState.value = uiState.value.copy(isChangeUsernameVisible = value)
+    }
+
+    fun changeChangeUserDescriptionVisible(value: Boolean) {
+        uiState.value = uiState.value.copy(isChangeUserDescriptionVisible = value)
     }
 
     fun onSignOutClick(restartApp: (String) -> Unit) {
@@ -105,13 +119,45 @@ class UserViewModel(
 //            userInfoService.
 //            restartApp(SPLASH_SCREEN)
 
-
         }
     }
 
 
     fun onSignInTap(openScreen: (String) -> Unit) = openScreen(SIGNIN_SCREEN)
     fun onSignUpTap(openScreen: (String) -> Unit) = openScreen(SIGNUP_SCREEN)
+    fun changeUsername(value: String) {
+        uiState.value = uiState.value.copy(onChangeUsername = value)
+    }
+
+    fun changeUserDescription(value: String) {
+        uiState.value = uiState.value.copy(onChangeUserDescription = value)
+    }
+
+    fun changeUserInfo() {
+        viewModelScope.launch {
+            uiState.value.apply {
+                if (onChangeUsername.isNotBlank() && onChangeUserDescription.isNotBlank()) {
+                    Log.d("User info",userInfo.copy(
+                        name = onChangeUsername,
+                        title = onChangeUserDescription,
+                    ).toUserInfoDto().toString() )
+                    if (userInfoService.changeUserInfo(
+                            userInfo.id,
+                            userInfo.copy(
+                                name = onChangeUsername,
+                                title = onChangeUserDescription,
+                            ).toUserInfoDto(),
+                        )
+                    ) {
+                        getUserInfo(userInfo.userId)
+                        SnackbarManager.showMessage("Change user info success")
+                    }
+                } else {
+                    SnackbarManager.showMessage("User info invalid")
+                }
+            }
+        }
+    }
 
 
 }

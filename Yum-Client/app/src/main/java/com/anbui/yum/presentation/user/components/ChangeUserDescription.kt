@@ -33,9 +33,10 @@ import androidx.compose.ui.text.style.TextAlign
 import com.anbui.yum.ui.theme.YumGreen
 
 @Composable
-fun NewCollection(
+fun ChangeUserDescription(
     modifier: Modifier = Modifier,
     visible: Boolean,
+    oldDescription: String,
     onSubmit: (String) -> Unit = {},
     onClose: () -> Unit = {},
 ) {
@@ -75,7 +76,7 @@ fun NewCollection(
                 textStyle = LocalTextStyle.current.copy(textAlign = TextAlign.Center),
                 placeholder = {
                     Text(
-                        "Name Your Collection",
+                        oldDescription,
                         textAlign = TextAlign.Center,
                         modifier = Modifier.fillMaxWidth(),
                     )

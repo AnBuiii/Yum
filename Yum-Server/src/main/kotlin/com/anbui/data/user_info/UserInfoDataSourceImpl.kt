@@ -13,8 +13,8 @@ class UserInfoDataSourceImpl(db: CoroutineDatabase) : UserInfoDataSource {
         return userInfos.insertOne(userInfo).wasAcknowledged()
     }
 
-    override suspend fun updateUserInfoById(id: String, userInfo: UserInfo) {
-        userInfos.replaceOneById(id, userInfo)
+    override suspend fun updateUserInfoById(id: String, userInfo: UserInfo): Boolean {
+        return userInfos.replaceOneById(id, userInfo).wasAcknowledged()
     }
 
     override suspend fun getUserInfoByUserId(id: String): UserInfo? {

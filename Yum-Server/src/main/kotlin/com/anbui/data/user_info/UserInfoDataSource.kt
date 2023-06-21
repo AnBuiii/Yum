@@ -7,7 +7,7 @@ interface UserInfoDataSource {
 
     suspend fun insertUserInfo(userInfo: UserInfo): Boolean
 
-    suspend fun updateUserInfoById(id: String, userInfo: UserInfo)
+    suspend fun updateUserInfoById(id: String, userInfo: UserInfo): Boolean
 
     suspend fun getAllUserInfo(): List<UserInfo>
 

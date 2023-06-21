@@ -12,3 +12,13 @@ fun UserInfoDto.toUserInfo(): UserInfo {
         id = id,
     )
 }
+
+fun UserInfo.toUserInfoDto(): UserInfoDto{
+    return UserInfoDto(
+        userId = userId,
+        name = name,
+        title = title,
+        imageUrl = imageUrl,
+        id = id,
+    )
+}
