@@ -168,12 +168,7 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     composable(SIGNIN_SCREEN) {
         SignInScreen(openAndPopUp = appState::navigateAndPopUp)
     }
-
-    composable(SIGNUP_SCREEN) {
-        SignUpScreen(
-            openAndPopUp = appState::navigateAndPopUp,
-        )
-    }
+    
 
     composable(
         route = "$RECIPE_DETAIL_SCREEN/{$RECIPE_ID}",
