@@ -152,10 +152,7 @@ fun <T> ListItemPicker(
             )
         }
     ) { measurables, constraints ->
-        // Don't constrain child views further, measure them with given constraints
-        // List of measured children
         val placeables = measurables.map { measurable ->
-            // Measure each children
             measurable.measure(constraints)
         }
 
@@ -165,22 +162,15 @@ fun <T> ListItemPicker(
             .width
             .toDp()
 
-        // Set the size of the layout as big as it can
         layout(dividersWidth.toPx().toInt(), placeables
             .sumOf {
                 it.height
             }
         ) {
-            // Track the y co-ord we have placed children up to
             var yPosition = 0
 
-            // Place children in the parent layout
             placeables.forEach { placeable ->
-
-                // Position item on the screen
                 placeable.placeRelative(x = 0, y = yPosition)
-
-                // Record the y co-ord placed up to
                 yPosition += placeable.height
             }
         }
