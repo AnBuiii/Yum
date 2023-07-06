@@ -32,7 +32,6 @@ import com.anbui.yum.presentation.recipe.RecipeDetailScreen
 import com.anbui.yum.presentation.review.ReviewScreen
 import com.anbui.yum.presentation.search.SearchScreen
 import com.anbui.yum.presentation.sign_in.SignInScreen
-import com.anbui.yum.presentation.sign_up.SignUpScreen
 import com.anbui.yum.presentation.splash.SplashScreen
 import com.anbui.yum.presentation.user.UserScreen
 import com.anbui.yum.ui.theme.YumTheme
@@ -135,11 +134,11 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
             onCollectionTab = { id ->
                 appState.navigate("$COLLECTION_SCREEN/$id")
             },
-            onCategoryTap = {categoryName ->
+            onCategoryTap = { categoryName ->
                 appState.navigate("$CATEGORY_SCREEN/$categoryName")
-            }
+            },
 
-        )
+            )
         Log.d(
             "TAB LOG",
             appState.currentRoute!!,
@@ -148,11 +147,19 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     }
 
     composable(HomeScreenSection.SEARCH.route) {
-        SearchScreen(onRecipeClick = {})
+        SearchScreen(
+            onRecipeTap = { id ->
+                appState.navigate("$RECIPE_DETAIL_SCREEN/$id")
+            },
+        )
     }
 
     composable(HomeScreenSection.CART.route) {
-        CartScreen(onRecipeTap = {})
+        CartScreen(
+            onRecipeTap = { id ->
+                appState.navigate("$RECIPE_DETAIL_SCREEN/$id")
+            },
+        )
     }
 
     composable(HomeScreenSection.USER.route) {
@@ -196,6 +203,9 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
         CollectionScreen(
             collectionId = it.arguments?.getString(COLLECTION_ID) ?: COLLECTION_DEFAULT_ID,
             onBack = appState::popUp,
+            onRecipeTap = { id ->
+                appState.navigate("$RECIPE_DETAIL_SCREEN/$id")
+            },
         )
     }
 
@@ -239,6 +249,9 @@ fun NavGraphBuilder.yumGraph(appState: YumAppState) {
     ) {
         CategoryScreen(
             categoryName = it.arguments?.getString("category_name") ?: "",
+            onRecipeTap = { id ->
+                appState.navigate("$RECIPE_DETAIL_SCREEN/$id")
+            },
         )
     }
 }

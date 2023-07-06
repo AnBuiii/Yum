@@ -114,7 +114,7 @@ fun FeedScreen(
                     ) { recipes.refresh() }
 
                     1 -> ExploreTab(
-                        onCategoryTap = onCategoryTap
+                        onCategoryTap = onCategoryTap,
                     )
                     2 -> ProTab()
                 }

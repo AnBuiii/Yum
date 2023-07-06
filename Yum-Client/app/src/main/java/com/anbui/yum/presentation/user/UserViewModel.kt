@@ -1,5 +1,6 @@
 package com.anbui.yum.presentation.user
 
+import android.net.Uri
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.viewModelScope
@@ -79,14 +80,24 @@ class UserViewModel(
         return a
     }
 
-    init {
-
-
+    suspend fun signUp(email: String, password: String): String {
+        val a = userService.signUp(
+            auth = AuthRequestDto(
+                username = email,
+                password = password,
+            ),
+        )
+        if (a.isNotEmpty()) {
+            yumDatabase.userDao.clearUser()
+            yumDatabase.userDao.upsertAll(UserEntity(userId = a))
+        }
+        return a
     }
 
     fun logout() {
         viewModelScope.launch {
             yumDatabase.userDao.clearUser()
+            yumDatabase.mealPlanDao.clearAll()
         }
     }
 
@@ -100,6 +111,10 @@ class UserViewModel(
             )
             getCurrentUserCollection()
         }
+    }
+
+    fun changeImageUri(value: Uri?) {
+        uiState.value = uiState.value.copy(imageUri = value)
     }
 
     fun changeNewCollectionVisible(value: Boolean) {
@@ -137,10 +152,13 @@ class UserViewModel(
         viewModelScope.launch {
             uiState.value.apply {
                 if (onChangeUsername.isNotBlank() && onChangeUserDescription.isNotBlank()) {
-                    Log.d("User info",userInfo.copy(
-                        name = onChangeUsername,
-                        title = onChangeUserDescription,
-                    ).toUserInfoDto().toString() )
+                    Log.d(
+                        "User info",
+                        userInfo.copy(
+                            name = onChangeUsername,
+                            title = onChangeUserDescription,
+                        ).toUserInfoDto().toString(),
+                    )
                     if (userInfoService.changeUserInfo(
                             userInfo.id,
                             userInfo.copy(

@@ -1,5 +1,9 @@
 package com.anbui.yum.presentation.user
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.fadeIn
@@ -34,7 +38,6 @@ import androidx.compose.material3.DrawerValue
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.IconButtonDefaults
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalDrawerSheet
 import androidx.compose.material3.ModalNavigationDrawer
 import androidx.compose.material3.NavigationDrawerItem
@@ -93,6 +96,10 @@ fun UserScreen(
     val uiState by viewModel.uiState
     val scroll = rememberScrollState()
     val coroutineScope = rememberCoroutineScope()
+    val singlePhotoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia(),
+        onResult = viewModel::changeImageUri,
+    )
 
     YumSurface {
         if (uiState.userInfo.userId.isBlank()) {
@@ -106,10 +113,24 @@ fun UserScreen(
                         ) {
                             restartApp()
                             SnackbarManager.showMessage(SnackbarMessage.StringSnackbar("Logged in"))
+                        } else {
+                            SnackbarManager.showMessage(SnackbarMessage.StringSnackbar("Authenticate fail"))
+
                         }
                     }
                 },
-//                onSignUp = { viewModel.onSignUpTap(onOpenScreen) },
+                onSignUp = { email, password ->
+                    coroutineScope.launch {
+                        if (viewModel.signUp(
+                                email,
+                                password,
+                            ).isNotEmpty()
+                        ) {
+                            restartApp()
+                            SnackbarManager.showMessage(SnackbarMessage.StringSnackbar("Logged in"))
+                        }
+                    }
+                },
             )
         } else {
             val drawerState = rememberDrawerState(DrawerValue.Closed)
@@ -121,6 +142,24 @@ fun UserScreen(
                             drawerShape = RectangleShape,
                             drawerContainerColor = Color.White,
                         ) {
+
+                            Spacer(Modifier.height(12.dp))
+                            NavigationDrawerItem(
+                                label = { Text("Change user image") },
+                                selected = false,
+                                onClick = {
+                                    singlePhotoPickerLauncher.launch(
+                                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly),
+                                    )
+                                },
+                                icon = {
+                                    Icon(
+                                        Icons.Default.AccountBox,
+                                        contentDescription = null,
+                                    )
+                                },
+                                modifier = Modifier.padding(NavigationDrawerItemDefaults.ItemPadding),
+                            )
 
                             Spacer(Modifier.height(12.dp))
                             NavigationDrawerItem(
@@ -184,6 +223,7 @@ fun UserScreen(
                                         .padding(it),
                                 ) {
                                     Title(
+                                        imageUri = uiState.imageUri,
                                         scrollValue = scroll.value,
                                         userInfo = uiState.userInfo,
                                         onUsernameClick = { viewModel.changeChangeUsernameVisible(true) },
@@ -313,6 +353,7 @@ private fun Title(
     userInfo: UserInfo,
     onUsernameClick: () -> Unit = {},
     onUserDescriptionClick: () -> Unit = {},
+    imageUri: Uri?,
 ) {
     val maxOffset = with(LocalDensity.current) { TopBarHeight.toPx() }
     val minOffset = with(LocalDensity.current) { (TopBarHeight - TitleHeight).toPx() }
@@ -334,7 +375,7 @@ private fun Title(
         ),
     ) {
         AsyncImage(
-            model = userInfo.imageUrl,
+            model = imageUri ?: userInfo.imageUrl,
             contentDescription = "",
             modifier = Modifier
                 .size(120.dp)

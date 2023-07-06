@@ -46,7 +46,6 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.anbui.yum.common.component.YumDivider
 import com.anbui.yum.common.component.YumSurface
-import com.anbui.yum.common.ext.timeAgo
 import com.anbui.yum.presentation.cart.components.CartBottomSheet
 import com.anbui.yum.presentation.cart.components.CartTopBar
 import com.anbui.yum.presentation.cart.components.MealPlanDatePicker
@@ -161,7 +160,8 @@ fun CartScreen(
                         0 -> PlanTab(
                             mealPlans = uiState.mealPlans,
                             onChangeTime = viewModel::openDatePickerDialog,
-                            onDoneTap = viewModel::planCheck
+                            onDoneTap = viewModel::planCheck,
+                            onRecipeTap = onRecipeTap
                         )
 
                         1 -> ShopTab(

@@ -32,7 +32,8 @@ import java.time.LocalDateTime
 fun PlanTab(
     mealPlans: List<MealPlan> = emptyList(),
     onChangeTime: (String) -> Unit = {},
-    onDoneTap:(String, Boolean) -> Unit = {_ , _ -> }
+    onDoneTap: (String, Boolean) -> Unit = { _, _ -> },
+    onRecipeTap: (String) -> Unit
 ) {
     val now = LocalDateTime.now()
     var groupedItems by remember { mutableStateOf(mealPlans.groupBy { now.isAfter(it.time) }) }
@@ -64,6 +65,9 @@ fun PlanTab(
                         onTimeTap = { onChangeTime(mealPlan.recipeId) },
                         onDoneTap = {
                             onDoneTap(mealPlan.recipeId, !mealPlan.isDone)
+                        },
+                        onTap = {
+                            onRecipeTap(mealPlan.recipeId)
                         }
                     )
                     YumDivider(

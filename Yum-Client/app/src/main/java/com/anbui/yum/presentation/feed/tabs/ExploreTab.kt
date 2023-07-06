@@ -16,7 +16,7 @@ val explores = listOf(
     "Kid friendly",
     "Quick and easy",
     "Salad",
-    "Dessert"
+    "Dessert",
 )
 val images = listOf(
     "https://images.unsplash.com/photo-1606787366850-de6330128bfc?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1470&q=80",

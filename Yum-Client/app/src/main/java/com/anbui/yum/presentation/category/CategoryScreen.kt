@@ -33,6 +33,7 @@ import org.koin.androidx.compose.getViewModel
 @Composable
 fun CategoryScreen(
     categoryName: String = "",
+    onRecipeTap: (String) -> Unit = {},
     viewModel: CategoryViewModel = getViewModel(),
 ) {
     val uiState by viewModel.uiState
@@ -73,7 +74,10 @@ fun CategoryScreen(
 
         LazyColumn {
             items(uiState.recipes) { recipe ->
-                YumRecipeCard(recipe = recipe)
+                YumRecipeCard(
+                    recipe = recipe,
+                    onTap = { onRecipeTap(recipe.id) },
+                )
             }
         }
     }

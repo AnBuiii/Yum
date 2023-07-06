@@ -44,7 +44,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.anbui.yum.common.component.YumRecipeCard
 import com.anbui.yum.common.component.YumSurface
-import com.anbui.yum.domain.model.Recipe
 import com.anbui.yum.ui.theme.YumBlack
 import org.koin.androidx.compose.getViewModel
 
@@ -52,7 +51,7 @@ import org.koin.androidx.compose.getViewModel
 @ExperimentalMaterial3Api
 @Composable
 fun SearchScreen(
-    onRecipeClick: (Long) -> Unit,
+    onRecipeTap: (String) -> Unit,
     modifier: Modifier = Modifier,
     viewModel: SearchViewModel = getViewModel(),
 ) {
@@ -159,8 +158,11 @@ fun SearchScreen(
                 LazyColumn(
                     modifier = Modifier.fillMaxSize(),
                 ) {
-                    items(persons) {
-                        YumRecipeCard(recipe = it)
+                    items(persons) { recipe ->
+                        YumRecipeCard(
+                            recipe = recipe,
+                            onTap = { onRecipeTap(recipe.id) },
+                        )
                     }
                 }
             }
@@ -185,7 +187,7 @@ fun SearchScreen(
 @Composable
 private fun FilterSection(
     modifier: Modifier = Modifier,
-    resultSize : Int = 0,
+    resultSize: Int = 0,
 ) {
     Row(
         modifier = modifier

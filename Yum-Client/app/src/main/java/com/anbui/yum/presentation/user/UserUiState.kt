@@ -1,5 +1,6 @@
 package com.anbui.yum.presentation.user
 
+import android.net.Uri
 import com.anbui.yum.domain.model.Collection
 import com.anbui.yum.domain.model.UserInfo
 
@@ -12,4 +13,5 @@ data class UserUiState(
     val isChangeUserDescriptionVisible: Boolean = false,
     val onChangeUsername: String = "",
     val onChangeUserDescription: String = "",
+    val imageUri: Uri? = null
 )

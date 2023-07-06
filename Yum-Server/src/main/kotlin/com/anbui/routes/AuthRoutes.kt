@@ -21,7 +21,14 @@ fun Route.userRoute(userDataSource: UserDataSource, userInfoDataSource: UserInfo
             }
             userDataSource.insertUser(request)
             val user = userDataSource.getUserByUsername(request.username)
-            userInfoDataSource.insertUserInfo(UserInfo(userId = user!!.id))
+            userInfoDataSource.insertUserInfo(
+                UserInfo(
+                    userId = user!!.id,
+                    name = "Hello Chef",
+                    title = "Tell me about you",
+                    imageUrl = "https://thumbs.dreamstime.com/b/cartoon-chef-fat-vector-clip-art-illustration-simple-gradients-all-single-layer-64543945.jpg",
+                ),
+            )
             call.respond(request.id)
         } catch (e: Exception) {
             application.log.error("fail to sign up")

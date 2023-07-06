@@ -12,7 +12,7 @@ interface MealPlanDao {
     suspend fun getMealPlans(): List<MealPlanEntity>
 
     @Query("DELETE FROM mealplanentity")
-    fun clearAll()
+    suspend fun clearAll()
 
     @Upsert
     suspend fun upsert(mealPlan: MealPlanEntity)

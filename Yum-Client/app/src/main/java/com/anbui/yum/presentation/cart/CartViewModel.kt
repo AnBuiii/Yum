@@ -96,7 +96,6 @@ class CartViewModel(
         }
 
 
-
         uiState.value.mealPlans.filter { !it.isDone && it.time.isAfter(LocalDateTime.now())  }.forEach {
             val alarmItem = AlarmItem(
                 time = it.time,
@@ -105,8 +104,6 @@ class CartViewModel(
             )
             alarmItem.let(scheduler::schedule)
         }
-
-
 
     }
 
@@ -209,12 +206,21 @@ class CartViewModel(
                 else it
             },
         )
+        uiState.value.mealPlans.filter { !it.isDone && it.time.isAfter(LocalDateTime.now())  }.forEach {
+            val alarmItem = AlarmItem(
+                time = it.time,
+                message = it.title,
+                id = it.notifyId
+            )
+            alarmItem.let(scheduler::schedule)
+        }
         viewModelScope.launch {
             yumDatabase.mealPlanDao.upsert(
                 uiState.value.mealPlans.first { it.recipeId == uiState.value.onChangeMealPlan.recipeId }
                     .toMealPlanEntity(),
             )
         }
+//        getMealPlan()
     }
 
 
