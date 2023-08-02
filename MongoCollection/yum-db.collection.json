@@ -1,0 +1,46 @@
+[{
+  "_id": "64ca0adceca758009f113837",
+  "title": "morning",
+  "userId": "64ca0914b5ea99209f50e37e",
+  "recipes": [
+    "64ca0e8ea9d65725c65b234q",
+    "64ca0e8ea9d65725c65b234e",
+    "64ca0e8ea9d65725c65b234t"
+  ]
+},
+{
+  "_id": "64ca2b419f661c0144be40cd",
+  "title": "late night",
+  "userId": "64ca0914b5ea99209f50e37e",
+  "recipes": [
+    "64ca0e8ea9d65725c65b234e",
+    "64ca0e8ea9d65725c65b234t"
+  ]
+},
+{
+  "_id": "64ca2b4c9f661c0144be40d1",
+  "title": "for kid",
+  "userId": "64ca0914b5ea99209f50e37e",
+  "recipes": [
+    "64ca0e8ea9d65725c65b234e",
+    "64ca0e8ea9d65725c65b234t"
+  ]
+},
+{
+  "_id": "64ca2b569f661c0144be40d6",
+  "title": "recipeee",
+  "userId": "64ca0914b5ea99209f50e37e",
+  "recipes": [
+    "64ca0e8ea9d65725c65b234e",
+    "64ca0e8ea9d65725c65b234t"
+  ]
+},
+{
+  "_id": "64ca2b5f9f661c0144be40dc",
+  "title": "nah",
+  "userId": "64ca0914b5ea99209f50e37e",
+  "recipes": [
+    "64ca0e8ea9d65725c65b234e",
+    "64ca0e8ea9d65725c65b234t"
+  ]
+}]

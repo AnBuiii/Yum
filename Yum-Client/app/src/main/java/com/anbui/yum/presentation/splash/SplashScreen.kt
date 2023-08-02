@@ -43,6 +43,8 @@ fun SplashScreen(
         } else {
 //            CircularProgressIndicator(color = MaterialTheme.colorScheme.onBackground)
         }
+
+        val listState = rememberScrollState()
     }
 
     LaunchedEffect(true) {

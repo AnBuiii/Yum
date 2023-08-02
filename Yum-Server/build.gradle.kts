@@ -6,7 +6,7 @@ val koin_version: String by project
 val commons_codec_version: String by project
 
 plugins {
-    kotlin("jvm") version "1.8.20"
+    kotlin("jvm") version "1.9.0"
     id("io.ktor.plugin") version "2.2.4"
     id("org.jetbrains.kotlin.plugin.serialization") version "1.8.10"
 //    `java-library`

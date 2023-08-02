@@ -1,0 +1,54 @@
+[{
+  "_id": "64ca0f03eca758009f11384c",
+  "userId": "64ca0914b5ea99209f50e37e",
+  "ingredientId": "64ca0e8ea9d65725c65b2328",
+  "recipeId": "",
+  "amount": 2,
+  "unit": "",
+  "isChecked": false
+},
+{
+  "_id": "64ca11442c5ac72a3d4f97eb",
+  "userId": "64ca0914b5ea99209f50e37e",
+  "ingredientId": "64ca0e8ea9d65725c65b232b",
+  "recipeId": "",
+  "amount": 2,
+  "unit": "",
+  "isChecked": true
+},
+{
+  "_id": "64ca25249f661c0144be3fb2",
+  "userId": "64ca0914b5ea99209f50e37e",
+  "ingredientId": "64ca0e8ea9d65725c65b232a",
+  "recipeId": "64ca0e8ea9d65725c65b234q",
+  "amount": 2,
+  "unit": "bag",
+  "isChecked": false
+},
+{
+  "_id": "64ca25249f661c0144be3fb3",
+  "userId": "64ca0914b5ea99209f50e37e",
+  "ingredientId": "64ca0e8ea9d65725c65b232b",
+  "recipeId": "64ca0e8ea9d65725c65b234q",
+  "amount": 5,
+  "unit": ".oz",
+  "isChecked": false
+},
+{
+  "_id": "64ca25249f661c0144be3fb4",
+  "userId": "64ca0914b5ea99209f50e37e",
+  "ingredientId": "64ca0e8ea9d65725c65b232c",
+  "recipeId": "64ca0e8ea9d65725c65b234q",
+  "amount": 6,
+  "unit": ".tsp",
+  "isChecked": false
+},
+{
+  "_id": "64ca25249f661c0144be3fb5",
+  "userId": "64ca0914b5ea99209f50e37e",
+  "ingredientId": "64ca0e8ea9d65725c65b232d",
+  "recipeId": "64ca0e8ea9d65725c65b234q",
+  "amount": 1,
+  "unit": "bag",
+  "isChecked": false
+}]
